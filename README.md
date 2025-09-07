@@ -1,6 +1,6 @@
 # Sovellus valmentajan ja valmennettavien hakuun
 
-Sovelluksessa voidaan hakea valmentajia tai valmennettavia. Sovelluksen kohderyhmä ovat siten  
+Sovelluksessa voidaan hakea valmentajia tai valmennettavia. Sovelluksen kohderyhmät ovat siten  
 1) nuoret ja aikuiset oppilaat, jotka haluavat löytää henkilökohtaisen valmentajan tiettyyn yksilö- tai pariurheiluun, esimerkiksi tennikseen tai pikajuoksuun, sekä
 2) valmentajat, jotka etsivät uusia valmennettavia omaan lajiinsa.
 
