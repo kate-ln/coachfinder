@@ -1,0 +1,37 @@
+<!-- Alla oleva sivupohja näyttää kirjautumislomakkeen tai kertoo, että käyttäjä on sisällä: -->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Kirjautuminen</title>
+</head>
+
+<body>
+  {% if session.username %}
+  <p>
+    Olet kirjautunut nimellä {{ session.username }}
+  </p>
+  <p>
+    <a href="/logout">Kirjaudu ulos</a>
+  </p>
+  {% else %}
+  <form action="/login" method="post">
+    <p>
+      Tunnus: <br />
+      <input type="text" name="username" />
+    </p>
+    <p>
+      Salasana: <br />
+      <input type="password" name="password" />
+    </p>
+    <input type="submit" value="Kirjaudu" />
+  </form>
+  {% endif %}
+</body>
+
+</html>
+<!-- Kun käyttäjä syöttää lomakkeeseen tunnuksen ja salasanan, koodi hakee tietokannasta tunnusta
+vastaavan salasanan hash-arvon. Tämän jälkeen koodi tarkastaa funktiolla check_password_hash,
+onko salasana oikea. Jos näin on, koodi asettaa istuntoon muuttujan username, joka kertoo käyttäjän
+tunnuksen. Ideana on siis, että koodissa käyttäjän kirjautuminen voidaan tunnistaa siitä, onko
+istunnossa muuttujaa username. Jos käyttäjä on kirjautunut, tämän avulla saadaan tietoon käyttäjän tunnus. -->
