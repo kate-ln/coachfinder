@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Uusi ilmoitus</title>
+</head>
+
+<body>
+  <h1>Uusi ilmoitus</h1>
+  <form action="/create_announcement_student" method="post">
+    <p>
+      Laji, johon haen valmentajaa: <br />
+      <input type="text" name="sport" />
+    </p>
+    <p>
+      Paikkakunta: <br />
+      <input type="text" name="city" />
+    </p>
+    <p>
+      Kuulun ikäryhmään: <br />
+      <input type="text" name="age_group" />
+    </p>
+    <p>
+      Taitotasoni: <br />
+      <input type="text" name="skill_level" />
+    </p>
+    <p>
+      Vapaa kuvaus itsestäni: <br />
+      <textarea name="description" rows="8" cols="60"></textarea>
+    </p>
+    <input type="submit" value="Luo ilmoitus" />
+  </form>
+</body>
+</html>

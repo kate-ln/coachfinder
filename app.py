@@ -13,6 +13,27 @@ app.secret_key = config.secret_key
 def index():
     return render_template("index.html")
 
+@app.route("/create_announcement_student", methods=["GET", "POST"])
+def create_announcement_student():
+    if "user_id" not in session:
+        return redirect("/login")
+    if request.method == "GET":
+        return render_template("create_announcement_student.html")
+    # POST: create
+    sport = request.form.get("sport", "").strip()
+    city = request.form.get("city", "").strip()
+    age_group = request.form.get("age_group", "").strip()
+    skill_level = request.form.get("skill_level", "").strip()
+    description = request.form.get("description", "").strip()
+    user_id = session["user_id"]
+
+    sql = """
+        INSERT INTO announcements_student (sport, city, age_group, skill_level, description, user_id) VALUES
+        (?, ?, ?, ?, ?, ?)
+    """
+    db.execute(sql, [sport, city, age_group, skill_level, description, user_id])
+    return redirect("/")
+
 @app.route("/register")
 def register():
     return render_template("register.html")
@@ -38,20 +59,31 @@ def create():
 def login():
     if request.method == "GET":
         return render_template("login.html")
-    if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-        
-        sql = "SELECT password_hash FROM users WHERE username = ?"
-        password_hash = db.query(sql, [username])[0][0]
+    # POST
+    username = request.form.get("username", "").strip()
+    password = request.form.get("password", "")
 
-        if check_password_hash(password_hash, password):
-            session["username"] = username
-            return redirect("/")
-        else:
-            return "VIRHE: väärä tunnus tai salasana"
+    # Look up the user; db.query should return a list/iterable of rows
+    sql = "SELECT id, password_hash FROM users WHERE username = ?"
+    rows = db.query(sql, [username])
+
+    # If no user found, behave the same as a bad password (don’t reveal which)
+    if not rows:
+        return "VIRHE: väärä tunnus tai salasana"
+
+    row = rows[0]
+    user_id = row["id"]
+    password_hash = row["password_hash"]
+
+    if check_password_hash(password_hash, password):
+        session["user_id"] = user_id
+        session["username"] = username
+        return redirect("/")
+    else:
+        return "VIRHE: väärä tunnus tai salasana"
 
 @app.route("/logout")
 def logout():
+    del session["user_id"]
     del session["username"]
     return redirect("/")
