@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Keskustelu {{ other_username }}</title></head>
+<body>
+  {% include "_nav.html" %}
+
+  <h1>Viestit käyttäjän {{ other_username }} kanssa</h1>
+  <p><a href="/messages">← Takaisin</a></p>
+
+  <div>
+    {% for m in messages %}
+      <div style="margin-bottom: 0.75rem;">
+        <strong>{{ m.sender }}</strong> <small>{{ m.created_at }}</small><br>
+        <div>{{ m.body }}</div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <hr>
+  <form action="/messages/{{ thread_id }}" method="post">
+    <p>
+      Viesti:<br>
+      <textarea name="body" rows="4" cols="60"></textarea>
+    </p>
+    <input type="submit" value="Lähetä">
+  </form>
+</body>
+</html>

@@ -13,3 +13,19 @@ CREATE TABLE announcements_student (
     description TEXT,
     user_id INTEGER REFERENCES users
 );
+
+CREATE TABLE threads (
+  id INTEGER PRIMARY KEY,
+  user_a_id INTEGER REFERENCES users(id),
+  user_b_id INTEGER REFERENCES users(id),
+  created_at TEXT DEFAULT (datetime('now')),
+  UNIQUE(user_a_id, user_b_id)
+);
+
+CREATE TABLE messages (
+  id INTEGER PRIMARY KEY,
+  thread_id INTEGER REFERENCES threads(id) ON DELETE CASCADE,
+  sender_id INTEGER REFERENCES users(id),
+  body TEXT,
+  created_at TEXT DEFAULT (datetime('now'))
+);

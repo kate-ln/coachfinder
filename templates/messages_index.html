@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Viestit</title></head>
+<body>
+  {% include "_nav.html" %}
+
+  <h1>Keskustelut</h1>
+  <p><a href="/messages/new">Uusi viesti</a></p>
+
+  {% if threads|length == 0 %}
+    <p>Ei keskusteluja vielä.</p>
+  {% else %}
+    <ul>
+      {% for t in threads %}
+        <li>
+          <a href="/messages/{{ t.thread_id }}">
+            {{ t.other_username }}
+          </a>
+          <br>
+          <small>{{ t.last_body }} — {{ t.last_at }}</small>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</body>
+</html>

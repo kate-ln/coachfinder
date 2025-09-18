@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Uusi viesti</title></head>
+<body>
+  {% include "_nav.html" %}
+
+  <h1>Kirjoita viesti</h1>
+
+  <form action="/messages/new" method="post">
+    <p>
+      Vastaanottajan käyttäjätunnus:<br>
+      <input type="text" name="recipient">
+    </p>
+    <p>
+      Viesti:<br>
+      <textarea name="body" rows="6" cols="60"></textarea>
+    </p>
+    <input type="submit" value="Lähetä">
+  </form>
+</body>
+</html>
