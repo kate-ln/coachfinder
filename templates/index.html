@@ -12,5 +12,16 @@
   {% if session.username %}
   <p> Olet kirjautunut nimellä {{ session.username }}, id-numerosi on {{ session.user_id }}
   </p> {% endif %}
+
+  <h2>Ilmoitukset</h2>
+  <ul>
+  {% for a in announcements %}
+    <li>
+      <strong>{{ a.sport }}</strong> — {{ a.city }}
+      (ikäryhmä: {{ a.age_group }}, taso: {{ a.skill_level }})<br>
+      <small>{{ a.description }}</small>
+    </li>
+  {% endfor %}
+  </ul>
 </body>
 </html>

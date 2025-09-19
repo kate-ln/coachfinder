@@ -6,14 +6,15 @@ from werkzeug.security import check_password_hash, generate_password_hash
 import config
 import db
 from ui import render_error_with_link, render_success_redirect_with_countdown
-import announcements_students
+import announcements_student
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    announcements = announcements_student.get_announcements()
+    return render_template("index.html", announcements=announcements)
 
 @app.route("/create_announcement_student", methods=["GET", "POST"])
 def create_announcement_student():
@@ -28,7 +29,7 @@ def create_announcement_student():
     skill_level = request.form.get("skill_level", "").strip()
     description = request.form.get("description", "").strip()
     user_id = session["user_id"]
-    announcements_students.add_announcement(sport, city, age_group, skill_level, description, user_id)
+    announcements_student.add_announcement(sport, city, age_group, skill_level, description, user_id)
     return redirect("/")
 
 def _norm_pair(uid1: int, uid2: int):
