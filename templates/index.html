@@ -15,11 +15,14 @@
 
   <h2>Ilmoitukset</h2>
   <ul>
-  {% for a in announcements %}
+  {% for announcement in announcements %}
     <li>
-      <strong>{{ a.sport }}</strong> — {{ a.city }}
-      (ikäryhmä: {{ a.age_group }}, taso: {{ a.skill_level }})<br>
-      <small>{{ a.description }}</small>
+    <a href="/announcement/{{ announcement.id }}">
+      <strong>{{ announcement.sport }}</strong>
+    </a>
+      — {{ announcement.city }}
+      (ikäryhmä: {{ announcement.age_group }}, taso: {{ announcement.skill_level }})<br>
+      <small>{{ announcement.description }}</small> 
     </li>
   {% endfor %}
   </ul>
