@@ -32,7 +32,7 @@ Sovelluksen tämänhetkinen vaihe sisältää seuraavat toiminnot:
 - Käyttäjäprofiilit
 - Kuvien lataus
 
-## Tietokannan Rakenne
+## Tietokannan rakenne
 
 ### Taulut
 
@@ -97,7 +97,7 @@ flask run
 
 Sovellus käynnistyy osoitteessa: `http://localhost:5000`
 
-## Käytettävissä Olevat Ominaisuudet
+## Käytettävissä olevat ominaisuudet
 
 ### Käyttäjähallinta
 - **Rekisteröityminen**: `/register`
