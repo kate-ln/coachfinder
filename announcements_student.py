@@ -12,13 +12,24 @@ def get_announcements():
     return db.query(sql)
 
 def get_announcement(announcement_id):
-    sql = """SELECT announcements_student.sport,
+    sql = """SELECT announcements_student.id,
+                    announcements_student.sport,
                     announcements_student.city,
                     announcements_student.age_group,
                     announcements_student.skill_level,
                     announcements_student.description,
+                    users.id user_id,
                     users.username
              FROM announcements_student, users
              WHERE announcements_student.user_id = users.id AND
                    announcements_student.id = ?"""
     return db.query(sql, [announcement_id])[0]
+
+def update_announcement(announcement_id, sport, city, age_group, skill_level, description):
+    sql = """UPDATE announcements_student SET sport = ?,
+                                              city = ?,
+                                              age_group = ?,
+                                              skill_level = ?,
+                                              description = ?
+                                          WHERE id = ?"""
+    db.execute(sql, [sport, city, age_group, skill_level, description, announcement_id])

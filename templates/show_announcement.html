@@ -6,21 +6,26 @@
 <body>
   {% include "_nav.html" %}
   <h1>{{ announcement.sport }}</h1>
-    <p>
-      {{ announcement.title }}
-    </p>
-    <p>
-      {{ announcement.city }}
-    </p>
-    <p>
-      {{ announcement.age_group }}
-    </p>
-    <p>
-      {{ announcement.skill_level }}
-    </p>
-    <p>
-      {{ announcement.description }}
-    </p>
+  {% if session.user_id == announcement.user_id %}
+  <p>
+  <a href="/edit_announcement/{{ announcement.id }}">Muokkaa</a>
+  </p>
+  {% endif %}
+  <p>
+    {{ announcement.title }}
+  </p>
+  <p>
+    {{ announcement.city }}
+  </p>
+  <p>
+    {{ announcement.age_group }}
+  </p>
+  <p>
+    {{ announcement.skill_level }}
+  </p>
+  <p>
+    {{ announcement.description }}
+</p>
 </body>
 </html>
  

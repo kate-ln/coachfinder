@@ -37,6 +37,27 @@ def create_announcement_student():
     announcements_student.add_announcement(sport, city, age_group, skill_level, description, user_id)
     return redirect("/")
 
+@app.route("/edit_announcement/<int:announcement_id>")
+def edit_announcement(announcement_id):
+    a = announcements_student.get_announcement(announcement_id)
+    return render_template("edit_announcement.html", announcement=a)
+
+@app.route("/update_announcement_student", methods=["GET", "POST"])
+def update_announcement_student():
+    if "user_id" not in session:
+        return redirect("/login")
+    if request.method == "GET":
+        return render_template("create_announcement_student.html")
+    # POST: create
+    announcement_id = request.form["announcement_id"]
+    sport = request.form.get("sport", "").strip()
+    city = request.form.get("city", "").strip()
+    age_group = request.form.get("age_group", "").strip()
+    skill_level = request.form.get("skill_level", "").strip()
+    description = request.form.get("description", "").strip()
+    announcements_student.update_announcement(announcement_id, sport, city, age_group, skill_level, description)
+    return redirect("/announcement/" + str(announcement_id))
+
 def _norm_pair(uid1: int, uid2: int):
     return (uid1, uid2) if uid1 < uid2 else (uid2, uid1)
 
