@@ -119,8 +119,11 @@ Sovellus käynnistyy osoitteessa: `http://localhost:5000`
 
 ### Testaus
 Testaa seuraavat toiminnot:
-1. Rekisteröidy uutena käyttäjänä
-2. Kirjaudu sisään
-3. Luo oppilasilmoitus
-4. Hae ilmoituksia
-5. Lähetä viesti toiselle käyttäjälle
+1. Rekisteröidy ainakin kolmena eri käyttäjänä
+2. Kirjaudu sisään eri käyttäjinä
+3. Luo muutama erilainen oppilasilmoitus
+4. Hae ilmoituksia hakusanalla
+5. Muokkaa ja poista ilmoitus
+6. Lähetä viesti toiselle käyttäjälle
+7. Testaa että vastaanottaja näkee viestin
+8. Testaa että viestiketjut eri käyttäjien kanssa näkyvät listana.
