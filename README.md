@@ -14,3 +14,114 @@ Sovelluksen ominaisuuksia ovat:
 4. Kun sopiva valmentaja tai valmennettava löytyy, nämä sopivat yksityiskohdista viestitse. Mikäli uutta valmentajaa tai valmennettavaa ei enää tarvita, molemmat käyttäjät voivat siirtää ilmoituksen joko "toistaiseksi löydetty" -ryhmään tai poistaa ilmoituksensa. 
 
 Tässä pääasiallinen tietokohde on ilmoitus ja toissijainen tietokohde on viestihistoria.
+
+Sovelluksen tämänhetkinen vaihe sisältää seuraavat toiminnot:
+
+### Toteutetut ominaisuudet
+- Käyttäjärekisteröinti ja kirjautuminen
+- Oppilasilmoitusten luominen, muokkaaminen ja poistaminen
+- Ilmoitusten listaus ja haku
+- Yksityisviestien lähettäminen käyttäjien välillä
+- Viestiketjujen hallinta
+- Tietokantarakenne käyttäjille, ilmoituksille ja viesteille
+
+### Keskeneräiset/puuttuvat ominaisuudet
+- Valmentajailmoitukset (vain oppilasilmoitukset toteutettu)
+- Hakusuodattimet (paikkakunta, laji)
+- Ilmoitusten tilan hallinta ("löydetty" -ryhmä)
+- Käyttäjäprofiilit
+- Kuvien lataus
+
+## Tietokannan Rakenne
+
+### Taulut
+
+1. **users**
+   - `id` (PRIMARY KEY)
+   - `username` (UNIQUE)
+   - `password_hash`
+
+2. **announcements_student**
+   - `id` (PRIMARY KEY)
+   - `sport` (laji)
+   - `city` (paikkakunta)
+   - `age_group` (ikäryhmä)
+   - `skill_level` (taitotaso)
+   - `description` (kuvaus)
+   - `user_id` (viittaus users-tauluun)
+
+3. **threads**
+   - `id` (PRIMARY KEY)
+   - `user_a_id`, `user_b_id` (viittaukset users-tauluun)
+   - `created_at`
+
+4. **messages**
+   - `id` (PRIMARY KEY)
+   - `thread_id` (viittaus threads-tauluun)
+   - `sender_id` (viittaus users-tauluun)
+   - `body` (viestin sisältö)
+   - `created_at`
+
+## Asennus ja käynnistys
+
+### 1. Ympäristön valmistelu
+
+```bash
+# Kloonaa repositorio
+git clone <repository-url>
+cd coachfinder
+
+# Luo virtual environment
+python3 -m venv venv
+source venv/bin/activate  # Linux/Mac
+# tai Windows:
+# venv\Scripts\activate
+```
+
+### 2. Tietokannan alustus
+
+```bash
+# Luo tietokanta schema.sql-tiedoston perusteella
+sqlite3 database.db < schema.sql
+```
+
+### 3. Sovelluksen käynnistys
+
+```bash
+# Aktivoi virtual environment (jos ei jo aktivoitu)
+source venv/bin/activate
+
+# Käynnistä Flask-sovellus
+flask run
+```
+
+Sovellus käynnistyy osoitteessa: `http://localhost:5000`
+
+## Käytettävissä Olevat Ominaisuudet
+
+### Käyttäjähallinta
+- **Rekisteröityminen**: `/register`
+- **Kirjautuminen**: `/login`
+- **Uloskirjautuminen**: `/logout`
+
+### Ilmoitukset (Oppilaat)
+- **Etusivu**: `/` - Näyttää kaikki oppilasilmoitukset
+- **Uusi ilmoitus**: `/create_announcement_student`
+- **Ilmoituksen katselu**: `/announcement/<id>`
+- **Ilmoituksen muokkaus**: `/edit_announcement/<id>`
+- **Ilmoituksen poisto**: `/remove_announcement/<id>`
+- **Haku**: `/find_announcement`
+
+### Viestit
+- **Viestiketjut**: `/messages`
+- **Uusi viesti**: `/messages/new`
+- **Keskustelu**: `/messages/<thread_id>`
+
+### Testaus
+
+# Testaa seuraavat toiminnot:
+# 1. Rekisteröidy uutena käyttäjänä
+# 2. Kirjaudu sisään
+# 3. Luo oppilasilmoitus
+# 4. Hae ilmoituksia
+# 5. Lähetä viesti toiselle käyttäjälle
