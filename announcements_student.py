@@ -37,3 +37,11 @@ def update_announcement(announcement_id, sport, city, age_group, skill_level, de
 def remove_announcement(announcement_id):
     sql = "DELETE FROM announcements_student WHERE id = ?"
     db.execute(sql, [announcement_id])
+
+def find_announcements(query):
+    sql = """SELECT id, sport
+             FROM announcements_student
+             WHERE sport LIKE ? OR city LIKE ? OR age_group LIKE ? OR skill_level LIKE ? OR description LIKE ?
+             ORDER BY id DESC"""
+    l = "%" + query + "%"
+    return db.query(sql, [l, l, l, l, l])
