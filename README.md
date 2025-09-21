@@ -118,10 +118,9 @@ Sovellus käynnistyy osoitteessa: `http://localhost:5000`
 - **Keskustelu**: `/messages/<thread_id>`
 
 ### Testaus
-
-# Testaa seuraavat toiminnot:
-# 1. Rekisteröidy uutena käyttäjänä
-# 2. Kirjaudu sisään
-# 3. Luo oppilasilmoitus
-# 4. Hae ilmoituksia
-# 5. Lähetä viesti toiselle käyttäjälle
+Testaa seuraavat toiminnot:
+1. Rekisteröidy uutena käyttäjänä
+2. Kirjaudu sisään
+3. Luo oppilasilmoitus
+4. Hae ilmoituksia
+5. Lähetä viesti toiselle käyttäjälle
