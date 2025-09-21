@@ -33,3 +33,7 @@ def update_announcement(announcement_id, sport, city, age_group, skill_level, de
                                               description = ?
                                           WHERE id = ?"""
     db.execute(sql, [sport, city, age_group, skill_level, description, announcement_id])
+
+def remove_announcement(announcement_id):
+    sql = "DELETE FROM announcements_student WHERE id = ?"
+    db.execute(sql, [announcement_id])

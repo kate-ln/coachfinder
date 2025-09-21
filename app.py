@@ -58,6 +58,18 @@ def update_announcement_student():
     announcements_student.update_announcement(announcement_id, sport, city, age_group, skill_level, description)
     return redirect("/announcement/" + str(announcement_id))
 
+@app.route("/remove_announcement/<int:announcement_id>", methods=["GET", "POST"])
+def remove_announcement(announcement_id):
+    if request.method == "GET":
+        a = announcements_student.get_announcement(announcement_id)
+        return render_template("remove_announcement.html", announcement=a)
+    if request.method == "POST":
+        if "remove" in request.form:
+            announcements_student.remove_announcement(announcement_id)
+            return redirect("/")
+        else:
+            return redirect("/announcement/" + str(announcement_id))
+
 def _norm_pair(uid1: int, uid2: int):
     return (uid1, uid2) if uid1 < uid2 else (uid2, uid1)
 
