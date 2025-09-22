@@ -33,7 +33,6 @@ def create_announcement_student():
         return redirect("/login")
     if request.method == "GET":
         return render_template("create_announcement_student.html")
-    # POST: create
     sport = request.form.get("sport", "").strip()
     city = request.form.get("city", "").strip()
     age_group = request.form.get("age_group", "").strip()
@@ -56,7 +55,6 @@ def update_announcement_student():
         return redirect("/login")
     if request.method == "GET":
         return render_template("create_announcement_student.html")
-    # POST: create
     announcement_id = request.form["announcement_id"]
     a = announcements_student.get_announcement(announcement_id)
     if a["user_id"] != session["user_id"]:
@@ -88,13 +86,10 @@ def _norm_pair(uid1: int, uid2: int):
 
 def _find_or_create_thread(user_id: int, other_id: int):
     a, b = _norm_pair(user_id, other_id)
-    # Try find existing
     rows = db.query("SELECT id FROM threads WHERE user_a_id = ? AND user_b_id = ?", [a, b])
     if rows:
         return rows[0]["id"]
-    # Create
     db.execute("INSERT INTO threads (user_a_id, user_b_id) VALUES (?, ?)", [a, b])
-    # Fetch id
     rows = db.query("SELECT id FROM threads WHERE user_a_id = ? AND user_b_id = ?", [a, b])
     return rows[0]["id"]
 
@@ -103,7 +98,6 @@ def messages_index():
     if "user_id" not in session:
         return redirect("/login")
     me = session["user_id"]
-
     # List threads I participate in with latest message preview
     sql = """
     SELECT
@@ -166,7 +160,6 @@ def messages_thread(thread_id: int):
     if "user_id" not in session:
         return redirect("/login")
     me = session["user_id"]
-
     # Verify I’m a participant
     t = db.query("SELECT user_a_id, user_b_id FROM threads WHERE id = ?", [thread_id])
     if not t:
@@ -174,7 +167,6 @@ def messages_thread(thread_id: int):
     a, b = t[0]["user_a_id"], t[0]["user_b_id"]
     if me not in (a, b):
         return "VIRHE: ei käyttöoikeutta tähän keskusteluun"
-
     if request.method == "POST":
         body = request.form.get("body", "").strip()
         if not body:
@@ -184,11 +176,9 @@ def messages_thread(thread_id: int):
             [thread_id, me, body]
         )
         return redirect(f"/messages/{thread_id}")
-
     # GET: show messages + the other user's name
     other_id = b if me == a else a
     other_user = db.query("SELECT username, display_name FROM users WHERE id = ?", [other_id])[0]
-
     msgs = db.query("""
         SELECT m.id, m.body, m.created_at, u.username AS sender, u.display_name AS sender_display_name
         FROM messages m
@@ -206,7 +196,6 @@ def register():
 @app.route("/create", methods=["GET", "POST"])
 def create():
     if request.method == "GET":
-        # When a user clicks the back link, send them to the form page
         return redirect("/register")
 
     username  = request.form.get("username", "").strip()
@@ -265,7 +254,6 @@ def profile():
         db.execute("UPDATE users SET display_name = ? WHERE id = ?", [display_name, user_id])
         return redirect("/profile")
 
-    # GET: show profile form
     user_data = db.query("SELECT display_name FROM users WHERE id = ?", [user_id])
     current_display_name = user_data[0]["display_name"] if user_data else None
 

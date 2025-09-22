@@ -1,11 +1,8 @@
-<!-- Alla oleva sivupohja näyttää kirjautumislomakkeen tai kertoo, että käyttäjä on sisällä: -->
 <!DOCTYPE html>
 <html>
-
 <head>
   <title>Kirjautuminen</title>
 </head>
-
 <body>
   {% include "_nav.html" %}
 
@@ -27,10 +24,4 @@
   </form>
   {% endif %}
 </body>
-
 </html>
-<!-- Kun käyttäjä syöttää lomakkeeseen tunnuksen ja salasanan, koodi hakee tietokannasta tunnusta
-vastaavan salasanan hash-arvon. Tämän jälkeen koodi tarkastaa funktiolla check_password_hash,
-onko salasana oikea. Jos näin on, koodi asettaa istuntoon muuttujan username, joka kertoo käyttäjän
-tunnuksen. Ideana on siis, että koodissa käyttäjän kirjautuminen voidaan tunnistaa siitä, onko
-istunnossa muuttujaa username. Jos käyttäjä on kirjautunut, tämän avulla saadaan tietoon käyttäjän tunnus. -->

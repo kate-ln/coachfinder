@@ -1,4 +1,3 @@
-# ui.py
 from flask import render_template_string
 
 def render_page(title: str, body_html: str, status: int = 200):
