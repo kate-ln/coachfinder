@@ -7,11 +7,6 @@ def render_page(title: str, body_html: str, status: int = 200):
 <head>
   <meta charset="utf-8">
   <title>{title}</title>
-  <style>
-    body {{ font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; padding: 2rem; line-height: 1.5; }}
-    a {{ text-decoration: none; }}
-    .timer {{ font-weight: 600; }}
-  </style>
 </head>
 <body>
   {{% include "_nav.html" %}}
@@ -30,7 +25,7 @@ def render_error_with_link(message: str, href: str, link_text: str, status: int 
 def render_success_redirect_with_countdown(message: str, seconds: int, href: str, link_text: str):
     body = f"""
     <h1>{message}</h1>
-    <p>Siirrytään eteenpäin <span id="sec" class="timer">{seconds}</span> sekunnissa…</p>
+    <p>Siirrytään eteenpäin <span id="sec">{seconds}</span> sekunnissa…</p>
     <p><a href="{href}">{link_text}</a></p>
     <script>
       (function() {{
