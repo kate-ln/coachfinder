@@ -11,7 +11,7 @@
 
   {% if session.username %}
   <p>
-    Olet kirjautunut nimellä {{ session.username }}
+    Olet kirjautunut tunnuksella {{ session.username }}
   </p>
   {% else %}
   <form action="/login" method="post">

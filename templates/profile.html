@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Profiili - Coachfinder</title>
+</head>
+<body>
+  {% include "_nav.html" %}
+
+  <h1>Oma profiili</h1>
+
+  {% if session.username %}
+  <form method="POST">
+    <p>
+      <label for="display_name">Näyttönimi:</label><br>
+      <input type="text" id="display_name" name="display_name" value="{{ current_display_name or '' }}" placeholder="Syötä nimesi" maxlength="100">
+    </p>
+    <p>
+      <small>Tämä nimi näkyy ilmoituksissasi.</small>
+    </p>
+    <p>
+      <input type="submit" value="Tallenna">
+    </p>
+  </form>
+
+  <hr>
+  <p><strong>Käyttäjätunnus:</strong> {{ session.username }}</p>
+  {% if current_display_name %}
+  <p><strong>Nykyinen näyttönimi:</strong> {{ current_display_name }}</p>
+  {% else %}
+  <p><em>Ei näyttönimeä asetettu</em></p>
+  {% endif %}
+
+  {% else %}
+  <p>Sinun täytyy kirjautua sisään nähdäksesi profiilin.</p>
+  {% endif %}
+</body>
+</html>

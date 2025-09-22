@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
-<head><meta charset="utf-8"><title>Keskustelu {{ other_username }}</title></head>
+<head><meta charset="utf-8"><title>Keskustelu {% if other_user.display_name %}{{ other_user.display_name }}{% else %}{{ other_user.username }}{% endif %}</title></head>
 <body>
   {% include "_nav.html" %}
 
-  <h1>Viestit käyttäjän {{ other_username }} kanssa</h1>
+  <h1>Viestit käyttäjän {% if other_user.display_name %}{{ other_user.display_name }} ({{ other_user.username }}){% else %}{{ other_user.username }}{% endif %} kanssa</h1>
   <p><a href="/messages">← Takaisin</a></p>
 
   <div>
     {% for m in messages %}
       <div style="margin-bottom: 0.75rem;">
-        <strong>{{ m.sender }}</strong> <small>{{ m.created_at }}</small><br>
+        <strong>{% if m.sender_display_name %}{{ m.sender_display_name }} ({{ m.sender }}){% else %}{{ m.sender }}{% endif %}</strong> <small>{{ m.created_at }}</small><br>
         <div>{{ m.body }}</div>
       </div>
     {% endfor %}

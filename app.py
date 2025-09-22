@@ -109,6 +109,7 @@ def messages_index():
     SELECT
       t.id AS thread_id,
       CASE WHEN t.user_a_id = ? THEN u2.username ELSE u1.username END AS other_username,
+      CASE WHEN t.user_a_id = ? THEN u2.display_name ELSE u1.display_name END AS other_display_name,
       lm.body AS last_body,
       lm.created_at AS last_at
     FROM threads t
@@ -126,7 +127,7 @@ def messages_index():
     WHERE t.user_a_id = ? OR t.user_b_id = ?
     ORDER BY lm.created_at DESC
     """
-    rows = db.query(sql, [me, me, me])
+    rows = db.query(sql, [me, me, me, me])
 
     return render_template("messages_index.html", threads=rows)
 
@@ -186,17 +187,17 @@ def messages_thread(thread_id: int):
 
     # GET: show messages + the other user's name
     other_id = b if me == a else a
-    other = db.query("SELECT username FROM users WHERE id = ?", [other_id])[0]["username"]
+    other_user = db.query("SELECT username, display_name FROM users WHERE id = ?", [other_id])[0]
 
     msgs = db.query("""
-        SELECT m.id, m.body, m.created_at, u.username AS sender
+        SELECT m.id, m.body, m.created_at, u.username AS sender, u.display_name AS sender_display_name
         FROM messages m
         JOIN users u ON u.id = m.sender_id
         WHERE m.thread_id = ?
         ORDER BY m.created_at ASC, m.id ASC
     """, [thread_id])
 
-    return render_template("messages_thread.html", other_username=other, messages=msgs, thread_id=thread_id)
+    return render_template("messages_thread.html", other_user=other_user, messages=msgs, thread_id=thread_id)
 
 @app.route("/register")
 def register():
@@ -247,6 +248,28 @@ def login():
     else:
         return render_error_with_link("VIRHE: väärä tunnus tai salasana",
                                       "/login", "Palaa kirjautumiseen", status=401)
+
+@app.route("/profile", methods=["GET", "POST"])
+def profile():
+    if "user_id" not in session:
+        return redirect("/login")
+
+    user_id = session["user_id"]
+
+    if request.method == "POST":
+        display_name = request.form.get("display_name", "").strip()
+        if len(display_name) > 100:
+            return render_error_with_link("VIRHE: näyttönimi on liian pitkä (max 100 merkkiä)",
+                                          "/profile", "Palaa profiiliin")
+
+        db.execute("UPDATE users SET display_name = ? WHERE id = ?", [display_name, user_id])
+        return redirect("/profile")
+
+    # GET: show profile form
+    user_data = db.query("SELECT display_name FROM users WHERE id = ?", [user_id])
+    current_display_name = user_data[0]["display_name"] if user_data else None
+
+    return render_template("profile.html", current_display_name=current_display_name)
 
 @app.route("/logout")
 def logout():

@@ -14,7 +14,7 @@
       {% for t in threads %}
         <li>
           <a href="/messages/{{ t.thread_id }}">
-            {{ t.other_username }}
+            {% if t.other_display_name %}{{ t.other_display_name }} ({{ t.other_username }}){% else %}{{ t.other_username }}{% endif %}
           </a>
           <br>
           <small>{{ t.last_body }} — {{ t.last_at }}</small>
