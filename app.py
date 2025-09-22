@@ -1,7 +1,7 @@
 # Käyttäjä pystyy rekisteröimään sovellukseen tunnuksen ja salasanan, jotka tallennetaan tietokantaan:
 import sqlite3
 from flask import Flask
-from flask import redirect, render_template, request, session, render_template_string
+from flask import abort, redirect, render_template, request, session, render_template_string
 from werkzeug.security import check_password_hash, generate_password_hash
 import config
 import db
@@ -46,6 +46,8 @@ def create_announcement_student():
 @app.route("/edit_announcement/<int:announcement_id>")
 def edit_announcement(announcement_id):
     a = announcements_student.get_announcement(announcement_id)
+    if a["user_id"] != session["user_id"]:
+        abort(403)
     return render_template("edit_announcement.html", announcement=a)
 
 @app.route("/update_announcement_student", methods=["GET", "POST"])
@@ -56,6 +58,9 @@ def update_announcement_student():
         return render_template("create_announcement_student.html")
     # POST: create
     announcement_id = request.form["announcement_id"]
+    a = announcements_student.get_announcement(announcement_id)
+    if a["user_id"] != session["user_id"]:
+        abort(403)
     sport = request.form.get("sport", "").strip()
     city = request.form.get("city", "").strip()
     age_group = request.form.get("age_group", "").strip()
@@ -66,8 +71,10 @@ def update_announcement_student():
 
 @app.route("/remove_announcement/<int:announcement_id>", methods=["GET", "POST"])
 def remove_announcement(announcement_id):
+    a = announcements_student.get_announcement(announcement_id)
+    if a["user_id"] != session["user_id"]:
+        abort(403)
     if request.method == "GET":
-        a = announcements_student.get_announcement(announcement_id)
         return render_template("remove_announcement.html", announcement=a)
     if request.method == "POST":
         if "remove" in request.form:
