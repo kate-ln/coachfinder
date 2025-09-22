@@ -25,12 +25,13 @@ Sovelluksen tämänhetkinen vaihe sisältää seuraavat toiminnot:
 - Viestiketjujen hallinta
 - Tietokantarakenne käyttäjille, ilmoituksille ja viesteille
 - Oikeuksien tarkastaminen ilmoitusten muokkaamisen ja poistamisen yhdeydessä
+- Käyttäjäprofiili nimen asettamiselle ja nimen näyttäminen ilmoituksissa  
 
 ### Keskeneräiset/puuttuvat ominaisuudet
 - Valmentajailmoitukset (vain oppilasilmoitukset toteutettu)
 - Hakusuodattimet (paikkakunta, laji)
 - Ilmoitusten tilan hallinta ("löydetty" -ryhmä)
-- Käyttäjäprofiilit
+- Laaja käyttäjäprofiili (kuvat, kuvaukset, yhteystiedot)
 - Kuvien lataus
 
 ## Tietokannan rakenne
@@ -41,6 +42,7 @@ Sovelluksen tämänhetkinen vaihe sisältää seuraavat toiminnot:
    - `id` (PRIMARY KEY)
    - `username` (UNIQUE)
    - `password_hash`
+   - `display_name`(näyttönimi)
 
 2. **announcements_student**
    - `id` (PRIMARY KEY)
@@ -103,6 +105,7 @@ Sovellus käynnistyy osoitteessa: `http://localhost:5000`
 ### Käyttäjähallinta
 - **Rekisteröityminen**: `/register`
 - **Kirjautuminen**: `/login`
+- **Profiili**: `/profile` - Näyttönimen asettaminen 
 - **Uloskirjautuminen**: `/logout`
 
 ### Ilmoitukset (Oppilaat)
