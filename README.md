@@ -20,7 +20,7 @@ Sovelluksen tämänhetkinen vaihe sisältää seuraavat toiminnot:
 ### Toteutetut ominaisuudet
 - Käyttäjärekisteröinti ja kirjautuminen
 - Oppilasilmoitusten luominen, muokkaaminen ja poistaminen
-- Ilmoitusten listaus ja haku
+- Ilmoitusten listaus ja haku vapaalla hakusanalla
 - Yksityisviestien lähettäminen käyttäjien välillä
 - Viestiketjujen hallinta
 - Tietokantarakenne käyttäjille, ilmoituksille ja viesteille
