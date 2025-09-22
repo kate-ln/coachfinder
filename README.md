@@ -24,6 +24,7 @@ Sovelluksen tämänhetkinen vaihe sisältää seuraavat toiminnot:
 - Yksityisviestien lähettäminen käyttäjien välillä
 - Viestiketjujen hallinta
 - Tietokantarakenne käyttäjille, ilmoituksille ja viesteille
+- Oikeuksien tarkastaminen ilmoitusten muokkaamisen ja poistamisen yhdeydessä
 
 ### Keskeneräiset/puuttuvat ominaisuudet
 - Valmentajailmoitukset (vain oppilasilmoitukset toteutettu)
