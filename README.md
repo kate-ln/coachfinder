@@ -25,7 +25,7 @@ Sovelluksen tämänhetkinen vaihe sisältää seuraavat toiminnot:
 - Viestiketjujen hallinta
 - Tietokantarakenne käyttäjille, ilmoituksille ja viesteille
 - Oikeuksien tarkastaminen ilmoitusten muokkaamisen ja poistamisen yhdeydessä
-- Käyttäjäprofiili nimen asettamiselle ja nimen näyttäminen ilmoituksissa  
+- Käyttäjäprofiili nimen asettamiselle ja nimen näyttäminen ilmoituksissa ja viesteissä 
 
 ### Keskeneräiset/puuttuvat ominaisuudet
 - Valmentajailmoitukset (vain oppilasilmoitukset toteutettu)
