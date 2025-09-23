@@ -14,7 +14,12 @@ app.secret_key = config.secret_key
 @app.route("/")
 def index():
     a = announcements_student.get_announcements()
-    return render_template("index.html", announcements=a)
+    profile = None
+    if "user_id" in session:
+        user_data = db.query("SELECT display_name FROM users WHERE id = ?", [session["user_id"]])
+        if user_data:
+            profile = user_data[0]
+    return render_template("index.html", announcements=a, profile=profile)
 
 @app.route("/find_announcement")
 def find_announcement():
@@ -268,6 +273,7 @@ def profile():
 
 @app.route("/logout")
 def logout():
-    del session["user_id"]
-    del session["username"]
+    if "user_id" in session:
+        del session["user_id"]
+        del session["username"]
     return redirect("/")

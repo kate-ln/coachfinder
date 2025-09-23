@@ -10,7 +10,7 @@
   <h1>Coachfinder</h1>
 
   {% if session.username %}
-  <p> Olet kirjautunut tunnuksella {{ session.username }}, id-numerosi on {{ session.user_id }}
+  <p>Hei {% if profile.display_name %}{{ profile.display_name }}{% endif %}! Olet kirjautunut tunnuksella {{ session.username }}, id-numerosi on {{ session.user_id }}.
   </p>
   {% endif %}
 
