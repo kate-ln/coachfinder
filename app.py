@@ -25,6 +25,8 @@ def find_announcement():
 @app.route("/announcement/<int:announcement_id>")
 def show_announcement(announcement_id):
     a = announcements_student.get_announcement(announcement_id)
+    if not a:
+        abort(404)
     return render_template("show_announcement.html", announcement=a)
 
 @app.route("/create_announcement_student", methods=["GET", "POST"])
@@ -45,6 +47,8 @@ def create_announcement_student():
 @app.route("/edit_announcement/<int:announcement_id>")
 def edit_announcement(announcement_id):
     a = announcements_student.get_announcement(announcement_id)
+    if not a:
+        abort(404)
     if a["user_id"] != session["user_id"]:
         abort(403)
     return render_template("edit_announcement.html", announcement=a)
@@ -57,6 +61,8 @@ def update_announcement_student():
         return render_template("create_announcement_student.html")
     announcement_id = request.form["announcement_id"]
     a = announcements_student.get_announcement(announcement_id)
+    if not a:
+        abort(404)
     if a["user_id"] != session["user_id"]:
         abort(403)
     sport = request.form.get("sport", "").strip()
@@ -70,6 +76,8 @@ def update_announcement_student():
 @app.route("/remove_announcement/<int:announcement_id>", methods=["GET", "POST"])
 def remove_announcement(announcement_id):
     a = announcements_student.get_announcement(announcement_id)
+    if not a:
+        abort(404)
     if a["user_id"] != session["user_id"]:
         abort(403)
     if request.method == "GET":
@@ -122,7 +130,6 @@ def messages_index():
     ORDER BY lm.created_at DESC
     """
     rows = db.query(sql, [me, me, me, me])
-
     return render_template("messages_index.html", threads=rows)
 
 @app.route("/messages/new", methods=["GET", "POST"])

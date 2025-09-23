@@ -34,7 +34,8 @@ def get_announcement(announcement_id):
              FROM announcements_student
              JOIN users ON announcements_student.user_id = users.id
              WHERE announcements_student.id = ?"""
-    return db.query(sql, [announcement_id])[0]
+    result = db.query(sql, [announcement_id])
+    return result[0] if result else None
 
 def update_announcement(announcement_id, sport, city, age_group, skill_level, description):
     sql = """UPDATE announcements_student SET sport = ?,
