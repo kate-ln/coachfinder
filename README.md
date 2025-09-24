@@ -34,6 +34,9 @@ Sovelluksen tämänhetkinen vaihe sisältää seuraavat toiminnot:
 - Laaja käyttäjäprofiili (kuvat, kuvaukset, yhteystiedot)
 - Kuvien lataus
 
+### Vaihtoehtoiset lisäominaisuudet
+- Estä tyhjän tai vaillinnaisen ilmoituksen lähettäminen
+
 ## Tietokannan rakenne
 
 ### Taulut
