@@ -5,7 +5,7 @@ from flask import abort, redirect, render_template, request, session, render_tem
 from werkzeug.security import check_password_hash, generate_password_hash
 import config
 import db
-from ui import render_error_with_link, render_success_redirect_with_countdown
+from ui import render_error_with_link, render_success_with_link
 import announcements_student
 
 app = Flask(__name__)
@@ -232,7 +232,7 @@ def create():
         return render_error_with_link("VIRHE: tunnus on jo varattu",
                                       "/create", "Palaa rekisteröitymiseen", status=409)
 
-    return render_success_redirect_with_countdown("Tunnus luotu", seconds=5, href="/", link_text="Siirry heti")
+    return render_success_with_link("Tunnus luotu", href="/", link_text="Siirry etusivulle")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
