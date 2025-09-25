@@ -11,6 +11,10 @@ import announcements_student
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
+def require_login():
+    if "user_id" not in session:
+        abort(403)
+
 @app.route("/")
 def index():
     a = announcements_student.get_announcements()
@@ -36,7 +40,7 @@ def show_announcement(announcement_id):
 
 @app.route("/create_announcement_student", methods=["GET", "POST"])
 def create_announcement_student():
-    if "user_id" not in session:
+    if "user_id" not in session: #or require_login()
         return redirect("/login")
     if request.method == "GET":
         return render_template("create_announcement_student.html")
@@ -51,6 +55,7 @@ def create_announcement_student():
 
 @app.route("/edit_announcement/<int:announcement_id>")
 def edit_announcement(announcement_id):
+    require_login()
     a = announcements_student.get_announcement(announcement_id)
     if not a:
         abort(404)
@@ -60,7 +65,7 @@ def edit_announcement(announcement_id):
 
 @app.route("/update_announcement_student", methods=["GET", "POST"])
 def update_announcement_student():
-    if "user_id" not in session:
+    if "user_id" not in session: #or require_login()
         return redirect("/login")
     if request.method == "GET":
         return render_template("create_announcement_student.html")
@@ -80,6 +85,7 @@ def update_announcement_student():
 
 @app.route("/remove_announcement/<int:announcement_id>", methods=["GET", "POST"])
 def remove_announcement(announcement_id):
+    require_login()
     a = announcements_student.get_announcement(announcement_id)
     if not a:
         abort(404)
