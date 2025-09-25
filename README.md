@@ -25,7 +25,8 @@ Sovelluksen tämänhetkinen vaihe sisältää seuraavat toiminnot:
 - Viestiketjujen hallinta
 - Tietokantarakenne käyttäjille, ilmoituksille ja viesteille
 - Oikeuksien tarkastaminen ilmoitusten muokkaamisen ja poistamisen yhdeydessä
-- Käyttäjäprofiili nimen asettamiselle ja nimen näyttäminen ilmoituksissa ja viesteissä 
+- Käyttäjäprofiili nimen asettamiselle ja nimen näyttäminen ilmoituksissa ja viesteissä
+- Keskitetty virheenkäsittely (ui.py) 
 
 ### Keskeneräiset/puuttuvat ominaisuudet
 - Valmentajailmoitukset (vain oppilasilmoitukset toteutettu)
@@ -130,15 +131,18 @@ Sovellus käynnistyy osoitteessa: `http://localhost:5000`
 - `announcements_student.py`: Oppilasilmoitusten CRUD-operaatiot
 - `users.py`: Käyttäjien tietokantaoperaatiot (profiilit, autentikointi)
 - `messages.py`: Viestien ja viestiketjujen tietokantaoperaatiot
-- `ui.py`: UI-apufunktiot (virhe-/onnistumissivut)
+- `ui.py`: UI-apufunktiot, virheenkäsittely ja sivujen renderöinti 
   
 ### Testaus
 Testaa seuraavat toiminnot:
 1. Rekisteröidy ainakin kolmena eri käyttäjänä
-2. Kirjaudu sisään eri käyttäjinä
-3. Luo muutama erilainen oppilasilmoitus
-4. Hae ilmoituksia hakusanalla
-5. Muokkaa ja poista ilmoitus
-6. Lähetä viesti toiselle käyttäjälle
-7. Testaa että vastaanottaja näkee viestin
-8. Testaa että viestiketjut eri käyttäjien kanssa näkyvät listana.
+2. Kirjaudu sisään eri käyttäjinä, testaa väärät tunnukset
+3. Aseta näyttönimi profiilissa
+4. Luo muutama erilainen oppilasilmoitus
+5. Hae ilmoituksia hakusanalla
+6. Muokkaa ja poista omia ilmoituksia
+7. Testaa toisen käyttäjän ilmoitusten muokkausyritysta (403 virhe)
+8. Lähetä viesti toiselle käyttäjälle
+9. Testaa että vastaanottaja näkee viestin
+10. Testaa että viestiketjut eri käyttäjien kanssa näkyvät listana.
+11. Testaa virheellisiä viestejä (tyhjä viesti, olematon käyttäjä)
