@@ -35,7 +35,7 @@ Sovelluksen tämänhetkinen vaihe sisältää seuraavat toiminnot:
 - Kuvien lataus
 
 ### Vaihtoehtoiset lisäominaisuudet
-- Estä tyhjän tai vaillinnaisen ilmoituksen lähettäminen
+- Valikoi lomakkeiden syötteitä
 
 ## Tietokannan rakenne
 
