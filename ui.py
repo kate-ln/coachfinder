@@ -1,4 +1,4 @@
-from flask import render_template_string, abort, redirect
+from flask import render_template_string, redirect
 
 def render_page(title: str, body_html: str, status: int = 200):
     html = f"""<!doctype html>

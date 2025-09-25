@@ -4,7 +4,6 @@ from flask import Flask
 from flask import redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 import config
-import db
 import ui
 import announcements_student
 import users
@@ -206,7 +205,6 @@ def login():
     rows = users.get_user_by_username(username)
     if not rows:
         return ui.handle_authentication_error()
-
     row = rows[0]
     if check_password_hash(row["password_hash"], password):
         session["user_id"] = row["id"]
