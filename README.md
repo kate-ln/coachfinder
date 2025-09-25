@@ -124,6 +124,14 @@ Sovellus käynnistyy osoitteessa: `http://localhost:5000`
 - **Uusi viesti**: `/messages/new`
 - **Keskustelu**: `/messages/<thread_id>`
 
+### Koodin Rakenne
+- `app.py`: Flask-reitit ja sovelluslogiikka
+- `db.py`: Tietokantayhteydet ja peruskyselyoperaatiot
+- `announcements_student.py`: Oppilasilmoitusten CRUD-operaatiot
+- `users.py`: Käyttäjien tietokantaoperaatiot (profiilit, autentikointi)
+- `messages.py`: Viestien ja viestiketjujen tietokantaoperaatiot
+- `ui.py`: UI-apufunktiot (virhe-/onnistumissivut)
+  
 ### Testaus
 Testaa seuraavat toiminnot:
 1. Rekisteröidy ainakin kolmena eri käyttäjänä
