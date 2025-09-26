@@ -97,7 +97,7 @@ sqlite3 database.db < schema.sql
 ```bash
 # Aktivoi virtual environment (jos ei jo aktivoitu)
 source venv/bin/activate
-# Asenna tarvittavat Python-kirjastot:
+# Asenna Flask-kirjasto:
 pip install flask
 # Käynnistä Flask-sovellus
 flask run
