@@ -145,5 +145,5 @@ Testaa seuraavat toiminnot:
 7. Testaa toisen käyttäjän ilmoitusten muokkausyritysta (403 virhe)
 8. Lähetä viesti toiselle käyttäjälle
 9. Testaa että vastaanottaja näkee viestin
-10. Testaa että viestiketjut eri käyttäjien kanssa näkyvät listana.
+10. Testaa että viestiketjut eri käyttäjien kanssa näkyvät listana
 11. Testaa virheellisiä viestejä (tyhjä viesti, olematon käyttäjä)
