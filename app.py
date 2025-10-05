@@ -52,6 +52,20 @@ def create_announcement_student():
     age_group = request.form.get("age_group", "").strip()
     skill_level = request.form.get("skill_level", "").strip()
     description = request.form.get("description", "").strip()
+    
+    # Validate required fields
+    if not sport:
+        return ui.handle_empty_field_error("Laji")
+    if not city:
+        return ui.handle_empty_field_error("Kaupunki")
+    if not age_group:
+        return ui.handle_empty_field_error("Ikäryhmä")
+    if not skill_level:
+        return ui.handle_empty_field_error("Taitotaso")
+    if not description:
+        return ui.handle_empty_field_error("Kuvaus")
+    
+    # Validate text length limits
     if len(sport) > 50:
         return ui.handle_text_too_long_error("Laji", 50)
     if len(city) > 50:
@@ -97,6 +111,20 @@ def update_announcement_student():
     age_group = request.form.get("age_group", "").strip()
     skill_level = request.form.get("skill_level", "").strip()
     description = request.form.get("description", "").strip()
+    
+    # Validate required fields
+    if not sport:
+        return ui.handle_empty_field_error("Laji", f"/edit_announcement/{announcement_id}", "Takaisin ilmoituksen muokkaamiseen")
+    if not city:
+        return ui.handle_empty_field_error("Kaupunki", f"/edit_announcement/{announcement_id}", "Takaisin ilmoituksen muokkaamiseen")
+    if not age_group:
+        return ui.handle_empty_field_error("Ikäryhmä", f"/edit_announcement/{announcement_id}", "Takaisin ilmoituksen muokkaamiseen")
+    if not skill_level:
+        return ui.handle_empty_field_error("Taitotaso", f"/edit_announcement/{announcement_id}", "Takaisin ilmoituksen muokkaamiseen")
+    if not description:
+        return ui.handle_empty_field_error("Kuvaus", f"/edit_announcement/{announcement_id}", "Takaisin ilmoituksen muokkaamiseen")
+    
+    # Validate text length limits
     if len(sport) > 50:
         return ui.handle_text_too_long_error("Laji", 50, f"/edit_announcement/{announcement_id}", "Takaisin ilmoituksen muokkaamiseen")
     if len(city) > 50:

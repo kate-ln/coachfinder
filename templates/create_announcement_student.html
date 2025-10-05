@@ -12,23 +12,23 @@
   <form action="/create_announcement_student" method="post">
     <p>
       Laji, johon haen valmentajaa: <br />
-      <input type="text" name="sport" maxlength="50" />
+      <input type="text" name="sport" maxlength="50" required/>
     </p>
     <p>
       Paikkakunta: <br />
-      <input type="text" name="city" maxlength="50" />
+      <input type="text" name="city" maxlength="50" required/>
     </p>
     <p>
       Kuulun ikäryhmään: <br />
-      <input type="text" name="age_group" maxlength="50" />
+      <input type="text" name="age_group" maxlength="50" required/>
     </p>
     <p>
       Taitotasoni: <br />
-      <input type="text" name="skill_level" maxlength="50" />
+      <input type="text" name="skill_level" maxlength="50" required/>
     </p>
     <p>
       Vapaa kuvaus itsestäni: <br />
-      <textarea name="description" rows="8" cols="60" maxlength="1000" ></textarea>
+      <textarea name="description" rows="8" cols="60" maxlength="1000" required></textarea>
     </p>
     <input type="submit" value="Luo ilmoitus" />
   </form>
