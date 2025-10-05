@@ -78,3 +78,6 @@ def handle_announcement_not_found():
 
 def handle_announcement_forbidden(action: str = "käsitellä"):
     return render_error_with_link(f"VIRHE: ei oikeutta {action} tätä ilmoitusta", "/", "Takaisin etusivulle", status=403)
+
+def handle_text_too_long_error(field_name: str, max_length: int = 50, redirect_url: str = "/create_announcement_student", link_text: str = "Takaisin ilmoituksen luomiseen"):
+    return render_error_with_link(f"VIRHE: {field_name} on liian pitkä (max {max_length} merkkiä)", redirect_url, link_text, status=403)

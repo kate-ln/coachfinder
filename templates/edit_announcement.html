@@ -12,23 +12,23 @@
   <form action="/update_announcement_student" method="post">
     <p>
       Laji, johon haen valmentajaa: <br />
-      <input type="text" name="sport" value="{{ announcement.sport }}"/>
+      <input type="text" name="sport" value="{{ announcement.sport }}" maxlength="50"/>
     </p>
     <p>
       Paikkakunta: <br />
-      <input type="text" name="city" value="{{ announcement.city }}"/>
+      <input type="text" name="city" value="{{ announcement.city }}" maxlength="50"/>
     </p>
     <p>
       Kuulun ikäryhmään: <br />
-      <input type="text" name="age_group" value="{{ announcement.age_group }}"/>
+      <input type="text" name="age_group" value="{{ announcement.age_group }}" maxlength="50"/>
     </p>
     <p>
       Taitotasoni: <br />
-      <input type="text" name="skill_level" value="{{ announcement.skill_level }}"/>
+      <input type="text" name="skill_level" value="{{ announcement.skill_level }}" maxlength="50"/>
     </p>
     <p>
       Vapaa kuvaus itsestäni: <br />
-      <textarea name="description" rows="8" cols="60">{{ announcement.description }}</textarea>
+      <textarea name="description" rows="8" cols="60" maxlength="1000">{{ announcement.description }}</textarea>
     </p>
     <input type="hidden" name="announcement_id" value="{{announcement.id}}"/>
     <input type="submit" value="Päivitä ilmoitus"/>

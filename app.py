@@ -52,6 +52,17 @@ def create_announcement_student():
     age_group = request.form.get("age_group", "").strip()
     skill_level = request.form.get("skill_level", "").strip()
     description = request.form.get("description", "").strip()
+    if len(sport) > 50:
+        return ui.handle_text_too_long_error("Laji", 50)
+    if len(city) > 50:
+        return ui.handle_text_too_long_error("Kaupunki", 50)
+    if len(age_group) > 50:
+        return ui.handle_text_too_long_error("Ikäryhmä", 50)
+    if len(skill_level) > 50:
+        return ui.handle_text_too_long_error("Taitotaso", 50)
+    if len(description) > 1000:
+        return ui.handle_text_too_long_error("Kuvaus", 1000)
+    
     user_id = session["user_id"]
     announcements_student.add_announcement(sport, city, age_group, skill_level, description, user_id)
     return redirect("/")
@@ -86,6 +97,17 @@ def update_announcement_student():
     age_group = request.form.get("age_group", "").strip()
     skill_level = request.form.get("skill_level", "").strip()
     description = request.form.get("description", "").strip()
+    if len(sport) > 50:
+        return ui.handle_text_too_long_error("Laji", 50, f"/edit_announcement/{announcement_id}", "Takaisin ilmoituksen muokkaamiseen")
+    if len(city) > 50:
+        return ui.handle_text_too_long_error("Kaupunki", 50, f"/edit_announcement/{announcement_id}", "Takaisin ilmoituksen muokkaamiseen")
+    if len(age_group) > 50:
+        return ui.handle_text_too_long_error("Ikäryhmä", 50, f"/edit_announcement/{announcement_id}", "Takaisin ilmoituksen muokkaamiseen")
+    if len(skill_level) > 50:
+        return ui.handle_text_too_long_error("Taitotaso", 50, f"/edit_announcement/{announcement_id}", "Takaisin ilmoituksen muokkaamiseen")
+    if len(description) > 1000:
+        return ui.handle_text_too_long_error("Kuvaus", 1000, f"/edit_announcement/{announcement_id}", "Takaisin ilmoituksen muokkaamiseen")
+    
     announcements_student.update_announcement(announcement_id, sport, city, age_group, skill_level, description)
     return redirect("/announcement/" + str(announcement_id))
 
