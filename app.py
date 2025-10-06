@@ -53,7 +53,6 @@ def create_announcement_student():
     skill_level = request.form.get("skill_level", "").strip()
     description = request.form.get("description", "").strip()
     
-    # Validate required fields
     if not sport:
         return ui.handle_empty_field_error("Laji")
     if not city:
@@ -65,7 +64,6 @@ def create_announcement_student():
     if not description:
         return ui.handle_empty_field_error("Kuvaus")
     
-    # Validate text length limits
     if len(sport) > 50:
         return ui.handle_text_too_long_error("Laji", 50)
     if len(city) > 50:
@@ -112,7 +110,6 @@ def update_announcement_student():
     skill_level = request.form.get("skill_level", "").strip()
     description = request.form.get("description", "").strip()
     
-    # Validate required fields
     if not sport:
         return ui.handle_empty_field_error("Laji", f"/edit_announcement/{announcement_id}", "Takaisin ilmoituksen muokkaamiseen")
     if not city:
@@ -124,7 +121,6 @@ def update_announcement_student():
     if not description:
         return ui.handle_empty_field_error("Kuvaus", f"/edit_announcement/{announcement_id}", "Takaisin ilmoituksen muokkaamiseen")
     
-    # Validate text length limits
     if len(sport) > 50:
         return ui.handle_text_too_long_error("Laji", 50, f"/edit_announcement/{announcement_id}", "Takaisin ilmoituksen muokkaamiseen")
     if len(city) > 50:
@@ -207,7 +203,7 @@ def messages_thread(thread_id: int):
     if login_check:
         return login_check
     me = session["user_id"]
-    # Verify I'm a participant
+    
     t = messages.get_thread_participants(thread_id)
     if not t:
         return ui.handle_thread_not_found()
