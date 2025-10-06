@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% if user.display_name %}{{ user.display_name }}{% else %}{{ user.username }}{% endif %} - Profiili</title>
+</head>
+<body>
+  {% include "_nav.html" %}
+  <h1>{% if user.display_name %}{{ user.display_name }}{% else %}{{ user.username }}{% endif %}</h1>
+  <p><strong>Käyttäjätunnus:</strong> {{ user.username }}</p>
+  {% if user.display_name %}
+  <p><strong>Näyttönimi:</strong> {{ user.display_name }}</p>
+  {% endif %}
+  
+  <h2>Ilmoitukset</h2>
+  {% if announcements %}
+    {% for announcement in announcements %}
+      <div style="border: 1px solid #ccc; margin: 10px 0; padding: 10px;">
+        <h3><a href="/announcement/{{ announcement.id }}">{{ announcement.sport }}</a></h3>
+        <p><strong>Kaupunki:</strong> {{ announcement.city }}</p>
+        <p><strong>Ikäryhmä:</strong> {{ announcement.age_group }}</p>
+        <p><strong>Taitotaso:</strong> {{ announcement.skill_level }}</p>
+        <p><strong>Kuvaus:</strong> {{ announcement.description }}</p>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>Käyttäjällä ei ole vielä ilmoituksia.</p>
+  {% endif %}
+  
+  <p><a href="/">Takaisin etusivulle</a></p>
+</body>
+</html>

@@ -84,3 +84,6 @@ def handle_text_too_long_error(field_name: str, max_length: int = 50, redirect_u
 
 def handle_empty_field_error(field_name: str, redirect_url: str = "/create_announcement_student", link_text: str = "Takaisin ilmoituksen luomiseen"):
     return render_error_with_link(f"VIRHE: {field_name} on pakollinen", redirect_url, link_text, status=400)
+
+def handle_user_not_found():
+    return render_error_with_link("VIRHE: käyttäjää ei löydy", "/", "Takaisin etusivulle", status=404)

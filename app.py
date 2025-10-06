@@ -275,6 +275,17 @@ def profile():
     current_display_name = user_data[0]["display_name"] if user_data else None
     return render_template("profile.html", current_display_name=current_display_name)
 
+@app.route("/profile/<int:user_id>")
+def user_profile(user_id):
+    login_check = require_login()
+    if login_check:
+        return login_check
+    user_data = users.get_user_by_id(user_id)
+    if not user_data:
+        return ui.handle_user_not_found()
+    announcements = announcements_student.get_announcements_by_user(user_id)
+    return render_template("user_profile.html", user=user_data, announcements=announcements)
+
 @app.route("/logout")
 def logout():
     if "user_id" in session:

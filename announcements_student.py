@@ -61,3 +61,18 @@ def find_announcements(query):
              ORDER BY announcements_student.id DESC"""
     l = "%" + query + "%"
     return db.query(sql, [l, l, l, l, l])
+
+def get_announcements_by_user(user_id):
+    sql = """SELECT announcements_student.id,
+                    announcements_student.sport,
+                    announcements_student.city,
+                    announcements_student.age_group,
+                    announcements_student.skill_level,
+                    announcements_student.description,
+                    users.username,
+                    users.display_name
+             FROM announcements_student
+             JOIN users ON announcements_student.user_id = users.id
+             WHERE announcements_student.user_id = ?
+             ORDER BY announcements_student.id DESC"""
+    return db.query(sql, [user_id])
