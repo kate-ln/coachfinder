@@ -261,6 +261,7 @@ def login():
 
 @app.route("/profile", methods=["GET", "POST"])
 def profile():
+    '''Own profile page'''
     login_check = require_login()
     if login_check:
         return login_check
@@ -273,10 +274,12 @@ def profile():
         return redirect("/profile")
     user_data = users.get_user_profile(user_id)
     current_display_name = user_data[0]["display_name"] if user_data else None
-    return render_template("profile.html", current_display_name=current_display_name)
+    announcements = announcements_student.get_announcements_by_user(user_id)
+    return render_template("profile.html", current_display_name=current_display_name, announcements=announcements)
 
 @app.route("/profile/<int:user_id>")
 def user_profile(user_id):
+    '''Profile page for other users'''
     login_check = require_login()
     if login_check:
         return login_check
