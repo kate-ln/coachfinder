@@ -20,11 +20,22 @@
     </p>
     <p>
       Kuulun ikäryhmään: <br />
-      <input type="text" name="age_group" maxlength="50" required/>
+      <select = name="age_group" required>
+        <option value=""">(valitse)</option>
+        <option value="lapset">lapset (7-12)</option>
+        <option value="nuoret">nuoret (13-17)</option>
+        <option value="aikuiset">aikuiset (18-)</option>
+      </select>
     </p>
     <p>
       Taitotasoni: <br />
-      <input type="text" name="skill_level" maxlength="50" required/>
+      <select = name="skill_level" required>
+        <option value=""">(valitse)</option>
+        <option value="aloittelija">aloittelija</option>
+        <option value="keskitaso">keskitaso</option>
+        <option value="edistynyt">edistynyt</option>
+        <option value="kilpataso">kilpataso</option>
+      </select>
     </p>
     <p>
       Vapaa kuvaus itsestäni: <br />
