@@ -35,7 +35,20 @@ def get_announcement(announcement_id):
              JOIN users ON announcements_student.user_id = users.id
              WHERE announcements_student.id = ?"""
     result = db.query(sql, [announcement_id])
-    return result[0] if result else None
+    if result:
+        announcement = dict(result[0])
+        classes = []
+        if announcement['age_group']:
+            classes.append({'title': 'Ikäryhmä', 'value': announcement['age_group']})
+        if announcement['skill_level']:
+            classes.append({'title': 'Taitotaso', 'value': announcement['skill_level']})
+        announcement['classes'] = classes
+        return announcement
+    return None
+
+def get_classes(announcement_id):
+    sql = "SELECT title, value FROM announcement_classes WHERE announcement_id = ?"
+    return db.query(sql, [announcement_id])
 
 def update_announcement(announcement_id, sport, city, age_group, skill_level, description):
     sql = """UPDATE announcements_student SET sport = ?,

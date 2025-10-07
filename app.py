@@ -1,4 +1,3 @@
-# Käyttäjä pystyy rekisteröimään sovellukseen tunnuksen ja salasanan, jotka tallennetaan tietokantaan:
 import sqlite3
 from flask import Flask
 from flask import redirect, render_template, request, session
@@ -38,7 +37,8 @@ def show_announcement(announcement_id):
     a = announcements_student.get_announcement(announcement_id)
     if not a:
         return ui.handle_announcement_not_found()
-    return render_template("show_announcement.html", announcement=a)
+    classes = announcements_student.get_classes(announcement_id)
+    return render_template("show_announcement.html", announcement=a, classes=classes)
 
 @app.route("/create_announcement_student", methods=["GET", "POST"])
 def create_announcement_student():
@@ -89,7 +89,8 @@ def edit_announcement(announcement_id):
         return ui.handle_announcement_not_found()
     if a["user_id"] != session["user_id"]:
         return ui.handle_announcement_forbidden("muokata")
-    return render_template("edit_announcement.html", announcement=a)
+    classes = announcements_student.get_classes(announcement_id)
+    return render_template("edit_announcement.html", announcement=a, classes=classes)
 
 @app.route("/update_announcement_student", methods=["GET", "POST"])
 def update_announcement_student():
@@ -133,6 +134,9 @@ def update_announcement_student():
         return ui.handle_text_too_long_error("Kuvaus", 1000, f"/edit_announcement/{announcement_id}", "Takaisin ilmoituksen muokkaamiseen")
     
     announcements_student.update_announcement(announcement_id, sport, city, age_group, skill_level, description)
+    classes = announcements_student.get_classes(announcement_id)
+    for title, value in classes:
+        announcements_student.update_announcement_class(announcement_id, title, value)
     return redirect("/announcement/" + str(announcement_id))
 
 @app.route("/remove_announcement/<int:announcement_id>", methods=["GET", "POST"])

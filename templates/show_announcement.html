@@ -12,21 +12,16 @@
   <a href="/remove_announcement/{{ announcement.id }}">Poista</a>
   </p>
   {% endif %}
-  <p>
-    {{ announcement.title }}
-  </p>
-  <p>
-    {{ announcement.city }}
-  </p>
-  <p>
-    {{ announcement.age_group }}
-  </p>
-  <p>
-    {{ announcement.skill_level }}
-  </p>
-  <p>
-    {{ announcement.description }}
-</p>
+  <ul>
+    <li>Laji: {{ announcement.sport }} </li>
+    <li>Paikkakunta: {{ announcement.city }}</li>
+    {% if announcement.classes %}
+    {% for class in announcement.classes %}
+    <li>{{ class.title }}: {{ class.value }}</li>
+    {% endfor %}
+  {% endif %}
+    <li>Kuvaus: {{ announcement.description }}</li>
+  </ul>
 </body>
 </html>
  
