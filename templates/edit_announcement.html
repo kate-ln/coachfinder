@@ -20,11 +20,22 @@
     </p>
     <p>
       Kuulun ikäryhmään: <br />
-      <input type="text" name="age_group" value="{{ announcement.age_group }}" maxlength="50" required/>
+      <select name="age_group" required>
+        <option value="">(valitse)</option>
+        <option value="children" {% if announcement.age_group == "children" %}selected{% endif %}>lapset (7-12)</option>
+        <option value="youth" {% if announcement.age_group == "youth" %}selected{% endif %}>nuoret (13-17)</option>
+        <option value="adults" {% if announcement.age_group == "adults" %}selected{% endif %}>aikuiset (18-)</option>
+      </select>
     </p>
     <p>
       Taitotasoni: <br />
-      <input type="text" name="skill_level" value="{{ announcement.skill_level }}" maxlength="50" required/>
+      <select name="skill_level" required>
+        <option value="">(valitse)</option>
+        <option value="beginner" {% if announcement.skill_level == "beginner" %}selected{% endif %}>aloittelija</option>
+        <option value="intermediate" {% if announcement.skill_level == "intermediate" %}selected{% endif %}>keskitaso</option>
+        <option value="advanced" {% if announcement.skill_level == "advanced" %}selected{% endif %}>edistynyt</option>
+        <option value="competitive" {% if announcement.skill_level == "competitive" %}selected{% endif %}>kilpataso</option>
+      </select>
     </p>
     <p>
       Vapaa kuvaus itsestäni: <br />

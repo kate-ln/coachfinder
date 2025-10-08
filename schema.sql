@@ -31,6 +31,12 @@ CREATE TABLE messages (
   created_at TEXT DEFAULT (datetime('now'))
 );
 
+CREATE TABLE classes (
+  id INTEGER PRIMARY KEY,
+  title TEXT,
+  value TEXT
+);
+
 CREATE TABLE  announcement_classes (
   id INTEGER PRIMARY KEY,
   announcement_id INTEGER REFERENCES announcements_student(id),
