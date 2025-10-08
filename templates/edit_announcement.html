@@ -22,19 +22,18 @@
       Kuulun ikäryhmään: <br />
       <select name="age_group" required>
         <option value="">(valitse)</option>
-        <option value="children" {% if announcement.age_group == "children" %}selected{% endif %}>lapset (7-12)</option>
-        <option value="youth" {% if announcement.age_group == "youth" %}selected{% endif %}>nuoret (13-17)</option>
-        <option value="adults" {% if announcement.age_group == "adults" %}selected{% endif %}>aikuiset (18-)</option>
+        {% for age_group in age_groups %}
+        <option value="{{ age_group.value }}" {% if announcement.age_group == age_group.value %}selected{% endif %}>{{ age_group.label }}</option>
+        {% endfor %}
       </select>
     </p>
     <p>
       Taitotasoni: <br />
       <select name="skill_level" required>
         <option value="">(valitse)</option>
-        <option value="beginner" {% if announcement.skill_level == "beginner" %}selected{% endif %}>aloittelija</option>
-        <option value="intermediate" {% if announcement.skill_level == "intermediate" %}selected{% endif %}>keskitaso</option>
-        <option value="advanced" {% if announcement.skill_level == "advanced" %}selected{% endif %}>edistynyt</option>
-        <option value="competitive" {% if announcement.skill_level == "competitive" %}selected{% endif %}>kilpataso</option>
+        {% for skill_level in skill_levels %}
+        <option value="{{ skill_level.value }}" {% if announcement.skill_level == skill_level.value %}selected{% endif %}>{{ skill_level.label }}</option>
+        {% endfor %}
       </select>
     </p>
     <p>

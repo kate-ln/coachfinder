@@ -1,11 +1,27 @@
 import db
 
+def get_all_classes():
+    sql = "SELECT title, value FROM classes ORDER BY id"
+    result = db.query(sql)
+    classes = {}
+    for title, value in result:
+        if title not in classes:
+            classes[title] = []
+        classes[title].append(value)
+
+    return classes
+
 def add_announcement(sport, city, age_group, skill_level, description, user_id):
     sql = """
         INSERT INTO announcements_student (sport, city, age_group, skill_level, description, user_id) VALUES
         (?, ?, ?, ?, ?, ?)
     """
     db.execute(sql, [sport, city, age_group, skill_level, description, user_id])
+    announcement_id = db.last_insert_id()
+    if age_group:
+        update_announcement_class(announcement_id, 'Ikäryhmä', age_group)
+    if skill_level:
+        update_announcement_class(announcement_id, 'Taitotaso', skill_level)
 
 def get_announcements():
     sql = """SELECT announcements_student.id,
@@ -58,6 +74,10 @@ def update_announcement(announcement_id, sport, city, age_group, skill_level, de
                                               description = ?
                                           WHERE id = ?"""
     db.execute(sql, [sport, city, age_group, skill_level, description, announcement_id])
+    if age_group:
+        update_announcement_class(announcement_id, 'Ikäryhmä', age_group)
+    if skill_level:
+        update_announcement_class(announcement_id, 'Taitotaso', skill_level)
 
 def remove_announcement(announcement_id):
     sql = "DELETE FROM announcements_student WHERE id = ?"
@@ -89,3 +109,13 @@ def get_announcements_by_user(user_id):
              WHERE announcements_student.user_id = ?
              ORDER BY announcements_student.id DESC"""
     return db.query(sql, [user_id])
+
+def update_announcement_class(announcement_id, title, value):
+    sql_check = "SELECT id FROM announcement_classes WHERE announcement_id = ? AND title = ?"
+    existing = db.query(sql_check, [announcement_id, title])
+    if existing:
+        sql_update = "UPDATE announcement_classes SET value = ? WHERE announcement_id = ? AND title = ?"
+        db.execute(sql_update, [value, announcement_id, title])
+    else:
+        sql_insert = "INSERT INTO announcement_classes (announcement_id, title, value) VALUES (?, ?, ?)"
+        db.execute(sql_insert, [announcement_id, title, value])

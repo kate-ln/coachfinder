@@ -20,21 +20,20 @@
     </p>
     <p>
       Kuulun ikäryhmään: <br />
-      <select = name="age_group" required>
-        <option value=""">(valitse)</option>
-        <option value="children">lapset (7-12)</option>
-        <option value="youth">nuoret (13-17)</option>
-        <option value="adults">aikuiset (18-)</option>
+      <select name="age_group" required>
+        <option value="">(valitse)</option>
+        {% for age_group in age_groups %}
+        <option value="{{ age_group.value }}">{{ age_group.label }}</option>
+        {% endfor %}
       </select>
     </p>
     <p>
       Taitotasoni: <br />
-      <select = name="skill_level" required>
-        <option value=""">(valitse)</option>
-        <option value="beginner">aloittelija</option>
-        <option value="intermediate">keskitaso</option>
-        <option value="advanced">edistynyt</option>
-        <option value="competitive">kilpataso</option>
+      <select name="skill_level" required>
+        <option value="">(valitse)</option>
+        {% for skill_level in skill_levels %}
+        <option value="{{ skill_level.value }}">{{ skill_level.label }}</option>
+        {% endfor %}
       </select>
     </p>
     <p>

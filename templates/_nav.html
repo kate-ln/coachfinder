@@ -15,7 +15,6 @@
     <a href="/find_announcement">Etsi ilmoitus</a> |
     <a href="/logout">Kirjaudu ulos</a>
   {% else %}
-    {# hide login/register links on their own pages #}
     {% if request.endpoint not in ['login', 'register'] %}
       {% if not on_home %} | {% endif %}
       <a href="/login">Kirjaudu</a>

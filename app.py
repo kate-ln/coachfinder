@@ -16,6 +16,12 @@ def require_login():
         return ui.handle_login_required()
     return None
 
+def get_form_options():
+    classes = announcements_student.get_all_classes()
+    age_groups = [{"value": value, "label": value} for value in classes.get("Ikäryhmä", [])]
+    skill_levels = [{"value": value, "label": value} for value in classes.get("Taitotaso", [])]
+    return age_groups, skill_levels
+
 @app.route("/")
 def index():
     a = announcements_student.get_announcements()
@@ -46,7 +52,11 @@ def create_announcement_student():
     if login_check:
         return login_check
     if request.method == "GET":
-        return render_template("create_announcement_student.html")
+        age_groups, skill_levels = get_form_options()
+        return render_template("create_announcement_student.html",
+                             classes=announcements_student.get_all_classes(),
+                             age_groups=age_groups,
+                             skill_levels=skill_levels)
     sport = request.form.get("sport", "").strip()
     city = request.form.get("city", "").strip()
     age_group = request.form.get("age_group", "").strip()
@@ -90,7 +100,12 @@ def edit_announcement(announcement_id):
     if a["user_id"] != session["user_id"]:
         return ui.handle_announcement_forbidden("muokata")
     classes = announcements_student.get_classes(announcement_id)
-    return render_template("edit_announcement.html", announcement=a, classes=classes)
+    age_groups, skill_levels = get_form_options()
+    return render_template("edit_announcement.html",
+                         announcement=a,
+                         classes=classes,
+                         age_groups=age_groups,
+                         skill_levels=skill_levels)
 
 @app.route("/update_announcement_student", methods=["GET", "POST"])
 def update_announcement_student():
@@ -134,9 +149,6 @@ def update_announcement_student():
         return ui.handle_text_too_long_error("Kuvaus", 1000, f"/edit_announcement/{announcement_id}", "Takaisin ilmoituksen muokkaamiseen")
     
     announcements_student.update_announcement(announcement_id, sport, city, age_group, skill_level, description)
-    classes = announcements_student.get_classes(announcement_id)
-    for title, value in classes:
-        announcements_student.update_announcement_class(announcement_id, title, value)
     return redirect("/announcement/" + str(announcement_id))
 
 @app.route("/remove_announcement/<int:announcement_id>", methods=["GET", "POST"])
@@ -220,7 +232,6 @@ def messages_thread(thread_id: int):
             return ui.handle_empty_message_error()
         messages.add_message(thread_id, me, body)
         return redirect(f"/messages/{thread_id}")
-    # GET: show messages + the other user's name
     other_id = b if me == a else a
     other_user = users.get_user_by_id(other_id)
     msgs = messages.get_thread_messages(thread_id)
