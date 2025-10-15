@@ -10,6 +10,18 @@
   <h1>Oma profiili</h1>
 
   {% if session.username %}
+  {% if user.has_image %}
+  <img src="/image/{{ user.id }}" style="max-width: 200px; max-height: 200px; border-radius: 10px;" />
+  <p>
+    <a href="/add_image">Muuta kuvaa</a> |
+    <a href="#" onclick="if(confirm('Haluatko varmasti poistaa profiilikuvasi?')) { document.getElementById('delete-form').submit(); } return false;">Poista kuva</a>
+    <form id="delete-form" method="POST" action="/delete_image" style="display: none;">
+    </form>
+  </p>
+  {% else %}
+  <p><em>Ei profiilikuvia</em> | <a href="/add_image">Lisää profiilikuva</a></p>
+  {% endif %}
+  <hr>
   <form method="POST">
     <p>
       <label for="display_name">Näyttönimi:</label><br>

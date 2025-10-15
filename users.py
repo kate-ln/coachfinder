@@ -13,6 +13,26 @@ def get_user_by_id(user_id):
     result = db.query("SELECT username, display_name FROM users WHERE id = ?", [user_id])
     return result[0] if result else None
 
+def get_user(user_id):
+    sql = """SELECT id, username, image IS NOT NULL has_image
+             FROM users
+             WHERE id = ?"""
+    result = db.query(sql, [user_id])
+    return result[0] if result else None
+
+def update_image(user_id, image):
+    sql = "UPDATE users SET image = ? WHERE id = ?"
+    db.execute(sql, [image, user_id])
+
+def get_image(user_id):
+    sql = "SELECT image FROM users WHERE id = ?"
+    result = db.query(sql, [user_id])
+    return result[0]["image"] if result and result[0]["image"] else None
+
+def delete_image(user_id):
+    sql = "UPDATE users SET image = NULL WHERE id = ?"
+    db.execute(sql, [user_id])
+
 def update_user_display_name(user_id, display_name):
     db.execute("UPDATE users SET display_name = ? WHERE id = ?", [display_name, user_id])
 

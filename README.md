@@ -28,13 +28,14 @@ Sovelluksen tämänhetkinen vaihe sisältää seuraavat toiminnot:
 - Käyttäjäprofiili nimen asettamiselle ja nimen näyttäminen ilmoituksissa ja viesteissä
 - Keskitetty virheenkäsittely (ui.py)
 - Palvelinpuolen validointi valintalistojen arvoille (estää selaimen kehittäjätyökaluilla tehdyt HTML-muokkaukset)
+- Profiilikuvien hallinta** (lisää, muokkaa, poista)
 
 ### Keskeneräiset/puuttuvat ominaisuudet
 - Valmentajailmoitukset (vain oppilasilmoitukset toteutettu)
 - Hakusuodattimet (paikkakunta, laji)
 - Ilmoitusten tilan hallinta ("löydetty" -ryhmä)
-- Laaja käyttäjäprofiili (kuvat, kuvaukset, yhteystiedot)
-- Kuvien lataus
+- Laaja käyttäjäprofiili (kuvaukset, yhteystiedot)
+
 
 ### Vaihtoehtoiset lisäominaisuudet
 - Valikoi lomakkeiden syötteitä
@@ -48,6 +49,7 @@ Sovelluksen tämänhetkinen vaihe sisältää seuraavat toiminnot:
    - `username` (UNIQUE)
    - `password_hash`
    - `display_name`(näyttönimi)
+   - `image` (BLOB - profiilikuva)
 
 2. **announcements_student**
    - `id` (PRIMARY KEY)
@@ -122,7 +124,10 @@ Sovellus käynnistyy osoitteessa: `http://localhost:5000`
 ### Käyttäjähallinta
 - **Rekisteröityminen**: `/register`
 - **Kirjautuminen**: `/login`
-- **Profiili**: `/profile` - Näyttönimen asettaminen 
+- **Profiili**: `/profile` - Näyttönimen asettaminen ja profiilikuvien hallinta
+- **Profiilikuvan lisääminen**: `/add_image`
+- **Profiilikuvan poistaminen**: `/delete_image` (POST)
+- **Profiilikuvan näyttäminen**: `/image/<user_id>`
 - **Uloskirjautuminen**: `/logout`
 
 ### Ilmoitukset (Oppilaat)

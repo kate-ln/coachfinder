@@ -6,9 +6,12 @@
 <body>
   {% include "_nav.html" %}
   <h1>{% if user.display_name %}{{ user.display_name }}{% else %}{{ user.username }}{% endif %}</h1>
+  {% if user.has_image %}
+  <img src="/image/{{ user.id }}" style="max-width: 200px; max-height: 200px; border-radius: 10px;" />
+  {% endif %}
   <p><strong>Käyttäjätunnus:</strong> {{ user.username }}</p>
   {% if user.display_name %}
-  <p><strong>Näyttönimi:</strong> {{ user.display_name }}</p>
+  <p><strong>Nimi:</strong> {{ user.display_name }}</p>
   {% endif %}
   
   <h2>Ilmoitukset</h2>
