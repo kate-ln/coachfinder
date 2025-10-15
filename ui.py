@@ -87,3 +87,6 @@ def handle_empty_field_error(field_name: str, redirect_url: str = "/create_annou
 
 def handle_user_not_found():
     return render_error_with_link("VIRHE: käyttäjää ei löydy", "/", "Takaisin etusivulle", status=404)
+
+def handle_invalid_selector_error(field_name: str, redirect_url: str = "/create_announcement_student", link_text: str = "Takaisin ilmoituksen luomiseen"):
+    return render_error_with_link(f"VIRHE: virheellinen {field_name}", redirect_url, link_text, status=400)

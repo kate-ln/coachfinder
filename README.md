@@ -26,7 +26,8 @@ Sovelluksen tämänhetkinen vaihe sisältää seuraavat toiminnot:
 - Tietokantarakenne käyttäjille, ilmoituksille ja viesteille
 - Oikeuksien tarkastaminen ilmoitusten muokkaamisen ja poistamisen yhdeydessä
 - Käyttäjäprofiili nimen asettamiselle ja nimen näyttäminen ilmoituksissa ja viesteissä
-- Keskitetty virheenkäsittely (ui.py) 
+- Keskitetty virheenkäsittely (ui.py)
+- Palvelinpuolen validointi valintalistojen arvoille (estää selaimen kehittäjätyökaluilla tehdyt HTML-muokkaukset)
 
 ### Keskeneräiset/puuttuvat ominaisuudet
 - Valmentajailmoitukset (vain oppilasilmoitukset toteutettu)
@@ -68,6 +69,17 @@ Sovelluksen tämänhetkinen vaihe sisältää seuraavat toiminnot:
    - `sender_id` (viittaus users-tauluun)
    - `body` (viestin sisältö)
    - `created_at`
+
+5. **classes**
+   - `id` (PRIMARY KEY)
+   - `title` (esim. "Ikäryhmä", "Taitotaso")
+   - `value` (esim. "10-15 vuotta", "Aloittelija")
+
+6. **announcement_classes**
+   - `id` (PRIMARY KEY)
+   - `announcement_id` (viittaus announcements_student-tauluun)
+   - `title` (esim. "Ikäryhmä")
+   - `value` (esim. "10-15 vuotta")
 
 ## Asennus ja käynnistys
 
@@ -147,3 +159,19 @@ Testaa seuraavat toiminnot:
 9. Testaa että vastaanottaja näkee viestin
 10. Testaa että viestiketjut eri käyttäjien kanssa näkyvät listana
 11. Testaa virheellisiä viestejä (tyhjä viesti, olematon käyttäjä)
+12. Testaa kehittäjätyökalulla HTML-muokkauksen estäminen
+
+**Estetyt hyökkäykset**:
+
+- XSS-injektio: `<script>alert('XSS')</script>` ikäryhmänä
+- SQL-injektio: `'; DROP TABLE users; --` taitotasona
+- Tietojen korruptio: `ADMIN_OVERRIDE` tai muut virheelliset arvot
+
+**Turvallisuus**:
+
+- Estää Inspector-muokkaukset
+- Palvelinpuolen validaatio (ei voi ohittaa)
+- Tietokannan eheys säilyy
+- XSS-esto
+- SQL-injektion esto
+- Johdonmukainen virheenkäsittely
