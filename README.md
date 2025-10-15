@@ -28,7 +28,7 @@ Sovelluksen tämänhetkinen vaihe sisältää seuraavat toiminnot:
 - Käyttäjäprofiili nimen asettamiselle ja nimen näyttäminen ilmoituksissa ja viesteissä
 - Keskitetty virheenkäsittely (ui.py)
 - Palvelinpuolen validointi valintalistojen arvoille (estää selaimen kehittäjätyökaluilla tehdyt HTML-muokkaukset)
-- Profiilikuvien hallinta** (lisää, muokkaa, poista)
+- Profiilikuvien hallinta (lisää, muokkaa, poista)
 
 ### Keskeneräiset/puuttuvat ominaisuudet
 - Valmentajailmoitukset (vain oppilasilmoitukset toteutettu)
