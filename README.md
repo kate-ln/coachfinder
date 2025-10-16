@@ -328,21 +328,16 @@ Yhtenäinen tyylitysjärjestelmä, joka määrittelee sivun asettelun (keskitys,
 - Pystyviivat erottimina
 - Ehdollinen sisältö kirjautumisen mukaan
 
-### Tyylitetyt komponentit
+### Tyylitetyt osat
 #### Ilmoitukset (`.announcement`)
-
 #### Viestiketjut (`.thread`)
-
 #### Viestit (`.message`)
-
 #### Profiilitiedot (`.profile-info`)
-
 ### Lomakkeiden tyylitys
 #### Syöttökentät
-Responsiivinen leveys (max 30em), harmaa reunus, pyöristetyt kulmat, sopiva sisennys.
-
+Responsiivinen leveys (max 30em), pyöristetyt kulmat, sopiva sisennys.
 #### Painikkeet
-Sininen tausta, valkoinen teksti, pyöristetyt kulmat, hiiren päällä -efekti.
+Pyöristetyt kulmat, osoitin päällä -efekti.
 
 ### Template-päivitykset
 #### Kaikki sivut käyttävät layout.html:ia
