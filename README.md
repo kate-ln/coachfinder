@@ -3,20 +3,16 @@
 Sovelluksessa voidaan hakea valmentajia tai valmennettavia. Sovelluksen kohderyhmät ovat siten  
 1) nuoret ja aikuiset oppilaat, jotka haluavat löytää henkilökohtaisen valmentajan tiettyyn yksilö- tai pariurheiluun, esimerkiksi tennikseen tai pikajuoksuun, sekä
 2) valmentajat, jotka etsivät uusia valmennettavia omaan lajiinsa.
-
 Oppilaan ilmoituksessa selviää henkilön ikäryhmä, paikkakunta, laji ja taitotaso, jonka harjoitteluun haetaan valmentajaa, ja valmentajan ilmoituksessa tämän paikkakunta, laji sekä kokemustaso.
 
 Sovelluksen ominaisuuksia ovat:
-
 1. Käyttäjät, sekä oppilaat että valmentajat, voivat luoda uuden tunnuksen ja kirjautua sillä sisään ja ulos. 
 2. Oppilaskäyttäjä näkee aiemmin luodut valmentajailmoitukset listana ja voi hakea niitä paikkakunnittain ja lajeittain; vastaavasti valmentajakäyttäjä näkee aiemmat oppilasilmoitukset listana ja voi hakea niitä lajin ja muiden ominaisuuksien mukaan.
 3. Molemmat käyttäjät voivat lisätä uuden ilmoituksen ja muokata tai poistaa aiemmin luodun ilmoituksen.
 4. Kun sopiva valmentaja tai valmennettava löytyy, nämä sopivat yksityiskohdista viestitse. Mikäli uutta valmentajaa tai valmennettavaa ei enää tarvita, molemmat käyttäjät voivat siirtää ilmoituksen joko "toistaiseksi löydetty" -ryhmään tai poistaa ilmoituksensa. 
-
 Tässä pääasiallinen tietokohde on ilmoitus ja toissijainen tietokohde on viestihistoria.
 
 Sovelluksen tämänhetkinen vaihe sisältää seuraavat toiminnot:
-
 ### Toteutetut ominaisuudet
 - Käyttäjärekisteröinti ja kirjautuminen
 - Oppilasilmoitusten luominen, muokkaaminen ja poistaminen
@@ -41,16 +37,13 @@ Sovelluksen tämänhetkinen vaihe sisältää seuraavat toiminnot:
 - Valikoi lomakkeiden syötteitä
 
 ## Tietokannan rakenne
-
 ### Taulut
-
 1. **users**
    - `id` (PRIMARY KEY)
    - `username` (UNIQUE)
    - `password_hash`
    - `display_name`(näyttönimi)
    - `image` (BLOB - profiilikuva)
-
 2. **announcements_student**
    - `id` (PRIMARY KEY)
    - `sport` (laji)
@@ -59,24 +52,20 @@ Sovelluksen tämänhetkinen vaihe sisältää seuraavat toiminnot:
    - `skill_level` (taitotaso)
    - `description` (kuvaus)
    - `user_id` (viittaus users-tauluun)
-
 3. **threads**
    - `id` (PRIMARY KEY)
    - `user_a_id`, `user_b_id` (viittaukset users-tauluun)
    - `created_at`
-
 4. **messages**
    - `id` (PRIMARY KEY)
    - `thread_id` (viittaus threads-tauluun)
    - `sender_id` (viittaus users-tauluun)
    - `body` (viestin sisältö)
    - `created_at`
-
 5. **classes**
    - `id` (PRIMARY KEY)
    - `title` (esim. "Ikäryhmä", "Taitotaso")
    - `value` (esim. "10-15 vuotta", "Aloittelija")
-
 6. **announcement_classes**
    - `id` (PRIMARY KEY)
    - `announcement_id` (viittaus announcements_student-tauluun)
