@@ -12,6 +12,7 @@
 </form>
 {% if query %}
 <h3>Tulokset</h3>
+{% if results %}
 {% for announcement in results %}
 <div class="announcement">
   <h3>
@@ -21,5 +22,8 @@
   <div class="description">{{ announcement.description }}</div>
 </div>
 {% endfor %}
+{% else %}
+<p>Ei hakutuloksia</p>
+{% endif %}
 {% endif %}
 {% endblock %}

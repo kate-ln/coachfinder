@@ -1,4 +1,16 @@
 import db
+import datetime
+import pytz
+
+def _format_finland_time(utc_timestamp_str):
+    """Convert UTC timestamp string to Finland timezone (EET/EEST)"""
+    if not utc_timestamp_str:
+        return ""
+    utc_dt = datetime.datetime.fromisoformat(utc_timestamp_str.replace(' ', 'T'))
+    utc_dt = pytz.UTC.localize(utc_dt)
+    finland_tz = pytz.timezone('Europe/Helsinki')
+    finland_dt = utc_dt.astimezone(finland_tz)
+    return finland_dt.strftime('%Y-%m-%d %H:%M:%S')
 
 def find_existing_thread(user_a_id, user_b_id):
     return db.query("SELECT id FROM threads WHERE user_a_id = ? AND user_b_id = ?", [user_a_id, user_b_id])
@@ -29,7 +41,14 @@ def get_user_threads(user_id):
     WHERE t.user_a_id = ? OR t.user_b_id = ?
     ORDER BY lm.created_at DESC
     """
-    return db.query(sql, [user_id, user_id, user_id, user_id])
+    rows = db.query(sql, [user_id, user_id, user_id, user_id])
+    result = []
+    for row in rows:
+        row_dict = dict(row)
+        if row_dict['last_at']:
+            row_dict['last_at'] = _format_finland_time(row_dict['last_at'])
+        result.append(row_dict)
+    return result
 
 def get_thread_participants(thread_id):
     return db.query("SELECT user_a_id, user_b_id FROM threads WHERE id = ?", [thread_id])
@@ -38,10 +57,17 @@ def add_message(thread_id, sender_id, body):
     db.execute("INSERT INTO messages (thread_id, sender_id, body) VALUES (?, ?, ?)", [thread_id, sender_id, body])
 
 def get_thread_messages(thread_id):
-    return db.query("""
+    rows = db.query("""
         SELECT m.id, m.body, m.created_at, u.username AS sender, u.display_name AS sender_display_name
         FROM messages m
         JOIN users u ON u.id = m.sender_id
         WHERE m.thread_id = ?
         ORDER BY m.created_at ASC, m.id ASC
     """, [thread_id])
+    result = []
+    for row in rows:
+        row_dict = dict(row)
+        if row_dict['created_at']:
+            row_dict['created_at'] = _format_finland_time(row_dict['created_at'])
+        result.append(row_dict)
+    return result

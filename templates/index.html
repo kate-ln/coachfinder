@@ -11,11 +11,12 @@
 {% endif %}
 
 <h3>Ilmoitukset</h3>
+{% if announcements %}
 {% for announcement in announcements %}
 <div class="announcement">
   <h3>
     <a href="/announcement/{{ announcement.id }}">
-      {{ announcement.sport }}{% if announcement.display_name %} - {{ announcement.display_name }}{% endif %}
+      {{ announcement.sport }}{% if announcement.display_name %} - {{ announcement.display_name }} ({{ announcement.username }}){% else %} - {{ announcement.username }}{% endif %}
     </a>
   </h3>
   <p class="meta">
@@ -26,4 +27,7 @@
   </div>
 </div>
 {% endfor %}
+{% else %}
+<p>Ei ilmoituksia vielä.</p>
+{% endif %}
 {% endblock %}

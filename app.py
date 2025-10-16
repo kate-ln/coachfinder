@@ -10,6 +10,7 @@ import messages
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
+app.debug = True
 
 def require_login():
     if "user_id" not in session:
@@ -210,6 +211,8 @@ def message_new():
     body = request.form.get("body", "").strip()
     if not recipient_username or not body:
         return ui.handle_recipient_required_error()
+    if len(body) > 2000:
+        return ui.handle_message_too_long_error(2000, "/messages/new", "Takaisin")
     rec = users.find_user_id_by_username(recipient_username)
     if not rec:
         return ui.handle_recipient_not_found_error()
@@ -237,6 +240,8 @@ def messages_thread(thread_id: int):
         body = request.form.get("body", "").strip()
         if not body:
             return ui.handle_empty_message_error()
+        if len(body) > 2000:
+            return ui.handle_message_too_long_error(2000, f"/messages/{thread_id}", "Takaisin keskusteluun")
         messages.add_message(thread_id, me, body)
         return redirect(f"/messages/{thread_id}")
     other_id = b if me == a else a

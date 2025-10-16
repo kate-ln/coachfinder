@@ -60,6 +60,16 @@ nav li:not(:first-of-type) {
   background-color: #f8f9fa;
 }
 
+.thread .meta {
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  overflow-wrap: break-word;
+}
+
 .info {
   border: 2px solid #27ae60;
   margin: 1em;
@@ -147,6 +157,13 @@ input[type="submit"]:hover, button:hover {
 .message .content {
   margin-top: 0.5em;
   clear: both;
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  overflow-wrap: break-word;
 }
 
 .profile-info {

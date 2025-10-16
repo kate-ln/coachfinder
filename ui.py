@@ -6,10 +6,24 @@ def render_page(title: str, body_html: str, status: int = 200):
 <head>
   <meta charset="utf-8">
   <title>{title}</title>
+  <link rel="stylesheet" href="/static/main.css">
 </head>
 <body>
-  {{% include "_nav.html" %}}
-  {body_html}
+  <div class="header">
+    <h1>Coachfinder</h1>
+  </div>
+  <div class="nav">
+    <nav>
+      <ul>
+        <li><a href="/">Etusivu</a></li>
+        <li><a href="/messages">Viestit</a></li>
+        <li><a href="/messages/new">Uusi viesti</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="content">
+    {body_html}
+  </div>
 </body>
 </html>"""
     return render_template_string(html), status
@@ -90,3 +104,6 @@ def handle_user_not_found():
 
 def handle_invalid_selector_error(field_name: str, redirect_url: str = "/create_announcement_student", link_text: str = "Takaisin ilmoituksen luomiseen"):
     return render_error_with_link(f"VIRHE: virheellinen {field_name}", redirect_url, link_text, status=400)
+
+def handle_message_too_long_error(max_length: int = 2000, redirect_url: str = "/messages", link_text: str = "Takaisin viesteihin"):
+    return render_error_with_link(f"VIRHE: viesti on liian pitkä (max {max_length} merkkiä)", redirect_url, link_text, status=400)
