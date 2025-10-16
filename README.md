@@ -366,10 +366,9 @@ Sininen tausta, valkoinen teksti, pyöristetyt kulmat, hiiren päällä -efekti.
 - Negatiivinen marginaali korjaa välit
 
 ### Värit ja ulkoasu
-#### Väripaletti
 - **Tausta**: Vaaleanvihreä (`#f0f8f0`)
 - **Otsikko**: Tummanharmaa tausta (`#2c3e50`), vaaleanharmaa teksti (`#ecf0f1`)
-- **Navigaatio**: Tummanvihreä (`#52c41a`)
+- **Navigaatio**: Vaaleansininen tausta (`#e6f7ff`), tummanharmaa reunus (`#2c3e50`)
 - **Sisältö**: Valkoinen tausta, harmaa reunus (`#bdc3c7`)
 - **Reunukset**: Harmaan sävyjä (`#95a5a6`, `#7f8c8d`)
 - **Painikkeet**: Vihreä (`#27ae60`)
@@ -383,7 +382,6 @@ Sininen tausta, valkoinen teksti, pyöristetyt kulmat, hiiren päällä -efekti.
 3. **Responsiivisuus**: Toimii eri näytöillä
 4. **Komponentit**: Ilmoitukset, viestit, lomakkeet tyylitetty
 
-### Kehitys
 #### Lisätyylit
 - Virheviestit (`.error`, `.success`)
 - Profiilikuvat (`.profile-image`)
