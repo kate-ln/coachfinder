@@ -1,0 +1,183 @@
+body {
+  margin: auto;
+  max-width: 50em;
+  font-family: sans-serif;
+  background-color: #f0f8f0;
+}
+
+.header {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  padding: 1em;
+  margin: 0.5em 0;
+}
+
+.nav {
+  background-color: #52c41a;
+  padding: 0.5em;
+  margin: 0.5em 0;
+}
+
+.content {
+  background-color: #ffffff;
+  padding: 1em;
+  margin: 0.5em 0;
+  border: 1px solid #bdc3c7;
+}
+
+h1, h2 {
+  margin: 0;
+}
+
+nav {
+  text-align: center;
+}
+
+nav ul {
+  padding: 0;
+  margin: 0;
+}
+
+nav li {
+  display: inline-block;
+  padding: 0 1em;
+  margin: 0;
+}
+
+nav li:not(:last-of-type) {
+  border-right: 1px solid #389e0d;
+}
+
+nav li:not(:first-of-type) {
+  margin-left: -0.25em;
+}
+
+.thread {
+  border: 2px solid #7f8c8d;
+  margin: 1em;
+  padding: 0.2em 0.5em;
+  background-color: #f8f9fa;
+}
+
+.info {
+  border: 2px solid #27ae60;
+  margin: 1em;
+  padding: 0.5em;
+  background-color: #2ecc71;
+  color: white;
+}
+
+.announcement {
+  border: 2px solid #95a5a6;
+  margin: 1em;
+  padding: 0.5em;
+  background-color: #ffffff;
+}
+
+.announcement h3 {
+  margin: 0 0 0.5em 0;
+  color: #2c3e50;
+}
+
+.announcement p {
+  margin: 0.2em 0;
+}
+
+.announcement .meta {
+  font-size: 0.9em;
+  color: #7f8c8d;
+  font-style: italic;
+}
+
+.announcement .description {
+  margin-top: 0.5em;
+  padding: 0.5em;
+  background-color: #e8f5e8;
+  border-left: 3px solid #27ae60;
+}
+
+form {
+  margin: 1em 0;
+}
+
+form p {
+  margin: 0.5em 0;
+}
+
+input[type="text"], input[type="password"], textarea, select {
+  width: 100%;
+  max-width: 30em;
+  padding: 0.5em;
+  border: 1px solid #bdc3c7;
+  border-radius: 3px;
+}
+
+input[type="submit"], button {
+  background-color: #27ae60;
+  color: white;
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover, button:hover {
+  background-color: #229954;
+}
+
+.message {
+  border: 1px solid #bdc3c7;
+  margin: 0.5em 0;
+  padding: 0.5em;
+  background-color: #f8f9fa;
+}
+
+.message .sender {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.message .timestamp {
+  font-size: 0.8em;
+  color: #7f8c8d;
+  float: right;
+}
+
+.message .content {
+  margin-top: 0.5em;
+  clear: both;
+}
+
+.profile-info {
+  border: 2px solid #95a5a6;
+  margin: 1em;
+  padding: 1em;
+  background-color: #ecf0f1;
+}
+
+.profile-info h3 {
+  margin: 0 0 0.5em 0;
+}
+
+.profile-image {
+  max-width: 200px;
+  max-height: 200px;
+  border: 2px solid #bdc3c7;
+  margin: 0.5em 0;
+}
+
+.error {
+  border: 2px solid #e74c3c;
+  margin: 1em;
+  padding: 0.5em;
+  background-color: #fadbd8;
+  color: #c0392b;
+}
+
+.success {
+  border: 2px solid #27ae60;
+  margin: 1em;
+  padding: 0.5em;
+  background-color: #d5f4e6;
+  color: #1e8449;
+}

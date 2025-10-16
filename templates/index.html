@@ -1,31 +1,29 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Coachfinder</title>
-</head>
-<body>
-  {% include "_nav.html" %}
+{% block title %}Coachfinder{% endblock %}
 
-  <h1>Coachfinder</h1>
+{% block content %}
+<h2>Etusivu</h2>
 
-  {% if session.username %}
-  <p>Hei {% if profile.display_name %}{{ profile.display_name }}{% endif %}! Olet kirjautunut tunnuksella {{ session.username }}, id-numerosi on {{ session.user_id }}.
-  </p>
-  {% endif %}
+{% if session.username %}
+<p>Hei {% if profile.display_name %}{{ profile.display_name }}{% endif %}! Olet kirjautunut tunnuksella {{ session.username }}, id-numerosi on {{ session.user_id }}.
+</p>
+{% endif %}
 
-  <h2>Ilmoitukset</h2>
-  <ul>
-  {% for announcement in announcements %}
-    <li>
+<h3>Ilmoitukset</h3>
+{% for announcement in announcements %}
+<div class="announcement">
+  <h3>
     <a href="/announcement/{{ announcement.id }}">
-      <strong>{{ announcement.sport }}</strong>{% if announcement.display_name %} - {{ announcement.display_name }}{% endif %}
+      {{ announcement.sport }}{% if announcement.display_name %} - {{ announcement.display_name }}{% endif %}
     </a>
-      — {{ announcement.city }}
-      (ikäryhmä: {{ announcement.age_group }}, taso: {{ announcement.skill_level }})<br>
-      <small>{{ announcement.description }}</small>
-    </li>
-  {% endfor %}
-  </ul>
-</body>
-</html>
+  </h3>
+  <p class="meta">
+    {{ announcement.city }} (ikäryhmä: {{ announcement.age_group }}, taso: {{ announcement.skill_level }})
+  </p>
+  <div class="description">
+    {{ announcement.description }}
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

@@ -347,6 +347,13 @@ def show_image(user_id):
     response.headers.set("Content-Type", "image/jpeg")
     return response
 
+@app.route("/confirm_delete_image")
+def confirm_delete_image():
+    login_check = require_login()
+    if login_check:
+        return login_check
+    return render_template("confirm_delete_image.html")
+
 @app.route("/delete_image", methods=["POST"])
 def delete_image():
     login_check = require_login()

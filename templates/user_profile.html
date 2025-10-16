@@ -1,40 +1,42 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>{% if user.display_name %}{{ user.display_name }}{% else %}{{ user.username }}{% endif %} - Profiili</title>
-</head>
-<body>
-  {% include "_nav.html" %}
-  <h1>{% if user.display_name %}{{ user.display_name }}{% else %}{{ user.username }}{% endif %}</h1>
+{% extends "layout.html" %}
+
+{% block title %}{% if user.display_name %}{{ user.display_name }}{% else %}{{ user.username }}{% endif %} - Profiili{% endblock %}
+
+{% block content %}
+<h2>{% if user.display_name %}{{ user.display_name }}{% else %}{{ user.username }}{% endif %}</h2>
+
+<div class="profile-info">
   {% if user.has_image %}
-  <img src="/image/{{ user.id }}" style="max-width: 200px; max-height: 200px; border-radius: 10px;" />
+  <img src="/image/{{ user.id }}" class="profile-image" />
   {% endif %}
   <p><strong>Käyttäjätunnus:</strong> {{ user.username }}</p>
   {% if user.display_name %}
   <p><strong>Nimi:</strong> {{ user.display_name }}</p>
   {% endif %}
-  
-  <h2>Ilmoitukset</h2>
-  {% if announcements %}
-    {% set announcement_count = announcements|length %}
-    {% if announcement_count == 1 %}
-      <p>Käyttäjällä on {{ announcement_count }} ilmoitus.</p>
-    {% else %}
-      <p>Käyttäjällä on {{ announcement_count }} ilmoitusta.</p>
-    {% endif %}
-    {% for announcement in announcements %}
-      <div style="border: 1px solid #ccc; margin: 10px 0; padding: 10px;">
-        <h3><a href="/announcement/{{ announcement.id }}">{{ announcement.sport }}</a></h3>
-        <p><strong>Kaupunki:</strong> {{ announcement.city }}</p>
-        <p><strong>Ikäryhmä:</strong> {{ announcement.age_group }}</p>
-        <p><strong>Taitotaso:</strong> {{ announcement.skill_level }}</p>
-        <p><strong>Kuvaus:</strong> {{ announcement.description }}</p>
-      </div>
-    {% endfor %}
+</div>
+
+<h3>Ilmoitukset</h3>
+{% if announcements %}
+  {% set announcement_count = announcements|length %}
+  {% if announcement_count == 1 %}
+    <p>Käyttäjällä on {{ announcement_count }} ilmoitus.</p>
   {% else %}
-    <p>Käyttäjällä ei ole vielä ilmoituksia.</p>
+    <p>Käyttäjällä on {{ announcement_count }} ilmoitusta.</p>
   {% endif %}
-  
-  <p><a href="/">Takaisin etusivulle</a></p>
-</body>
-</html>
+  {% for announcement in announcements %}
+    <div class="announcement">
+      <h3><a href="/announcement/{{ announcement.id }}">{{ announcement.sport }}</a></h3>
+      <p><strong>Kaupunki:</strong> {{ announcement.city }}</p>
+      <p><strong>Ikäryhmä:</strong> {{ announcement.age_group }}</p>
+      <p><strong>Taitotaso:</strong> {{ announcement.skill_level }}</p>
+      <div class="description">
+        <strong>Kuvaus:</strong> {{ announcement.description }}
+      </div>
+    </div>
+  {% endfor %}
+{% else %}
+  <p>Käyttäjällä ei ole vielä ilmoituksia.</p>
+{% endif %}
+
+<p><a href="/">Takaisin etusivulle</a></p>
+{% endblock %}

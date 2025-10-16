@@ -1,26 +1,25 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Etsi ilmoitus</title>
-</head>
-<body>
-  {% include "_nav.html" %}
+{% block title %}Etsi ilmoitus{% endblock %}
 
-  <h1>Etsi ilmoitus</h1>
-  <form action="/find_announcement" method="get">
-    <p>
-      Hakusana: <input type="text" name="query" value="{{ query }}">
-    </p>
-    <input type="submit" value="Lähetä">
-  </form>
-  {% if query %}
-  <h2>Tulokset</h2>
-  <ul>
-    {% for announcement in results %}
-    <li><a href="/announcement/{{ announcement.id }}">{{ announcement.sport }}{% if announcement.display_name %} - {{ announcement.display_name }}{% endif %}</a></li>
-    {% endfor %}
-  </ul>
-  {% endif %}
-</body>
-</html>
+{% block content %}
+<h2>Etsi ilmoitus</h2>
+<form action="/find_announcement" method="get">
+  <p>
+    Hakusana: <input type="text" name="query" value="{{ query }}">
+  </p>
+  <input type="submit" value="Lähetä">
+</form>
+{% if query %}
+<h3>Tulokset</h3>
+{% for announcement in results %}
+<div class="announcement">
+  <h3>
+    <a href="/announcement/{{ announcement.id }}">{{ announcement.sport }}{% if announcement.display_name %} - {{ announcement.display_name }}{% endif %}</a>
+  </h3>
+  <p class="meta">{{ announcement.city }} (ikäryhmä: {{ announcement.age_group }}, taso: {{ announcement.skill_level }})</p>
+  <div class="description">{{ announcement.description }}</div>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock %}

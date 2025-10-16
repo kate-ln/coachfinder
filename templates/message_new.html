@@ -1,21 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head><meta charset="utf-8"><title>Uusi viesti</title></head>
-<body>
-  {% include "_nav.html" %}
+{% extends "layout.html" %}
 
-  <h1>Kirjoita viesti</h1>
+{% block title %}Uusi viesti{% endblock %}
 
-  <form action="/messages/new" method="post">
-    <p>
-      Vastaanottajan käyttäjätunnus:<br>
-      <input type="text" name="recipient">
-    </p>
-    <p>
-      Viesti:<br>
-      <textarea name="body" rows="6" cols="60"></textarea>
-    </p>
-    <input type="submit" value="Lähetä">
-  </form>
-</body>
-</html>
+{% block content %}
+<h2>Kirjoita viesti</h2>
+
+<form action="/messages/new" method="post">
+  <p>
+    Vastaanottajan käyttäjätunnus:<br>
+    <input type="text" name="recipient">
+  </p>
+  <p>
+    Viesti:<br>
+    <textarea name="body" rows="6" cols="60"></textarea>
+  </p>
+  <input type="submit" value="Lähetä">
+</form>
+{% endblock %}

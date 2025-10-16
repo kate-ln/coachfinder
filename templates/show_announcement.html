@@ -1,27 +1,28 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>{{ announcement.sport }}</title>
-</head>
-<body>
-  {% include "_nav.html" %}
-  <h1>{{ announcement.sport }}{% if session.user_id %}{% if session.user_id == announcement.user_id %}{% if announcement.display_name %} - <a href="/profile">{{ announcement.display_name }}</a>{% else %} - <a href="/profile">{{ announcement.username }}</a>{% endif %}{% else %}{% if announcement.display_name %} - <a href="/profile/{{ announcement.user_id }}">{{ announcement.display_name }}</a>{% else %} - <a href="/profile/{{ announcement.user_id }}">{{ announcement.username }}</a>{% endif %}{% endif %}{% else %}{% if announcement.display_name %} - {{ announcement.display_name }}{% else %} - {{ announcement.username }}{% endif %}{% endif %}</h1>
-  {% if session.user_id == announcement.user_id %}
-  <p>
-  <a href="/edit_announcement/{{ announcement.id }}">Muokkaa</a>
-  <a href="/remove_announcement/{{ announcement.id }}">Poista</a>
-  </p>
+{% extends "layout.html" %}
+
+{% block title %}{{ announcement.sport }}{% endblock %}
+
+{% block content %}
+<h2>{{ announcement.sport }}{% if session.user_id %}{% if session.user_id == announcement.user_id %}{% if announcement.display_name %} - <a href="/profile">{{ announcement.display_name }}</a>{% else %} - <a href="/profile">{{ announcement.username }}</a>{% endif %}{% else %}{% if announcement.display_name %} - <a href="/profile/{{ announcement.user_id }}">{{ announcement.display_name }}</a>{% else %} - <a href="/profile/{{ announcement.user_id }}">{{ announcement.username }}</a>{% endif %}{% endif %}{% else %}{% if announcement.display_name %} - {{ announcement.display_name }}{% else %} - {{ announcement.username }}{% endif %}{% endif %}</h2>
+
+{% if session.user_id == announcement.user_id %}
+<p>
+<a href="/edit_announcement/{{ announcement.id }}">Muokkaa</a> |
+<a href="/remove_announcement/{{ announcement.id }}">Poista</a>
+</p>
+{% endif %}
+
+<div class="announcement">
+  <p><strong>Laji:</strong> {{ announcement.sport }}</p>
+  <p><strong>Paikkakunta:</strong> {{ announcement.city }}</p>
+  {% if announcement.classes %}
+  {% for class in announcement.classes %}
+  <p><strong>{{ class.title }}:</strong> {{ class.value }}</p>
+  {% endfor %}
   {% endif %}
-  <ul>
-    <li>Laji: {{ announcement.sport }} </li>
-    <li>Paikkakunta: {{ announcement.city }}</li>
-    {% if announcement.classes %}
-    {% for class in announcement.classes %}
-    <li>{{ class.title }}: {{ class.value }}</li>
-    {% endfor %}
-  {% endif %}
-    <li>Kuvaus: {{ announcement.description }}</li>
-  </ul>
-</body>
-</html>
+  <div class="description">
+    <strong>Kuvaus:</strong> {{ announcement.description }}
+  </div>
+</div>
+{% endblock %}
  

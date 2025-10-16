@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Ilmoituksen poisto</title>
-</head>
-<body>
-  {% include "_nav.html" %}
-  <h1>Ilmoituksen poisto</h1>
-  <p>Ilmoitus: {{ announcement.sport }} </p>
-  <p>Vahvista ilmoituksen poistaminen:</p>
-  <form action="/remove_announcement/{{ announcement.id }}" method="post">
-    <input type="submit" name="remove" value="Poista ilmoitus"></input>
-    <input type="submit" name="back" value="Peruuta poistaminen"></input>
-  </form>
-</body>
-</html>
+{% extends "layout.html" %}
+
+{% block title %}Ilmoituksen poisto{% endblock %}
+
+{% block content %}
+<h2>Ilmoituksen poisto</h2>
+<p>Ilmoitus: {{ announcement.sport }} </p>
+<p>Vahvista ilmoituksen poistaminen:</p>
+<form action="/remove_announcement/{{ announcement.id }}" method="post">
+  <input type="submit" name="remove" value="Poista ilmoitus"></input>
+  <input type="submit" name="back" value="Peruuta poistaminen"></input>
+</form>
+{% endblock %}

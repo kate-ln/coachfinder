@@ -1,28 +1,27 @@
-<!DOCTYPE html>
-<html>
-<head><meta charset="utf-8"><title>Keskustelu {% if other_user.display_name %}{{ other_user.display_name }}{% else %}{{ other_user.username }}{% endif %}</title></head>
-<body>
-  {% include "_nav.html" %}
+{% extends "layout.html" %}
 
-  <h1>Viestit käyttäjän {% if other_user.display_name %}{{ other_user.display_name }} ({{ other_user.username }}){% else %}{{ other_user.username }}{% endif %} kanssa</h1>
-  <p><a href="/messages">← Takaisin</a></p>
+{% block title %}Keskustelu {% if other_user.display_name %}{{ other_user.display_name }}{% else %}{{ other_user.username }}{% endif %}{% endblock %}
 
-  <div>
-    {% for m in messages %}
-      <div style="margin-bottom: 0.75rem;">
-        <strong>{% if m.sender_display_name %}{{ m.sender_display_name }} ({{ m.sender }}){% else %}{{ m.sender }}{% endif %}</strong> <small>{{ m.created_at }}</small><br>
-        <div>{{ m.body }}</div>
-      </div>
-    {% endfor %}
-  </div>
+{% block content %}
+<h2>Viestit käyttäjän {% if other_user.display_name %}{{ other_user.display_name }} ({{ other_user.username }}){% else %}{{ other_user.username }}{% endif %} kanssa</h2>
+<p><a href="/messages">← Takaisin</a></p>
 
-  <hr>
-  <form action="/messages/{{ thread_id }}" method="post">
-    <p>
-      Viesti:<br>
-      <textarea name="body" rows="4" cols="60"></textarea>
-    </p>
-    <input type="submit" value="Lähetä">
-  </form>
-</body>
-</html>
+<div>
+  {% for m in messages %}
+    <div class="message">
+      <span class="sender">{% if m.sender_display_name %}{{ m.sender_display_name }} ({{ m.sender }}){% else %}{{ m.sender }}{% endif %}</span>
+      <span class="timestamp">{{ m.created_at }}</span>
+      <div class="content">{{ m.body }}</div>
+    </div>
+  {% endfor %}
+</div>
+
+<hr>
+<form action="/messages/{{ thread_id }}" method="post">
+  <p>
+    Viesti:<br>
+    <textarea name="body" rows="4" cols="60"></textarea>
+  </p>
+  <input type="submit" value="Lähetä">
+</form>
+{% endblock %}

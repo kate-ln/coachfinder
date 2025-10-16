@@ -1,46 +1,40 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Uusi ilmoitus</title>
-</head>
+{% block title %}Uusi ilmoitus{% endblock %}
 
-<body>
-  {% include "_nav.html" %}
-
-  <h1>Uusi ilmoitus</h1>
-  <form action="/create_announcement_student" method="post">
-    <p>
-      Laji, johon haen valmentajaa: <br />
-      <input type="text" name="sport" maxlength="50" required/>
-    </p>
-    <p>
-      Paikkakunta: <br />
-      <input type="text" name="city" maxlength="50" required/>
-    </p>
-    <p>
-      Kuulun ikäryhmään: <br />
-      <select name="age_group" required>
-        <option value="">(valitse)</option>
-        {% for age_group in age_groups %}
-        <option value="{{ age_group.value }}">{{ age_group.label }}</option>
-        {% endfor %}
-      </select>
-    </p>
-    <p>
-      Taitotasoni: <br />
-      <select name="skill_level" required>
-        <option value="">(valitse)</option>
-        {% for skill_level in skill_levels %}
-        <option value="{{ skill_level.value }}">{{ skill_level.label }}</option>
-        {% endfor %}
-      </select>
-    </p>
-    <p>
-      Vapaa kuvaus itsestäni: <br />
-      <textarea name="description" rows="8" cols="60" maxlength="1000" required></textarea>
-    </p>
-    <input type="submit" value="Luo ilmoitus" />
-  </form>
-</body>
-</html>
+{% block content %}
+<h2>Uusi ilmoitus</h2>
+<form action="/create_announcement_student" method="post">
+  <p>
+    Laji, johon haen valmentajaa: <br />
+    <input type="text" name="sport" maxlength="50" required/>
+  </p>
+  <p>
+    Paikkakunta: <br />
+    <input type="text" name="city" maxlength="50" required/>
+  </p>
+  <p>
+    Kuulun ikäryhmään: <br />
+    <select name="age_group" required>
+      <option value="">(valitse)</option>
+      {% for age_group in age_groups %}
+      <option value="{{ age_group.value }}">{{ age_group.label }}</option>
+      {% endfor %}
+    </select>
+  </p>
+  <p>
+    Taitotasoni: <br />
+    <select name="skill_level" required>
+      <option value="">(valitse)</option>
+      {% for skill_level in skill_levels %}
+      <option value="{{ skill_level.value }}">{{ skill_level.label }}</option>
+      {% endfor %}
+    </select>
+  </p>
+  <p>
+    Vapaa kuvaus itsestäni: <br />
+    <textarea name="description" rows="8" cols="60" maxlength="1000" required></textarea>
+  </p>
+  <input type="submit" value="Luo ilmoitus" />
+</form>
+{% endblock %}

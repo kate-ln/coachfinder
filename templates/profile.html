@@ -1,71 +1,69 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Profiili - Coachfinder</title>
-</head>
-<body>
-  {% include "_nav.html" %}
+{% block title %}Profiili - Coachfinder{% endblock %}
 
-  <h1>Oma profiili</h1>
+{% block content %}
+<h2>Oma profiili</h2>
 
-  {% if session.username %}
+{% if session.username %}
+<div class="profile-info">
   {% if user.has_image %}
-  <img src="/image/{{ user.id }}" style="max-width: 200px; max-height: 200px; border-radius: 10px;" />
+  <img src="/image/{{ user.id }}" class="profile-image" />
   <p>
     <a href="/add_image">Muuta kuvaa</a> |
-    <a href="#" onclick="if(confirm('Haluatko varmasti poistaa profiilikuvasi?')) { document.getElementById('delete-form').submit(); } return false;">Poista kuva</a>
-    <form id="delete-form" method="POST" action="/delete_image" style="display: none;">
-    </form>
+    <a href="/confirm_delete_image">Poista kuva</a>
   </p>
   {% else %}
   <p><em>Ei profiilikuvia</em> | <a href="/add_image">Lisää profiilikuva</a></p>
   {% endif %}
-  <hr>
-  <form method="POST">
-    <p>
-      <label for="display_name">Näyttönimi:</label><br>
-      <input type="text" id="display_name" name="display_name" value="{{ current_display_name or '' }}" placeholder="Syötä nimesi" maxlength="100">
-    </p>
-    <p>
-      <small>Tämä nimi näkyy ilmoituksissasi.</small>
-    </p>
-    <p>
-      <input type="submit" value="Tallenna">
-    </p>
-  </form>
+</div>
 
-  <hr>
+<form method="POST">
+  <p>
+    <label for="display_name">Näyttönimi:</label><br>
+    <input type="text" id="display_name" name="display_name" value="{{ current_display_name or '' }}" placeholder="Syötä nimesi" maxlength="100">
+  </p>
+  <p>
+    <small>Tämä nimi näkyy ilmoituksissasi.</small>
+  </p>
+  <p>
+    <input type="submit" value="Tallenna">
+  </p>
+</form>
+
+<div class="profile-info">
   <p><strong>Käyttäjätunnus:</strong> {{ session.username }}</p>
   {% if current_display_name %}
   <p><strong>Nykyinen näyttönimi:</strong> {{ current_display_name }}</p>
   {% else %}
   <p><em>Ei näyttönimeä asetettu</em></p>
   {% endif %}
+</div>
 
-  <h2>Ilmoitukseni</h2>
-  {% if announcements %}
-    {% set announcement_count = announcements|length %}
-    {% if announcement_count == 1 %}
-      <p>Sinulla on {{ announcement_count }} ilmoitus.</p>
-    {% else %}
-      <p>Sinulla on {{ announcement_count }} ilmoitusta.</p>
-    {% endif %}
-    {% for announcement in announcements %}
-      <div style="border: 1px solid #ccc; margin: 10px 0; padding: 10px;">
-        <h3><a href="/announcement/{{ announcement.id }}">{{ announcement.sport }}</a></h3>
-        <p><strong>Kaupunki:</strong> {{ announcement.city }}</p>
-        <p><strong>Ikäryhmä:</strong> {{ announcement.age_group }}</p>
-        <p><strong>Taitotaso:</strong> {{ announcement.skill_level }}</p>
-        <p><strong>Kuvaus:</strong> {{ announcement.description }}</p>
+<h3>Ilmoitukseni</h3>
+{% if announcements %}
+  {% set announcement_count = announcements|length %}
+  {% if announcement_count == 1 %}
+    <p>Sinulla on {{ announcement_count }} ilmoitus.</p>
+  {% else %}
+    <p>Sinulla on {{ announcement_count }} ilmoitusta.</p>
+  {% endif %}
+  {% for announcement in announcements %}
+    <div class="announcement">
+      <h3><a href="/announcement/{{ announcement.id }}">{{ announcement.sport }}</a></h3>
+      <p><strong>Kaupunki:</strong> {{ announcement.city }}</p>
+      <p><strong>Ikäryhmä:</strong> {{ announcement.age_group }}</p>
+      <p><strong>Taitotaso:</strong> {{ announcement.skill_level }}</p>
+      <div class="description">
+        <strong>Kuvaus:</strong> {{ announcement.description }}
       </div>
-    {% endfor %}
-  {% else %}
-    <p>Sinulla ei ole vielä ilmoituksia.</p>
-  {% endif %}
+    </div>
+  {% endfor %}
+{% else %}
+  <p>Sinulla ei ole vielä ilmoituksia.</p>
+{% endif %}
 
-  {% else %}
-  <p>Sinun täytyy kirjautua sisään nähdäksesi profiilin.</p>
-  {% endif %}
-</body>
-</html>
+{% else %}
+<p>Sinun täytyy kirjautua sisään nähdäksesi profiilin.</p>
+{% endif %}
+{% endblock %}

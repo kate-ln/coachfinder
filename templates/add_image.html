@@ -1,27 +1,21 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Lisää kuva - Coachfinder</title>
-</head>
-<body>
-  {% include "_nav.html" %}
+{% block title %}Lisää kuva - Coachfinder{% endblock %}
 
-  <h1>Lisää profiilikuvasi</h1>
+{% block content %}
+<h2>Lisää profiilikuvasi</h2>
 
-  <form action="/add_image" method="post" enctype="multipart/form-data">
-    <p>
-      Kuva: <input type="file" name="image" accept=".jpg" />
-    </p>
-    <p>
-      <small>Kuva tulee olla .jpg-muodossa ja kooltaan enintään 100 kt.</small>
-    </p>
-    <p>
-      <input type="submit" value="Lähetä" />
-    </p>
-  </form>
+<form action="/add_image" method="post" enctype="multipart/form-data">
+  <p>
+    Kuva: <input type="file" name="image" accept=".jpg" />
+  </p>
+  <p>
+    <small>Kuva tulee olla .jpg-muodossa ja kooltaan enintään 100 kt.</small>
+  </p>
+  <p>
+    <input type="submit" value="Lähetä" />
+  </p>
+</form>
 
-  <p><a href="/profile">Takaisin profiiliin</a></p>
-
-</body>
-</html>
+<p><a href="/profile">Takaisin profiiliin</a></p>
+{% endblock %}

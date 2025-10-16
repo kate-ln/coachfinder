@@ -1,27 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Kirjautuminen</title>
-</head>
-<body>
-  {% include "_nav.html" %}
+{% extends "layout.html" %}
 
-  {% if session.username %}
+{% block title %}Kirjautuminen{% endblock %}
+
+{% block content %}
+<h2>Kirjautuminen</h2>
+
+{% if session.username %}
+<p>
+  Olet kirjautunut tunnuksella {{ session.username }}
+</p>
+{% else %}
+<form action="/login" method="post">
   <p>
-    Olet kirjautunut tunnuksella {{ session.username }}
+    Tunnus: <br />
+    <input type="text" name="username" />
   </p>
-  {% else %}
-  <form action="/login" method="post">
-    <p>
-      Tunnus: <br />
-      <input type="text" name="username" />
-    </p>
-    <p>
-      Salasana: <br />
-      <input type="password" name="password" />
-    </p>
-    <input type="submit" value="Kirjaudu" />
-  </form>
-  {% endif %}
-</body>
-</html>
+  <p>
+    Salasana: <br />
+    <input type="password" name="password" />
+  </p>
+  <input type="submit" value="Kirjaudu" />
+</form>
+{% endif %}
+{% endblock %}
