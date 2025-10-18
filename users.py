@@ -4,7 +4,8 @@ def get_user_profile(user_id):
     return db.query("SELECT display_name FROM users WHERE id = ?", [user_id])
 
 def create_user(username, password_hash):
-    db.execute("INSERT INTO users (username, password_hash) VALUES (?, ?)", [username, password_hash])
+    db.execute("INSERT INTO users (username, password_hash) VALUES (?, ?)",
+               [username, password_hash])
 
 def get_user_by_username(username):
     return db.query("SELECT id, password_hash FROM users WHERE username = ?", [username])

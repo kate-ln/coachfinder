@@ -43,6 +43,64 @@ def get_form_options():
     skill_levels = [{"value": value, "label": value} for value in classes.get("Taitotaso", [])]
     return age_groups, skill_levels
 
+def validate_announcement_form(sport, city, age_group, skill_level, description):
+    """Validate announcement form data and return error message if invalid"""
+    if not sport:
+        return "VIRHE: Laji on pakollinen"
+    if not city:
+        return "VIRHE: Kaupunki on pakollinen"
+    if not age_group:
+        return "VIRHE: Ikäryhmä on pakollinen"
+    if not skill_level:
+        return "VIRHE: Taitotaso on pakollinen"
+    if not description:
+        return "VIRHE: Kuvaus on pakollinen"
+    if len(sport) > 50:
+        return "VIRHE: Laji on liian pitkä (max 50 merkkiä)"
+    if len(city) > 50:
+        return "VIRHE: Kaupunki on liian pitkä (max 50 merkkiä)"
+    if len(description) > 1000:
+        return "VIRHE: Kuvaus on liian pitkä (max 1000 merkkiä)"
+    return None
+
+def validate_announcement_selectors(age_group, skill_level, age_groups, skill_levels):
+    """Validate age group and skill level selectors"""
+    valid_age_groups = [option["value"] for option in age_groups]
+    valid_skill_levels = [option["value"] for option in skill_levels]
+    if age_group not in valid_age_groups:
+        return "VIRHE: virheellinen ikäryhmä"
+    if skill_level not in valid_skill_levels:
+        return "VIRHE: virheellinen taitotaso"
+    return None
+
+def render_announcement_form_with_error(error_message, sport, city, age_group,
+                                        skill_level, description):
+    """Render announcement form with error message and filled data"""
+    age_groups, skill_levels = get_form_options()
+    filled = {"sport": sport, "city": city, "age_group": age_group,
+             "skill_level": skill_level, "description": description}
+    flash(error_message)
+    return render_template("create_announcement_student.html",
+                         classes=announcements_student.get_all_classes(),
+                         age_groups=age_groups,
+                         skill_levels=skill_levels,
+                         filled=filled)
+
+def render_edit_announcement_form_with_error(error_message, announcement_id,
+                                              sport, city, age_group, skill_level,
+                                              description):
+    """Render edit announcement form with error message and filled data"""
+    age_groups, skill_levels = get_form_options()
+    classes = announcements_student.get_classes(announcement_id)
+    filled = {"sport": sport, "city": city, "age_group": age_group,
+             "skill_level": skill_level, "description": description}
+    flash(error_message)
+    return render_template("edit_announcement.html",
+                         announcement={"id": announcement_id, **filled},
+                         classes=classes,
+                         age_groups=age_groups,
+                         skill_levels=skill_levels)
+
 @app.route("/")
 def index():
     a = announcements_student.get_announcements()
@@ -86,94 +144,24 @@ def create_announcement_student():
     age_group = request.form.get("age_group", "").strip()
     skill_level = request.form.get("skill_level", "").strip()
     description = request.form.get("description", "").strip()
-    
-    # Get form options for validation and template rendering
+
+    # Validate form data
+    error_message = validate_announcement_form(sport, city, age_group, skill_level, description)
+    if error_message:
+        return render_announcement_form_with_error(error_message, sport, city,
+                                                   age_group, skill_level, description)
+
+    # Get form options for validation
     age_groups, skill_levels = get_form_options()
-    if not sport:
-        flash("VIRHE: Laji on pakollinen")
-        filled = {"sport": sport, "city": city, "age_group": age_group, "skill_level": skill_level, "description": description}
-        return render_template("create_announcement_student.html",
-                             classes=announcements_student.get_all_classes(),
-                             age_groups=age_groups,
-                             skill_levels=skill_levels,
-                             filled=filled)
-    if not city:
-        flash("VIRHE: Kaupunki on pakollinen")
-        filled = {"sport": sport, "city": city, "age_group": age_group, "skill_level": skill_level, "description": description}
-        return render_template("create_announcement_student.html",
-                             classes=announcements_student.get_all_classes(),
-                             age_groups=age_groups,
-                             skill_levels=skill_levels,
-                             filled=filled)
-    if not age_group:
-        flash("VIRHE: Ikäryhmä on pakollinen")
-        filled = {"sport": sport, "city": city, "age_group": age_group, "skill_level": skill_level, "description": description}
-        return render_template("create_announcement_student.html",
-                             classes=announcements_student.get_all_classes(),
-                             age_groups=age_groups,
-                             skill_levels=skill_levels,
-                             filled=filled)
-    if not skill_level:
-        flash("VIRHE: Taitotaso on pakollinen")
-        filled = {"sport": sport, "city": city, "age_group": age_group, "skill_level": skill_level, "description": description}
-        return render_template("create_announcement_student.html",
-                             classes=announcements_student.get_all_classes(),
-                             age_groups=age_groups,
-                             skill_levels=skill_levels,
-                             filled=filled)
-    if not description:
-        flash("VIRHE: Kuvaus on pakollinen")
-        filled = {"sport": sport, "city": city, "age_group": age_group, "skill_level": skill_level, "description": description}
-        return render_template("create_announcement_student.html",
-                             classes=announcements_student.get_all_classes(),
-                             age_groups=age_groups,
-                             skill_levels=skill_levels,
-                             filled=filled)
-    if len(sport) > 50:
-        flash("VIRHE: Laji on liian pitkä (max 50 merkkiä)")
-        filled = {"sport": sport, "city": city, "age_group": age_group, "skill_level": skill_level, "description": description}
-        return render_template("create_announcement_student.html",
-                             classes=announcements_student.get_all_classes(),
-                             age_groups=age_groups,
-                             skill_levels=skill_levels,
-                             filled=filled)
-    if len(city) > 50:
-        flash("VIRHE: Kaupunki on liian pitkä (max 50 merkkiä)")
-        filled = {"sport": sport, "city": city, "age_group": age_group, "skill_level": skill_level, "description": description}
-        return render_template("create_announcement_student.html",
-                             classes=announcements_student.get_all_classes(),
-                             age_groups=age_groups,
-                             skill_levels=skill_levels,
-                             filled=filled)
-    if len(description) > 1000:
-        flash("VIRHE: Kuvaus on liian pitkä (max 1000 merkkiä)")
-        filled = {"sport": sport, "city": city, "age_group": age_group, "skill_level": skill_level, "description": description}
-        return render_template("create_announcement_student.html",
-                             classes=announcements_student.get_all_classes(),
-                             age_groups=age_groups,
-                             skill_levels=skill_levels,
-                             filled=filled)
-    # Validate that age_group and skill_level are from allowed options
-    valid_age_groups = [option["value"] for option in age_groups]
-    valid_skill_levels = [option["value"] for option in skill_levels]
-    if age_group not in valid_age_groups:
-        flash("VIRHE: virheellinen ikäryhmä")
-        filled = {"sport": sport, "city": city, "age_group": age_group, "skill_level": skill_level, "description": description}
-        return render_template("create_announcement_student.html",
-                             classes=announcements_student.get_all_classes(),
-                             age_groups=age_groups,
-                             skill_levels=skill_levels,
-                             filled=filled)
-    if skill_level not in valid_skill_levels:
-        flash("VIRHE: virheellinen taitotaso")
-        filled = {"sport": sport, "city": city, "age_group": age_group, "skill_level": skill_level, "description": description}
-        return render_template("create_announcement_student.html",
-                             classes=announcements_student.get_all_classes(),
-                             age_groups=age_groups,
-                             skill_levels=skill_levels,
-                             filled=filled)
+    selector_error = validate_announcement_selectors(age_group, skill_level,
+                                                     age_groups, skill_levels)
+    if selector_error:
+        return render_announcement_form_with_error(selector_error, sport, city,
+                                                   age_group, skill_level, description)
+
     user_id = session["user_id"]
-    announcements_student.add_announcement(sport, city, age_group, skill_level, description, user_id)
+    announcements_student.add_announcement(sport, city, age_group, skill_level,
+                                           description, user_id)
     flash("Ilmoitus luotu onnistuneesti")
     return redirect("/")
 
@@ -216,98 +204,27 @@ def update_announcement_student():
     age_group = request.form.get("age_group", "").strip()
     skill_level = request.form.get("skill_level", "").strip()
     description = request.form.get("description", "").strip()
-    
-    # Get form options for validation and template rendering
+
+    # Validate form data
+    error_message = validate_announcement_form(sport, city, age_group, skill_level, description)
+    if error_message:
+        return render_edit_announcement_form_with_error(error_message, announcement_id,
+                                                        sport, city, age_group, skill_level,
+                                                        description)
+
+    # Get form options for validation
     age_groups, skill_levels = get_form_options()
-    classes = announcements_student.get_classes(announcement_id)
-    if not sport:
-        flash("VIRHE: Laji on pakollinen")
-        filled = {"sport": sport, "city": city, "age_group": age_group, "skill_level": skill_level, "description": description}
-        return render_template("edit_announcement.html",
-                             announcement={"id": announcement_id, **filled},
-                             classes=classes,
-                             age_groups=age_groups,
-                             skill_levels=skill_levels)
-    if not city:
-        flash("VIRHE: Kaupunki on pakollinen")
-        filled = {"sport": sport, "city": city, "age_group": age_group, "skill_level": skill_level, "description": description}
-        return render_template("edit_announcement.html",
-                             announcement={"id": announcement_id, **filled},
-                             classes=classes,
-                             age_groups=age_groups,
-                             skill_levels=skill_levels)
-    if not age_group:
-        flash("VIRHE: Ikäryhmä on pakollinen")
-        filled = {"sport": sport, "city": city, "age_group": age_group, "skill_level": skill_level, "description": description}
-        return render_template("edit_announcement.html",
-                             announcement={"id": announcement_id, **filled},
-                             classes=classes,
-                             age_groups=age_groups,
-                             skill_levels=skill_levels)
-    if not skill_level:
-        flash("VIRHE: Taitotaso on pakollinen")
-        filled = {"sport": sport, "city": city, "age_group": age_group, "skill_level": skill_level, "description": description}
-        return render_template("edit_announcement.html",
-                             announcement={"id": announcement_id, **filled},
-                             classes=classes,
-                             age_groups=age_groups,
-                             skill_levels=skill_levels)
-    if not description:
-        flash("VIRHE: Kuvaus on pakollinen")
-        filled = {"sport": sport, "city": city, "age_group": age_group, "skill_level": skill_level, "description": description}
-        return render_template("edit_announcement.html",
-                             announcement={"id": announcement_id, **filled},
-                             classes=classes,
-                             age_groups=age_groups,
-                             skill_levels=skill_levels)
-    
-    if len(sport) > 50:
-        flash("VIRHE: Laji on liian pitkä (max 50 merkkiä)")
-        filled = {"sport": sport, "city": city, "age_group": age_group, "skill_level": skill_level, "description": description}
-        return render_template("edit_announcement.html",
-                             announcement={"id": announcement_id, **filled},
-                             classes=classes,
-                             age_groups=age_groups,
-                             skill_levels=skill_levels)
-    if len(city) > 50:
-        flash("VIRHE: Kaupunki on liian pitkä (max 50 merkkiä)")
-        filled = {"sport": sport, "city": city, "age_group": age_group, "skill_level": skill_level, "description": description}
-        return render_template("edit_announcement.html",
-                             announcement={"id": announcement_id, **filled},
-                             classes=classes,
-                             age_groups=age_groups,
-                             skill_levels=skill_levels)
-    if len(description) > 1000:
-        flash("VIRHE: Kuvaus on liian pitkä (max 1000 merkkiä)")
-        filled = {"sport": sport, "city": city, "age_group": age_group, "skill_level": skill_level, "description": description}
-        return render_template("edit_announcement.html",
-                             announcement={"id": announcement_id, **filled},
-                             classes=classes,
-                             age_groups=age_groups,
-                             skill_levels=skill_levels)
-    
-    # Validate that age_group and skill_level are from allowed options
-    valid_age_groups = [option["value"] for option in age_groups]
-    valid_skill_levels = [option["value"] for option in skill_levels]
-    if age_group not in valid_age_groups:
-        flash("VIRHE: virheellinen ikäryhmä")
-        filled = {"sport": sport, "city": city, "age_group": age_group, "skill_level": skill_level, "description": description}
-        return render_template("edit_announcement.html",
-                             announcement={"id": announcement_id, **filled},
-                             classes=classes,
-                             age_groups=age_groups,
-                             skill_levels=skill_levels)
-    if skill_level not in valid_skill_levels:
-        flash("VIRHE: virheellinen taitotaso")
-        filled = {"sport": sport, "city": city, "age_group": age_group, "skill_level": skill_level, "description": description}
-        return render_template("edit_announcement.html",
-                             announcement={"id": announcement_id, **filled},
-                             classes=classes,
-                             age_groups=age_groups,
-                             skill_levels=skill_levels)
-    announcements_student.update_announcement(announcement_id, sport, city, age_group, skill_level, description)
+    selector_error = validate_announcement_selectors(age_group, skill_level,
+                                                     age_groups, skill_levels)
+    if selector_error:
+        return render_edit_announcement_form_with_error(selector_error, announcement_id,
+                                                        sport, city, age_group, skill_level,
+                                                        description)
+
+    announcements_student.update_announcement(announcement_id, sport, city,
+                                               age_group, skill_level, description)
     flash("Ilmoitus päivitetty onnistuneesti")
-    return redirect("/announcement/" + str(announcement_id))
+    return redirect(f"/announcement/{announcement_id}")
 
 @app.route("/remove_announcement/<int:announcement_id>", methods=["GET", "POST"])
 def remove_announcement(announcement_id):
@@ -328,8 +245,7 @@ def remove_announcement(announcement_id):
             announcements_student.remove_announcement(announcement_id)
             flash("Ilmoitus poistettu onnistuneesti")
             return redirect("/")
-        else:
-            return redirect("/announcement/" + str(announcement_id))
+        return redirect(f"/announcement/{announcement_id}")
 
 def _norm_pair(uid1: int, uid2: int):
     return (uid1, uid2) if uid1 < uid2 else (uid2, uid1)
@@ -352,6 +268,20 @@ def messages_index():
     rows = messages.get_user_threads(me)
     return render_template("messages_index.html", threads=rows)
 
+def validate_message_form(recipient_username, body):
+    """Validate message form data and return error message if invalid"""
+    if not recipient_username or not body:
+        return "VIRHE: vastaanottaja ja viesti ovat pakollisia"
+    if len(body) > 2000:
+        return "VIRHE: viesti on liian pitkä (max 2000 merkkiä)"
+    return None
+
+def render_message_form_with_error(error_message, recipient_username, body):
+    """Render message form with error message and filled data"""
+    flash(error_message)
+    filled = {"recipient": recipient_username, "body": body}
+    return render_template("message_new.html", filled=filled)
+
 @app.route("/messages/new", methods=["GET", "POST"])
 def message_new():
     login_check = require_login()
@@ -364,24 +294,23 @@ def message_new():
     me = session["user_id"]
     recipient_username = request.form.get("recipient", "").strip()
     body = request.form.get("body", "").strip()
-    if not recipient_username or not body:
-        flash("VIRHE: vastaanottaja ja viesti ovat pakollisia")
-        filled = {"recipient": recipient_username, "body": body}
-        return render_template("message_new.html", filled=filled)
-    if len(body) > 2000:
-        flash("VIRHE: viesti on liian pitkä (max 2000 merkkiä)")
-        filled = {"recipient": recipient_username, "body": body}
-        return render_template("message_new.html", filled=filled)
+
+    # Validate form data
+    error_message = validate_message_form(recipient_username, body)
+    if error_message:
+        return render_message_form_with_error(error_message, recipient_username, body)
+
+    # Check if recipient exists
     rec = users.find_user_id_by_username(recipient_username)
     if not rec:
-        flash("VIRHE: vastaanottajaa ei löydy")
-        filled = {"recipient": recipient_username, "body": body}
-        return render_template("message_new.html", filled=filled)
+        return render_message_form_with_error("VIRHE: vastaanottajaa ei löydy",
+                                              recipient_username, body)
+
     other_id = rec["id"]
     if other_id == me:
-        flash("VIRHE: et voi lähettää viestiä itsellesi")
-        filled = {"recipient": recipient_username, "body": body}
-        return render_template("message_new.html", filled=filled)
+        return render_message_form_with_error("VIRHE: et voi lähettää viestiä itsellesi",
+                                              recipient_username, body)
+
     thread_id = _find_or_create_thread(me, other_id)
     messages.add_message(thread_id, me, body)
     flash("Viesti lähetetty onnistuneesti")
@@ -415,12 +344,14 @@ def messages_thread(thread_id: int):
     other_user = users.get_user_by_id(other_id)
     msgs = messages.get_thread_messages(thread_id)
     ensure_csrf_token()
-    return render_template("messages_thread.html", other_user=other_user, messages=msgs, thread_id=thread_id)
+    return render_template("messages_thread.html", other_user=other_user,
+                           messages=msgs, thread_id=thread_id)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
         return render_template("register.html", filled={})
+    return None
 
 @app.route("/create", methods=["GET", "POST"])
 def create():
@@ -467,10 +398,9 @@ def login():
         session["username"] = username
         session["csrf_token"] = secrets.token_hex(16)
         return redirect(next_page)
-    else:
-        flash("VIRHE: väärä tunnus tai salasana")
-        filled = {"username": username}
-        return render_template("login.html", filled=filled, next_page=next_page)
+    flash("VIRHE: väärä tunnus tai salasana")
+    filled = {"username": username}
+    return render_template("login.html", filled=filled, next_page=next_page)
 
 @app.route("/profile", methods=["GET", "POST"])
 def profile():
@@ -493,7 +423,8 @@ def profile():
     user = users.get_user(user_id)
     announcements = announcements_student.get_announcements_by_user(user_id)
     ensure_csrf_token()
-    return render_template("profile.html", current_display_name=current_display_name, user=user, announcements=announcements)
+    return render_template("profile.html", current_display_name=current_display_name,
+                           user=user, announcements=announcements)
 
 @app.route("/profile/<int:user_id>")
 def user_profile(user_id):
@@ -520,22 +451,21 @@ def add_image():
         ensure_csrf_token()
         return render_template("add_image.html")
 
-    if request.method == "POST":
-        check_csrf()
-        file = request.files["image"]
-        if not file.filename.endswith(".jpg"):
-            flash("VIRHE: Lähettämäsi tiedosto ei ole jpg-tiedosto")
-            return redirect("/add_image")
+    check_csrf()
+    file = request.files["image"]
+    if not file.filename.endswith(".jpg"):
+        flash("VIRHE: Lähettämäsi tiedosto ei ole jpg-tiedosto")
+        return redirect("/add_image")
 
-        image = file.read()
-        if len(image) > 100 * 1024:
-            flash("VIRHE: Lähettämäsi tiedosto on liian suuri")
-            return redirect("/add_image")
+    image = file.read()
+    if len(image) > 100 * 1024:
+        flash("VIRHE: Lähettämäsi tiedosto on liian suuri")
+        return redirect("/add_image")
 
-        user_id = session["user_id"]
-        users.update_image(user_id, image)
-        flash("Kuvan lisääminen onnistui")
-        return redirect("/profile")
+    user_id = session["user_id"]
+    users.update_image(user_id, image)
+    flash("Kuvan lisääminen onnistui")
+    return redirect("/profile")
 
 @app.route("/image/<int:user_id>")
 def show_image(user_id):
