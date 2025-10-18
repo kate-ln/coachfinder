@@ -5,15 +5,19 @@
 {% block content %}
 <h2>Kirjoita viesti</h2>
 
-<form action="/messages/new" method="post">
-  <p>
-    Vastaanottajan käyttäjätunnus:<br>
-    <input type="text" name="recipient">
-  </p>
-  <p>
-    Viesti:<br>
-    <textarea name="body" rows="6" cols="60"></textarea>
-  </p>
-  <input type="submit" value="Lähetä">
-</form>
+<section aria-labelledby="message-form-heading">
+  <h3 id="message-form-heading">Uusi viesti</h3>
+  <form action="/messages/new" method="post">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <p>
+      <label for="recipient">Vastaanottajan käyttäjätunnus:</label><br>
+      <input type="text" id="recipient" name="recipient" value="{{ filled.recipient }}">
+    </p>
+    <p>
+      <label for="body">Viesti:</label><br>
+      <textarea id="body" name="body" rows="6" cols="60">{{ filled.body }}</textarea>
+    </p>
+    <input type="submit" value="Lähetä">
+  </form>
+</section>
 {% endblock %}

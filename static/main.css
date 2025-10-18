@@ -3,6 +3,9 @@ body {
   max-width: 50em;
   font-family: sans-serif;
   background-color: #f0f8f0;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .header {
@@ -24,6 +27,9 @@ body {
   padding: 1em;
   margin: 0.5em 0;
   border: 1px solid #bdc3c7;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 h1, h2 {
@@ -83,6 +89,9 @@ nav li:not(:first-of-type) {
   margin: 1em;
   padding: 0.5em;
   background-color: #ffffff;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .announcement h3 {
@@ -92,12 +101,18 @@ nav li:not(:first-of-type) {
 
 .announcement p {
   margin: 0.2em 0;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .announcement .meta {
   font-size: 0.9em;
   color: #7f8c8d;
   font-style: italic;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .announcement .description {
@@ -105,6 +120,16 @@ nav li:not(:first-of-type) {
   padding: 0.5em;
   background-color: #e8f5e8;
   border-left: 3px solid #27ae60;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-line;
+  text-align: left;
+}
+
+.announcement .description strong {
+  margin: 0;
+  padding: 0;
 }
 
 form {
@@ -115,12 +140,38 @@ form p {
   margin: 0.5em 0;
 }
 
-input[type="text"], input[type="password"], textarea, select {
+input[type="text"], input[type="password"], select {
   width: 100%;
   max-width: 30em;
   padding: 0.5em;
   border: 1px solid #bdc3c7;
   border-radius: 3px;
+}
+
+textarea {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 0.5em;
+  border: 1px solid #bdc3c7;
+  border-radius: 3px;
+  resize: vertical;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  overflow-wrap: anywhere !important;
+  white-space: pre-wrap !important;
+  overflow-x: hidden !important;
+  box-sizing: border-box !important;
+}
+
+textarea[name="description"] {
+  word-break: break-all !important;
+  overflow-wrap: break-word !important;
+  white-space: pre-wrap !important;
+  overflow-x: hidden !important;
 }
 
 input[type="submit"], button {

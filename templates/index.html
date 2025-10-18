@@ -6,28 +6,31 @@
 <h2>Etusivu</h2>
 
 {% if session.username %}
-<p>Hei {% if profile.display_name %}{{ profile.display_name }}{% endif %}! Olet kirjautunut tunnuksella {{ session.username }}, id-numerosi on {{ session.user_id }}.
-</p>
+<section aria-labelledby="welcome-heading">
+  <h3 id="welcome-heading">Tervetuloa</h3>
+  <p>Hei {% if profile.display_name %}{{ profile.display_name }}{% endif %}! Olet kirjautunut tunnuksella {{ session.username }}, id-numerosi on {{ session.user_id }}.
+  </p>
+</section>
 {% endif %}
 
-<h3>Ilmoitukset</h3>
-{% if announcements %}
-{% for announcement in announcements %}
-<div class="announcement">
-  <h3>
-    <a href="/announcement/{{ announcement.id }}">
-      {{ announcement.sport }}{% if announcement.display_name %} - {{ announcement.display_name }} ({{ announcement.username }}){% else %} - {{ announcement.username }}{% endif %}
-    </a>
-  </h3>
-  <p class="meta">
-    {{ announcement.city }} (ikäryhmä: {{ announcement.age_group }}, taso: {{ announcement.skill_level }})
-  </p>
-  <div class="description">
-    {{ announcement.description }}
-  </div>
-</div>
-{% endfor %}
-{% else %}
-<p>Ei ilmoituksia vielä.</p>
-{% endif %}
+<section aria-labelledby="announcements-heading">
+  <h3 id="announcements-heading">Ilmoitukset</h3>
+  {% if announcements %}
+  {% for announcement in announcements %}
+  <article class="announcement">
+    <h4>
+      <a href="/announcement/{{ announcement.id }}">
+        {{ announcement.sport }}{% if announcement.display_name %} - {{ announcement.display_name }} ({{ announcement.username }}){% else %} - {{ announcement.username }}{% endif %}
+      </a>
+    </h4>
+    <p class="meta">
+      {{ announcement.city }} (ikäryhmä: {{ announcement.age_group }}, taso: {{ announcement.skill_level }})
+    </p>
+    <div class="description">{{ announcement.description.strip() }}</div>
+  </article>
+  {% endfor %}
+  {% else %}
+  <p>Ei ilmoituksia vielä.</p>
+  {% endif %}
+</section>
 {% endblock %}

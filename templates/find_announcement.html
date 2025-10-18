@@ -4,26 +4,31 @@
 
 {% block content %}
 <h2>Etsi ilmoitus</h2>
-<form action="/find_announcement" method="get">
-  <p>
-    Hakusana: <input type="text" name="query" value="{{ query }}">
-  </p>
-  <input type="submit" value="Lähetä">
-</form>
+<section aria-labelledby="search-form-heading">
+  <h3 id="search-form-heading">Haku</h3>
+  <form action="/find_announcement" method="get">
+    <p>
+      <label for="query">Hakusana:</label><br />
+      <input type="text" id="query" name="query" value="{{ query }}">
+    </p>
+    <input type="submit" value="Lähetä">
+  </form>
+</section>
 {% if query %}
-<h3>Tulokset</h3>
-{% if results %}
-{% for announcement in results %}
-<div class="announcement">
-  <h3>
-    <a href="/announcement/{{ announcement.id }}">{{ announcement.sport }}{% if announcement.display_name %} - {{ announcement.display_name }}{% endif %}</a>
-  </h3>
-  <p class="meta">{{ announcement.city }} (ikäryhmä: {{ announcement.age_group }}, taso: {{ announcement.skill_level }})</p>
-  <div class="description">{{ announcement.description }}</div>
-</div>
-{% endfor %}
-{% else %}
-<p>Ei hakutuloksia</p>
-{% endif %}
+<section aria-labelledby="search-results-heading">
+  <h3 id="search-results-heading">Tulokset</h3>
+  {% if results %}
+  {% for announcement in results %}
+  <article class="announcement">
+    <h4>
+      <a href="/announcement/{{ announcement.id }}">{{ announcement.sport }}{% if announcement.display_name %} - {{ announcement.display_name }} ({{ announcement.username }}){% else %} - {{ announcement.username }}{% endif %}</a>
+    </h4>
+    <p class="meta">{{ announcement.city }} (ikäryhmä: {{ announcement.age_group }}, taso: {{ announcement.skill_level }})</p>
+  </article>
+  {% endfor %}
+  {% else %}
+  <p>Ei hakutuloksia</p>
+  {% endif %}
+</section>
 {% endif %}
 {% endblock %}

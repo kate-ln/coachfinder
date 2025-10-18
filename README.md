@@ -1,373 +1,553 @@
-# Sovellus valmentajan ja valmennettavien hakuun
+   # Sovellus valmentajan ja valmennettavien hakuun
 
-Sovelluksessa voidaan hakea valmentajia tai valmennettavia. Sovelluksen kohderyhmät ovat siten  
-1) nuoret ja aikuiset oppilaat, jotka haluavat löytää henkilökohtaisen valmentajan tiettyyn yksilö- tai pariurheiluun, esimerkiksi tennikseen tai pikajuoksuun, sekä
-2) valmentajat, jotka etsivät uusia valmennettavia omaan lajiinsa.
-Oppilaan ilmoituksessa selviää henkilön ikäryhmä, paikkakunta, laji ja taitotaso, jonka harjoitteluun haetaan valmentajaa, ja valmentajan ilmoituksessa tämän paikkakunta, laji sekä kokemustaso.
+   Sovelluksessa voidaan hakea valmentajia tai valmennettavia. Sovelluksen kohderyhmät ovat siten  
+   1) nuoret ja aikuiset oppilaat, jotka haluavat löytää henkilökohtaisen valmentajan tiettyyn yksilö- tai pariurheiluun, esimerkiksi tennikseen tai pikajuoksuun, sekä
+   2) valmentajat, jotka etsivät uusia valmennettavia omaan lajiinsa.
+   Oppilaan ilmoituksessa selviää henkilön ikäryhmä, paikkakunta, laji ja taitotaso, jonka harjoitteluun haetaan valmentajaa, ja valmentajan ilmoituksessa tämän paikkakunta, laji sekä kokemustaso.
 
-Sovelluksen ominaisuuksia ovat:
-1. Käyttäjät, sekä oppilaat että valmentajat, voivat luoda uuden tunnuksen ja kirjautua sillä sisään ja ulos. 
-2. Oppilaskäyttäjä näkee aiemmin luodut valmentajailmoitukset listana ja voi hakea niitä paikkakunnittain ja lajeittain; vastaavasti valmentajakäyttäjä näkee aiemmat oppilasilmoitukset listana ja voi hakea niitä lajin ja muiden ominaisuuksien mukaan.
-3. Molemmat käyttäjät voivat lisätä uuden ilmoituksen ja muokata tai poistaa aiemmin luodun ilmoituksen.
-4. Kun sopiva valmentaja tai valmennettava löytyy, nämä sopivat yksityiskohdista viestitse. Mikäli uutta valmentajaa tai valmennettavaa ei enää tarvita, molemmat käyttäjät voivat siirtää ilmoituksen joko "toistaiseksi löydetty" -ryhmään tai poistaa ilmoituksensa. 
-Tässä pääasiallinen tietokohde on ilmoitus ja toissijainen tietokohde on viestihistoria.
+   Sovelluksen ominaisuuksia ovat:
+   1. Käyttäjät, sekä oppilaat että valmentajat, voivat luoda uuden tunnuksen ja kirjautua sillä sisään ja ulos. 
+   2. Oppilaskäyttäjä näkee aiemmin luodut valmentajailmoitukset listana ja voi hakea niitä paikkakunnittain ja lajeittain; vastaavasti valmentajakäyttäjä näkee aiemmat oppilasilmoitukset listana ja voi hakea niitä lajin ja muiden ominaisuuksien mukaan.
+   3. Molemmat käyttäjät voivat lisätä uuden ilmoituksen ja muokata tai poistaa aiemmin luodun ilmoituksen.
+   4. Kun sopiva valmentaja tai valmennettava löytyy, nämä sopivat yksityiskohdista viestitse. Mikäli uutta valmentajaa tai valmennettavaa ei enää tarvita, molemmat käyttäjät voivat siirtää ilmoituksen joko "toistaiseksi löydetty" -ryhmään tai poistaa ilmoituksensa. 
+   Tässä pääasiallinen tietokohde on ilmoitus ja toissijainen tietokohde on viestihistoria.
 
-Sovelluksen tämänhetkinen vaihe sisältää seuraavat toiminnot:
-### Toteutetut ominaisuudet
-- Käyttäjärekisteröinti ja kirjautuminen
-- Oppilasilmoitusten luominen, muokkaaminen ja poistaminen
-- Ilmoitusten listaus ja haku vapaalla hakusanalla
-- Yksityisviestien lähettäminen käyttäjien välillä
-- Viestiketjujen hallinta
-- Tietokantarakenne käyttäjille, ilmoituksille ja viesteille
-- Oikeuksien tarkastaminen ilmoitusten muokkaamisen ja poistamisen yhdeydessä
-- Käyttäjäprofiili nimen asettamiselle ja nimen näyttäminen ilmoituksissa ja viesteissä
-- Keskitetty virheenkäsittely (ui.py)
-- Palvelinpuolen validointi valintalistojen arvoille (estää selaimen kehittäjätyökaluilla tehdyt HTML-muokkaukset)
-- Profiilikuvien hallinta (lisää, muokkaa, poista)
-- Yhtenäinen CSS-tyylitysjärjestelmä (layout.html + main.css)
+   Sovelluksen tämänhetkinen vaihe sisältää seuraavat toiminnot:
+   ### Toteutetut ominaisuudet
+   - **Käyttäjähallinta**:
+   - Käyttäjärekisteröinti ja kirjautuminen
+   - Salasanojen hashaus (Werkzeug)
+   - Käyttäjäsessiot ja autentikointi
+   - Käyttäjien näyttönimet
+   - Käyttäjäprofiilit (oma ja muiden käyttäjien profiilit)
+   - Uloskirjautuminen
 
-### Keskeneräiset/puuttuvat ominaisuudet
-- Valmentajailmoitukset (vain oppilasilmoitukset toteutettu)
-- Hakusuodattimet (paikkakunta, laji)
-- Ilmoitusten tilan hallinta ("löydetty" -ryhmä)
-- Laaja käyttäjäprofiili (kuvaukset, yhteystiedot)
+   - **Oppilasilmoitukset**:
+   - Ilmoitusten luominen, muokkaaminen ja poistaminen
+   - Ilmoitusten listaus etusivulla
+   - Ilmoitusten haku vapaalla hakusanalla
+   - Ilmoitusten yksityiskohtainen katselu
+   - Oikeuksien tarkastaminen (vain omien ilmoitusten muokkaus/poisto)
+   - Valintalistojen hallinta (ikäryhmä, taitotaso, laji, paikkakunta)
 
-### Vaihtoehtoiset lisäominaisuudet
-- Valikoi lomakkeiden syötteitä
+   - **Viestitys**:
+   - Yksityisviestien lähettäminen käyttäjien välillä
+   - Viestiketjujen hallinta ja luominen
+   - Viestiketjujen listaus
+   - Viestien lukeminen ja vastaaminen
+   - Viestien pituuden validaatio (max 2000 merkkiä)
 
-## Tietokannan rakenne
-### Taulut
-1. **users**
-   - `id` (PRIMARY KEY)
-   - `username` (UNIQUE)
-   - `password_hash`
-   - `display_name`(näyttönimi)
-   - `image` (BLOB - profiilikuva)
-2. **announcements_student**
-   - `id` (PRIMARY KEY)
-   - `sport` (laji)
-   - `city` (paikkakunta)
-   - `age_group` (ikäryhmä)
-   - `skill_level` (taitotaso)
-   - `description` (kuvaus)
-   - `user_id` (viittaus users-tauluun)
-3. **threads**
-   - `id` (PRIMARY KEY)
-   - `user_a_id`, `user_b_id` (viittaukset users-tauluun)
-   - `created_at`
-4. **messages**
-   - `id` (PRIMARY KEY)
-   - `thread_id` (viittaus threads-tauluun)
-   - `sender_id` (viittaus users-tauluun)
-   - `body` (viestin sisältö)
-   - `created_at`
-5. **classes**
-   - `id` (PRIMARY KEY)
-   - `title` (esim. "Ikäryhmä", "Taitotaso")
-   - `value` (esim. "10-15 vuotta", "Aloittelija")
-6. **announcement_classes**
-   - `id` (PRIMARY KEY)
-   - `announcement_id` (viittaus announcements_student-tauluun)
-   - `title` (esim. "Ikäryhmä")
-   - `value` (esim. "10-15 vuotta")
+   - **Profiilikuvien hallinta**:
+   - Kuvien lataaminen (.jpg-tiedostot, max 100KB)
+   - Kuvien näyttäminen
+   - Kuvien muokkaaminen (korvaaminen)
+   - Kuvien poistaminen vahvistussivulla
+   - BLOB-tallennus tietokantaan
 
-## Asennus ja käynnistys
-### 1. Ympäristön valmistelu
+   - **Turvallisuusominaisuudet**:
+   - CSRF-suojaus kaikille POST-pyynnöille
+   - Palvelinpuolen validaatio valintalistojen arvoille
+   - XSS-suojaus (MarkupSafe)
+   - SQL-injektion esto (parametrisoidut kyselyt)
+   - Salasanojen hashaus
+   - Sessioiden hallinta
+   - Käyttöoikeuksien tarkastaminen
 
+   - **Käyttöliittymä**:
+   - Yhtenäinen CSS-tyylitysjärjestelmä (layout.html + main.css)
+   - Responsiivinen design
+   - Keskitetty virheenkäsittely (ui.py)
+   - Flash-viestit käyttäjälle
+   - Navigaatiojärjestelmä
+   - Lomakkeiden validaatio ja virheenkäsittely
+
+   ### Keskeneräiset/puuttuvat ominaisuudet
+   - **Valmentajailmoitukset**: Vain oppilasilmoitukset toteutettu
+   - **Hakusuodattimet**: Paikkakunta ja laji -suodattimet
+   - **Ilmoitusten tilan hallinta**: "Löydetty" -ryhmä ilmoituksille
+   - **Laaja käyttäjäprofiili**: Kuvaukset, yhteystiedot, kokemus
+   - **Tilastoja**
+
+   ## Yhteenveto
+   Sovellus tarjoaa:
+   - **Käyttäjähallinnan** rekisteröinnistä profiilien hallintaan
+   - **Viestijärjestelmän** käyttäjien väliseen turvalliseen kommunikointiin
+   - **Ilmoitusjärjestelmän** oppilaiden valmentajahakuun
+   - **Profiilikuvien hallinnan** käyttäjäkokemuksen parantamiseksi
+   - **Turvallisuusmallin** CSRF-, XSS- ja SQL-injektion suojauksella
+   - **Yhtenäisen käyttöliittymän** responsiivisella suunnittelulla
+
+   ## Tietokannan rakenne
+   ### Taulut
+   1. **users**
+      - `id` (PRIMARY KEY)
+      - `username` (UNIQUE, max 16 merkkiä)
+      - `password_hash` (Werkzeug hash)
+      - `display_name` (näyttönimi, max 50 merkkiä)
+      - `image` (BLOB - profiilikuva, max 100KB)
+
+   2. **announcements_student**
+      - `id` (PRIMARY KEY)
+      - `sport` (laji)
+      - `city` (paikkakunta)
+      - `age_group` (ikäryhmä)
+      - `skill_level` (taitotaso)
+      - `description` (kuvaus)
+      - `user_id` (viittaus users-tauluun)
+
+   3. **threads**
+      - `id` (PRIMARY KEY)
+      - `user_a_id`, `user_b_id` (viittaukset users-tauluun)
+      - `created_at` (datetime)
+      - UNIQUE(user_a_id, user_b_id) - estää duplikaattiketjut
+
+   4. **messages**
+      - `id` (PRIMARY KEY)
+      - `thread_id` (viittaus threads-tauluun, CASCADE DELETE)
+      - `sender_id` (viittaus users-tauluun)
+      - `body` (viestin sisältö, max 2000 merkkiä)
+      - `created_at` (datetime)
+
+   5. **classes**
+      - `id` (PRIMARY KEY)
+      - `title` (esim. "Ikäryhmä", "Taitotaso", "Laji", "Paikkakunta")
+      - `value` (esim. "10-15 vuotta", "Aloittelija", "Tennis", "Helsinki")
+
+   6. **announcement_classes**
+      - `id` (PRIMARY KEY)
+      - `announcement_id` (viittaus announcements_student-tauluun)
+      - `title` (esim. "Ikäryhmä")
+      - `value` (esim. "10-15 vuotta")
+
+   ## Asennus ja käynnistys
+   ### 1. Ympäristön valmistelu
+
+   ```bash
+   # Kloonaa repositorio
+   git clone <repository-url>
+   cd coachfinder
+
+   # Luo virtual environment
+   python3 -m venv venv
+   source venv/bin/activate  # Linux/Mac
+   # tai Windows:
+   # venv\Scripts\activate
+   ```
+
+   ### 2. Tietokannan alustus
+   ```bash
+   # Luo tietokanta schema.sql-tiedoston perusteella
+   sqlite3 database.db < schema.sql
+   ```
+
+   ### 3. Sovelluksen käynnistys
+   ```bash
+   # Aktivoi virtual environment (jos ei jo aktivoitu)
+   source venv/bin/activate
+   # Asenna Flask-kirjasto
+   pip install flask
+   # Käynnistä Flask-sovellus
+   flask run
+   ```
+
+   Sovellus käynnistyy osoitteessa: `http://localhost:5000`
+
+   ## Käytettävissä olevat ominaisuudet
+   ### Käyttäjähallinta
+   - **Rekisteröityminen**: `/register` (GET/POST)
+   - **Tunnuksen luominen**: `/create` (POST) - ohjaa rekisteröintiin
+   - **Kirjautuminen**: `/login` (GET/POST) - tukee next_page parametria
+   - **Oma profiili**: `/profile` (GET/POST) - näyttönimen asettaminen ja profiilikuvien hallinta
+   - **Muiden käyttäjien profiilit**: `/profile/<user_id>` (GET)
+   - **Profiilikuvan lisääminen**: `/add_image` (GET/POST)
+   - **Profiilikuvan poistaminen**: `/confirm_delete_image` (GET) → `/delete_image` (POST)
+   - **Profiilikuvan näyttäminen**: `/image/<user_id>` (GET)
+   - **Uloskirjautuminen**: `/logout` (GET)
+
+   ### Ilmoitukset (Oppilaat)
+   - **Etusivu**: `/` (GET) - Näyttää kaikki oppilasilmoitukset
+   - **Uusi ilmoitus**: `/create_announcement_student` (GET/POST)
+   - **Ilmoituksen katselu**: `/announcement/<id>` (GET)
+   - **Ilmoituksen muokkaus**: `/edit_announcement/<id>` (GET)
+   - **Ilmoituksen päivitys**: `/update_announcement_student` (POST)
+   - **Ilmoituksen poisto**: `/remove_announcement/<id>` (GET/POST)
+   - **Haku**: `/find_announcement` (GET) - tukee query parametria
+
+   ### Viestijärjestelmä
+   - **Viestiketjut**: `/messages` (GET) - listaa käyttäjän viestiketjut
+   - **Uusi viesti**: `/messages/new` (GET/POST) - uuden viestiketjun luominen
+   - **Keskustelu**: `/messages/<thread_id>` (GET/POST) - viestiketjun lukeminen ja vastaaminen
+
+   ### Koodin Rakenne
+   - **`app.py`**: Flask-reitit ja sovelluslogiikka, CSRF-suojaus, autentikointi
+   - **`db.py`**: Tietokantayhteydet ja peruskyselyoperaatiot
+   - **`announcements_student.py`**: Oppilasilmoitusten CRUD-operaatiot
+   - **`users.py`**: Käyttäjien tietokantaoperaatiot (profiilit, autentikointi, kuvat)
+   - **`messages.py`**: Viestien ja viestiketjujen tietokantaoperaatiot
+   - **`ui.py`**: UI-apufunktiot, virheenkäsittely ja sivujen renderöinti
+   - **`config.py`**: Sovelluksen konfiguraatio (secret key)
+   - **`templates/layout.html`**: Yhteinen sivupohja kaikille sivuille
+   - **`static/main.css`**: Yhtenäinen CSS-tyylitysjärjestelmä
+   - **`schema.sql`**: Tietokannan rakenne
+   - **`init.sql`**: Tietokannan alustusdata
+
+   ### Tekninen arkkitehtuuri
+   - **Backend**: Flask (Python web framework)
+   - **Tietokanta**: SQLite3 (tiedostopohjainen)
+   - **Templating**: Jinja2 (Flask:n mukana)
+   - **Turvallisuus**: 
+   - Werkzeug salasanojen hashaukseen
+   - MarkupSafe XSS-suojaukseen
+   - CSRF-tokenit Cross-Site Request Forgery -hyökkäyksiä vastaan
+   - **Sessiot**: Flask-sessiot (cookies)
+   - **Staattiset tiedostot**: CSS-tyylitiedostot
+   - **Tiedostojen käsittely**: BLOB-tallennus tietokantaan 
+   
+   ### Testaus
+   #### Perustoiminnot
+   1. **Käyttäjähallinta**:
+      - Rekisteröidy ainakin kolmena eri käyttäjänä
+      - Kirjaudu sisään eri käyttäjinä, testaa väärät tunnukset
+      - Aseta näyttönimi profiilissa
+      - Testaa uloskirjautuminen
+
+   2. **Ilmoitukset**:
+      - Luo muutama erilainen oppilasilmoitus
+      - Hae ilmoituksia hakusanalla
+      - Muokkaa ja poista omia ilmoituksia
+      - Testaa toisen käyttäjän ilmoitusten muokkausyritysta (403 virhe)
+
+   3. **Viestijärjestelmä**:
+      - Lähetä viesti toiselle käyttäjälle
+      - Testaa että vastaanottaja näkee viestin
+      - Testaa että viestiketjut eri käyttäjien kanssa näkyvät listana
+      - Testaa virheellisiä viestejä (tyhjä viesti, olematon käyttäjä)
+
+   4. **Profiilikuvat**:
+      - Lataa profiilikuva (.jpg)
+      - Testaa väärä tiedostomuoto (.png) → virhe
+      - Testaa liian suuri tiedosto → virhe
+      - Muokkaa kuvaa (korvaa uudella)
+      - Poista kuva vahvistussivulla
+
+   #### Turvallisuustestaus
+   5. **CSRF-suojaus**:
+      - Poista CSRF-token lomakkeesta kehittäjätyökaluilla
+      - Lähetä lomake → 403 Forbidden virhe
+
+   6. **Valintalistojen validaatio**:
+      - Muokkaa `<select>` elementtiä lisäämällä uusi `<option>`
+      - Lähetä lomake → "VIRHE: virheellinen ikäryhmä"
+
+   7. **Käyttöoikeuksien testaus**:
+      - Yritä muokata toisen käyttäjän ilmoitusta → 403 virhe
+      - Yritä päästä toisen käyttäjän viestiketjuun → 403 virhe
+
+   8. **XSS- ja SQL-injektion testaus**:
+      - Syötä `<script>alert('XSS')</script>` kenttiin
+      - Syötä `'; DROP TABLE users; --` kenttiin
+      - Tarkista, että kaikki syötteet koodataan oikein kontekstissaan ja että SQL:ssa käytetään parametrisoituja kyselyjä.
+
+   ## Turvallisuusominaisuudet
+   ### CSRF-suojaus
+   - **CSRF-tokenit**: Kaikki POST-pyynnöt vaativat voimassa olevan CSRF-tokenin
+   - **Token-generointi**: Uusi token luodaan kirjautumisen yhteydessä
+   - **Token-validaatio**: `check_csrf()` funktio tarkistaa tokenin oikeellisuuden
+   - **Suojatut reitit**: Kaikki lomakkeet (ilmoitukset, viestit, profiilit, kuvat) suojattu
+
+   ### Palvelinpuolen validaatio
+   - **Valintalistojen validaatio**: `age_group` ja `skill_level` arvot tarkistetaan tietokannasta
+   - **Tiedostomuodon validaatio**: Profiilikuvat vain .jpg-tiedostoja
+   - **Tiedostokoon validaatio**: Kuvat max 100KB
+   - **Tekstikenttien validaatio**: 
+   - Käyttäjätunnus max 16 merkkiä
+   - Näyttönimi max 50 merkkiä
+   - Viestit max 2000 merkkiä
+
+   ### Autentikointi ja autorisointi
+   - **Salasanojen hashaus**: Werkzeug-kirjaston `generate_password_hash()` ja `check_password_hash()`
+   - **Sessioiden hallinta**: Flask-sessiot käyttäjätunnistukseen
+   - **Käyttöoikeuksien tarkastaminen**: 
+   - Vain omien ilmoitusten muokkaus/poisto
+   - Vain viestiketjun osallistujien pääsy keskusteluihin
+   - Vain kirjautuneiden käyttäjien pääsy suojattuihin sivuihin
+
+   ### XSS- ja SQL-injektion esto
+   - **XSS-suojaus**: MarkupSafe-kirjasto automaattiselle HTML-escape:lle
+   - **SQL-injektion esto**: Parametrisoidut kyselyt kaikissa tietokantaoperaatioissa
+   - **Input-sanitointi**: Kaikki käyttäjäsyötteet puhdistetaan (`strip()`)
+
+   ### Estetyt hyökkäykset
+   - **XSS-injektio**: `<script>alert('XSS')</script>` ikäryhmänä
+   - **SQL-injektio**: `'; DROP TABLE users; --` taitotasona
+   - **CSRF-hyökkäykset**: Väärennettyjen lomakkeiden lähettäminen
+   - **Tietojen korruptio**: Virheellisten valintalistojen arvojen syöttäminen
+   - **Tiedostojärjestelmän hyökkäykset**: Vain sallittujen tiedostomuotojen lataaminen
+
+   ### Testaus
+   1. **CSRF-suojaus**:
+      - Poista CSRF-token lomakkeesta kehittäjätyökaluilla
+      - Lähetä lomake → 403 Forbidden virhe
+
+   2. **Valintalistojen validaatio**:
+      - Muokkaa `<select>` elementtiä lisäämällä uusi `<option>`
+      - Lähetä lomake → "VIRHE: virheellinen ikäryhmä"
+
+   3. **Käyttöoikeuksien testaus**:
+      - Yritä muokata toisen käyttäjän ilmoitusta → 403 virhe
+      - Yritä päästä toisen käyttäjän viestiketjuun → 403 virhe
+
+   4. **Tiedostojen validaatio**:
+      - Lataa .png-kuva → "VIRHE: Lähettämäsi tiedosto ei ole jpg-tiedosto"
+      - Lataa liian suuri kuva → "VIRHE: Lähettämäsi tiedosto on liian suuri"
+
+   ## Profiilikuvien hallinta
+   ### Yleiskuvaus
+   Sovellus tukee käyttäjien profiilikuvien lataamista, näyttämistä, muokkaamista ja poistamista. Kuvat tallennetaan tietokantaan BLOB-muodossa ja näytetään JPEG-kuvina.
+
+   ### Tietokantamuutokset
+   #### Users-taulun päivitys
+   Lisätty `image` sarake BLOB-tyyppinä profiilikuvien tallentamista varten.
+
+   ### Backend-toteutus
+   #### 1. Tietokantafunktiot (`users.py`)
+   Lisätty funktiot: `get_user()` (hakee käyttäjätiedot ja tiedon kuvien olemassaolosta), `update_image()` (päivittää profiilikuvan), `get_image()` (hakee profiilikuvan) ja `delete_image()` (poistaa profiilikuvan).
+
+   #### 2. Flask-reitit (`app.py`)
+   Lisätty reitit: `/add_image` (kuvan lataaminen), `/image/<user_id>` (kuvan näyttäminen), `/confirm_delete_image` (vahvistussivu) ja `/delete_image` (kuvan poistaminen). Kuvien validaatio tarkistaa tiedostomuodon (.jpg) ja koon (max 100KB).
+
+   ### Frontend-toteutus
+   #### 1. Kuvan lataussivu (`templates/add_image.html`)
+   Lomake tiedostovalitsimella .jpg-tiedostoille, ohjeistus koolle ja muodolle, sekä takaisin-profiiliin -linkki.
+
+   #### 2. Profiilisivun päivitys (`templates/profile.html`)
+   Ehdollinen näyttö: jos kuva on olemassa, näytetään kuva "Muuta kuvaa" ja "Poista kuva" -linkkeineen. Jos kuvaa ei ole, näytetään "Lisää profiilikuva" -linkki. "Poista kuva" -linkki vie vahvistussivulle.
+
+   #### 3. Vahvistussivu (`templates/confirm_delete_image.html`)
+   Vahvistussivu kuvan poistamiseen, joka sisältää vahvistuslomakkeen ja peruuta-linkin.
+
+   #### 4. Muiden käyttäjien profiilisivun päivitys (`templates/user_profile.html`)
+   Ehdollinen näyttö: jos käyttäjällä on profiilikuva, se näytetään responsiivisena kuvana pyöristetyillä kulmilla.
+
+   ### Ominaisuudet
+   #### Kuvan lataaminen
+   - **Tiedostomuoto**: Vain .jpg-tiedostot hyväksytään
+   - **Koko**: Enintään 100KB
+   - **Validaatio**: Server-side tarkistus tiedostomuodolle ja koolla
+   - **Tallennus**: BLOB-muodossa tietokantaan
+
+   #### Kuvan näyttäminen
+   - **URL-muoto**: `/image/<user_id>`
+   - **Content-Type**: `image/jpeg`
+   - **Käsittely**: 404-virhe jos kuvaa ei ole
+   - **Styling**: Responsiivinen, pyöristetyt kulmat
+
+   #### Kuvan hallinta
+   - **Muokkaaminen**: "Muuta kuvaa" -linkki vie lataussivulle
+   - **Poistaminen**: "Poista kuva" -linkki vie vahvistussivulle
+   - **Vahvistus**: Erillinen vahvistussivu estää vahingolliset poistot
+
+   ### Turvallisuusominaisuudet
+   #### Validaatio
+   - Tiedostomuodon tarkistus (.jpg)
+   - Tiedostokoon rajoitus (100KB)
+   - Palvelinpuolen validaatio (ei voi ohittaa)
+
+   #### Käyttöoikeudet
+   - Vain kirjautuneet käyttäjät voivat ladata kuvia
+   - Käyttäjät voivat muokata vain omia kuviaan
+   - Kuvien näyttäminen kaikille käyttäjille
+
+   #### Tietoturvallisuus
+   - BLOB-tallennus (ei tiedostojärjestelmää)
+   - Sisältötyyppi oikein asetettu
+   - 404-virhe olemattomille kuville
+
+   ### Testaus
+   #### Perustoiminnot
+   1. **Kuvan lataaminen**:
+      - Lataa .jpg-kuva profiiliin
+      - Tarkista että kuva näkyy profiilisivulla
+      - Testaa väärä tiedostomuoto (.png) → virhe
+      - Testaa liian suuri kuva → virhe
+
+   2. **Kuvan muokkaaminen**:
+      - Klikkaa "Muuta kuvaa" -linkkiä
+      - Lataa uusi kuva
+      - Tarkista että vanha kuva korvautuu
+
+   3. **Kuvan poistaminen**:
+      - Klikkaa "Poista kuva" -linkkiä
+      - Vahvista poisto vahvistussivulla
+      - Tarkista että kuva poistuu profiilisivulta
+
+   4. **Kuvan näyttäminen**:
+      - Mene toisen käyttäjän profiilisivulle
+      - Tarkista että kuva näkyy oikein
+      - Testaa suora URL `/image/<user_id>`
+
+   #### Virhetilanteet
+   - Väärä tiedostomuoto
+   - Liian suuri tiedosto
+   - Olemattoman käyttäjän kuva
+   - Vahvistussivun toiminta
+
+   ### Käyttöliittymä
+   #### Profiilisivu (oma)
+   - **Ei kuvaa**: "Ei profiilikuvia | Lisää profiilikuva"
+   - **On kuva**: Kuva + "Muuta kuvaa | Poista kuva"
+
+   #### Profiilisivu (muut)
+   - **Ei kuvaa**: Ei näytetä mitään
+   - **On kuva**: Kuva näytetään
+
+   #### Lataussivu
+   - Tiedostovalitsin (.jpg)
+   - Ohjeistus koolle ja muodolle
+   - Lähetä-painike
+   - Takaisin-profiiliin -linkki
+
+   #### Vahvistussivu
+   - Vahvistusteksti
+   - Vahvista-painike
+   - Peruuta-linkki
+   - **Kuvan poisto**: `/confirm_delete_image` -sivu vahvistuslomakkeineen
+   - **Ilmoituksen poisto**: `/remove_announcement/<id>` -sivu vahvistuslomakkeineen
+
+   #### Käyttöliittymä
+   - Lomakkeet lähetetään suoraan palvelimelle
+   - Vahvistukset tehdään erillisillä sivuilla
+   - Navigaatio toimii pelkästään linkeillä
+
+   ## Yhtenäinen CSS-tyylitysjärjestelmä
+   ### Tiedostorakenne
+   #### 1. Layout-sivupohja (`templates/layout.html`)
+   Yhteinen sivupohja kaikille sivuille, joka sisältää header-osion (otsikko), nav-osion (navigaatio) ja content-osion (sivun sisältö). CSS-tiedosto linkitetty head-osiossa.
+
+   #### 2. CSS-tyylitiedosto (`static/main.css`)
+   Yhtenäinen tyylitysjärjestelmä, joka määrittelee sivun asettelun (keskitys, maksimileveys), värit ja fontin (sans-serif).
+
+   ### Sivurakenne
+   #### Kolme pääosiota
+   1. **Otsikko** (`.header`)
+   2. **Navigaatio** (`.nav`)
+   3. **Sisältö** (`.content`)
+
+   #### Navigaatio
+   - Keskitytetty asettelu
+   - Riviin asetellut elementit
+   - Pystyviivat erottimina
+   - Ehdollinen sisältö kirjautumisen mukaan
+
+   ### Tyylitetyt komponentit
+   - Ilmoitukset (`.announcement`)
+   - Viestiketjut (`.thread`)
+   - Viestit (`.message`)
+   - Profiilitiedot (`.profile-info`)
+
+   ### Lomakkeiden tyylitys
+   - Syöttökentät: Responsiivinen leveys (max 30em), pyöristetyt kulmat, sopiva sisennys.
+   - Painikkeet: Pyöristetyt kulmat, osoitin päällä -efekti.
+
+   ### Template-päivitykset
+   #### Kaikki sivut käyttävät layout.html:ia
+   - `{% extends "layout.html" %}`
+   - `{% block title %}Sivun otsikko{% endblock %}`
+   - `{% block content %}Sivun sisältö{% endblock %}`
+
+   #### Poistettu vanha navigaatio
+   - `_nav.html` poistettu
+   - Navigaatio integroitu layout.html:iin
+
+   ### Responsiivisuus
+   #### Keskitys ja leveys
+   - `margin: auto` keskittää sisällön
+   - `max-width: 50em` rajoittaa maksimileveyden
+   - `font-family: sans-serif` moderni fontti
+
+   #### Navigaatio
+   - `text-align: center` keskittää navigaation
+   - `display: inline-block` vierekkäiset linkit
+   - Negatiivinen marginaali korjaa välit
+
+   ### Värit ja ulkoasu
+   - **Tausta**: Vaaleanvihreä (`#f0f8f0`)
+   - **Otsikko**: Tummanharmaa tausta (`#2c3e50`), vaaleanharmaa teksti (`#ecf0f1`)
+   - **Navigaatio**: Vaaleansininen tausta (`#e6f7ff`), tummanharmaa reunus (`#2c3e50`)
+   - **Sisältö**: Valkoinen tausta, harmaa reunus (`#bdc3c7`)
+   - **Reunukset**: Harmaan sävyjä (`#95a5a6`, `#7f8c8d`)
+   - **Painikkeet**: Vihreä (`#27ae60`)
+   - **Korostukset**: Vihreä (`#27ae60`, `#2ecc71`)
+
+## Saavutettavuus ja tekstipohjaiset selaimet
+### Lynx-yhteensopivuus
+Sovellus on suunniteltu toimimaan tekstipohjaisilla selaimilla kuten Lynx:lla. Kaikki toiminnot ovat käytettävissä ilman JavaScriptiä tai CSS:ää.
+
+#### Lynx-testaus
 ```bash
-# Kloonaa repositorio
-git clone <repository-url>
-cd coachfinder
+# Asenna Lynx (Ubuntu/Debian)
+sudo apt-get install lynx
 
-# Luo virtual environment
-python3 -m venv venv
-source venv/bin/activate  # Linux/Mac
-# tai Windows:
-# venv\Scripts\activate
-```
-
-### 2. Tietokannan alustus
-
-```bash
-# Luo tietokanta schema.sql-tiedoston perusteella
-sqlite3 database.db < schema.sql
-```
-
-### 3. Sovelluksen käynnistys
-
-```bash
-# Aktivoi virtual environment (jos ei jo aktivoitu)
-source venv/bin/activate
-# Asenna Flask-kirjasto
-pip install flask
-# Käynnistä Flask-sovellus
+# Käynnistä sovellus
 flask run
+
+# Testaa Lynx:lla toisessa terminaalissa
+lynx http://localhost:5000
 ```
 
-Sovellus käynnistyy osoitteessa: `http://localhost:5000`
+#### Lynx-yhteensopivat ominaisuudet
+- **Navigaatio**: Kaikki linkit toimivat Lynx:lla
+- **Lomakkeet**: Kaikki lomakkeet toimivat tekstipohjaisesti
+- **Viestit**: Viestien lähettäminen ja lukeminen toimii
+- **Haku**: Hakutoiminto toimii tekstipohjaisesti
+- **Profiilit**: Käyttäjäprofiilien katselu toimii (kuvat näkyvät linkkeinä)
 
-## Käytettävissä olevat ominaisuudet
-### Käyttäjähallinta
-- **Rekisteröityminen**: `/register`
-- **Kirjautuminen**: `/login`
-- **Profiili**: `/profile` - Näyttönimen asettaminen ja profiilikuvien hallinta
-- **Profiilikuvan lisääminen**: `/add_image`
-- **Profiilikuvan poistaminen**: `/confirm_delete_image` → `/delete_image` (POST)
-- **Profiilikuvan näyttäminen**: `/image/<user_id>`
-- **Uloskirjautuminen**: `/logout`
+### Saavutettavuusominaisuudet
+#### Semanttinen HTML-rakenne
+- **Otsikot**: Hierarkkinen otsikkorakenne (h1, h2, h3)
+- **Navigaatio**: `<nav>` elementti päävalikolle
+- **Lomakkeet**: Oikeat `<label>` elementit syöttökentille
+- **Listat**: `<ul>` ja `<li>` elementit navigaatiolle
+- **Pääsisältö**: `<main>` elementti sivun sisällölle
 
-### Ilmoitukset (Oppilaat)
-- **Etusivu**: `/` - Näyttää kaikki oppilasilmoitukset
-- **Uusi ilmoitus**: `/create_announcement_student`
-- **Ilmoituksen katselu**: `/announcement/<id>`
-- **Ilmoituksen muokkaus**: `/edit_announcement/<id>`
-- **Ilmoituksen poisto**: `/remove_announcement/<id>`
-- **Haku**: `/find_announcement`
+#### Näyttöluettavien ominaisuudet
+- **Alt-tekstit**: Profiilikuville alt-tekstit (jos kuvaa ei voi näyttää)
+- **Linkkitekstit**: Kuvaavat linkkitekstit ("Muokkaa ilmoitusta", "Poista kuva")
+- **Lomakkeiden ohjeistus**: Selkeät ohjeet lomakkeiden täyttämiseen
+- **Virheviestit**: Selkeät virheviestit käyttäjälle
 
-### Viestit
-- **Viestiketjut**: `/messages`
-- **Uusi viesti**: `/messages/new`
-- **Keskustelu**: `/messages/<thread_id>`
+#### Näppäimistönavigaatio
+- **Tab-navigaatio**: Kaikki interaktiiviset elementit saavutettavissa Tab-näppäimellä
+- **Enter-näppäin**: Lomakkeiden lähettäminen Enter-näppäimellä
+- **Linkkien aktivointi**: Kaikki linkit aktivoidaan Enter-näppäimellä
 
-### Koodin Rakenne
-- `app.py`: Flask-reitit ja sovelluslogiikka
-- `db.py`: Tietokantayhteydet ja peruskyselyoperaatiot
-- `announcements_student.py`: Oppilasilmoitusten CRUD-operaatiot
-- `users.py`: Käyttäjien tietokantaoperaatiot (profiilit, autentikointi)
-- `messages.py`: Viestien ja viestiketjujen tietokantaoperaatiot
-- `ui.py`: UI-apufunktiot, virheenkäsittely ja sivujen renderöinti
-- `templates/layout.html`: Yhteinen sivupohja kaikille sivuille
-- `static/main.css`: Yhtenäinen CSS-tyylitysjärjestelmä 
-  
-### Testaus
-Testaa seuraavat toiminnot:
-1. Rekisteröidy ainakin kolmena eri käyttäjänä
-2. Kirjaudu sisään eri käyttäjinä, testaa väärät tunnukset
-3. Aseta näyttönimi profiilissa
-4. Luo muutama erilainen oppilasilmoitus
-5. Hae ilmoituksia hakusanalla
-6. Muokkaa ja poista omia ilmoituksia
-7. Testaa toisen käyttäjän ilmoitusten muokkausyritysta (403 virhe)
-8. Lähetä viesti toiselle käyttäjälle
-9. Testaa että vastaanottaja näkee viestin
-10. Testaa että viestiketjut eri käyttäjien kanssa näkyvät listana
-11. Testaa virheellisiä viestejä (tyhjä viesti, olematon käyttäjä)
-12. Testaa kehittäjätyökalulla HTML-muokkauksen estäminen
+#### Värikontrasti ja visuaalinen saavutettavuus
+- **Korkea kontrasti**: Tummat tekstit vaalealla taustalla
+- **Värisokeus**: Ei riipu pelkästään väreistä (teksti + väri)
+- **Fonttikoko**: Luettava fonttikoko (sans-serif)
+- **Riviväli**: Sopiva riviväli lukemisen helpottamiseksi
 
-## Turvallisuusominaisuudet
-### Selainpuolen HTML-muokkauksen estäminen
-Lisätty palvelinpuolen validaatio, joka varmistaa että `age_group` ja `skill_level` arvot vastaavat tietokannassa määriteltyjä sallittuja vaihtoehtoja.
+### Tekstipohjaisten selaimien testaus
+#### Lynx-komennot
+- **Navigointi**: Nuolinäppäimet, Enter, q (poistu)
+- **Linkkien valinta**: Nuolinäppäimet linkkien välillä
+- **Takaisin**: Left-nuoli tai Backspace
+- **Haku**: / (hakukenttään)
 
-**Toteutetut muutokset**:
-#### 1. Virheenkäsittelijä (`ui.py`)
-Lisätty `handle_invalid_selector_error()` funktio, joka palauttaa virheviestin virheellisistä valintakentän arvoista.
+#### Testattavat toiminnot Lynx:lla
+1. **Rekisteröityminen ja kirjautuminen**
+2. **Ilmoitusten luominen ja muokkaaminen**
+3. **Viestien lähettäminen**
+4. **Hakutoiminto**
+5. **Profiilien katselu**
+6. **Navigaatio sivujen välillä**
 
-#### 2. Ilmoituksen luomisen validaatio (`app.py`)
-Lisätty palvelinpuolen validaatio, joka tarkistaa että `age_group` ja `skill_level` arvot vastaavat tietokannassa määriteltyjä sallittuja vaihtoehtoja.
-
-#### 3. Ilmoituksen muokkauksen validaatio (`app.py`)
-Sama validaatio lisätty myös `update_announcement_student()` funktioon.
-
-**Estetyt hyökkäykset**:
-- XSS-injektio: `<script>alert('XSS')</script>` ikäryhmänä
-- SQL-injektio: `'; DROP TABLE users; --` taitotasona
-- Tietojen korruptio: `ADMIN_OVERRIDE` tai muut virheelliset arvot
-
-**Testaus**:
-1. Avaa selaimen kehittäjätyökalut (F12)
-2. Mene ilmoituksen luomissivulle
-3. Muokkaa `<select name="age_group">` elementtiä lisäämällä uusi `<option>` arvo
-4. Lähetä lomake - pitäisi näkyä virhe: "VIRHE: virheellinen ikäryhmä"
-5. Toista sama testi ilmoituksen muokkaussivulla
-
-**Turvallisuus**:
-- Estää selainpuolen muokkaukset
-- Palvelinpuolen validaatio (ei voi ohittaa)
-- Tietokannan eheys säilyy
-- XSS-esto
-- SQL-injektion esto
-- Johdonmukainen virheenkäsittely
-
-## Profiilikuvien hallinta
-### Yleiskuvaus
-Sovellus tukee käyttäjien profiilikuvien lataamista, näyttämistä, muokkaamista ja poistamista. Kuvat tallennetaan tietokantaan BLOB-muodossa ja näytetään JPEG-kuvina.
-
-### Tietokantamuutokset
-#### Users-taulun päivitys
-Lisätty `image` sarake BLOB-tyyppinä profiilikuvien tallentamista varten.
-
-### Backend-toteutus
-#### 1. Tietokantafunktiot (`users.py`)
-Lisätty funktiot: `get_user()` (hakee käyttäjätiedot ja tiedon kuvien olemassaolosta), `update_image()` (päivittää profiilikuvan), `get_image()` (hakee profiilikuvan) ja `delete_image()` (poistaa profiilikuvan).
-
-#### 2. Flask-reitit (`app.py`)
-Lisätty reitit: `/add_image` (kuvan lataaminen), `/image/<user_id>` (kuvan näyttäminen), `/confirm_delete_image` (vahvistussivu) ja `/delete_image` (kuvan poistaminen). Kuvien validaatio tarkistaa tiedostomuodon (.jpg) ja koon (max 100KB).
-
-### Frontend-toteutus
-#### 1. Kuvan lataussivu (`templates/add_image.html`)
-Lomake tiedostovalitsimella .jpg-tiedostoille, ohjeistus koolle ja muodolle, sekä takaisin-profiiliin -linkki.
-
-#### 2. Profiilisivun päivitys (`templates/profile.html`)
-Ehdollinen näyttö: jos kuva on olemassa, näytetään kuva "Muuta kuvaa" ja "Poista kuva" -linkkeineen. Jos kuvaa ei ole, näytetään "Lisää profiilikuva" -linkki. "Poista kuva" -linkki vie vahvistussivulle.
-
-#### 3. Vahvistussivu (`templates/confirm_delete_image.html`)
-Vahvistussivu kuvan poistamiseen, joka sisältää vahvistuslomakkeen ja peruuta-linkin.
-
-#### 4. Muiden käyttäjien profiilisivun päivitys (`templates/user_profile.html`)
-Ehdollinen näyttö: jos käyttäjällä on profiilikuva, se näytetään responsiivisena kuvana pyöristetyillä kulmilla.
-
-### Ominaisuudet
-#### Kuvan lataaminen
-- **Tiedostomuoto**: Vain .jpg-tiedostot hyväksytään
-- **Koko**: Enintään 100KB
-- **Validaatio**: Server-side tarkistus tiedostomuodolle ja koolla
-- **Tallennus**: BLOB-muodossa tietokantaan
-
-#### Kuvan näyttäminen
-- **URL-muoto**: `/image/<user_id>`
-- **Content-Type**: `image/jpeg`
-- **Käsittely**: 404-virhe jos kuvaa ei ole
-- **Styling**: Responsiivinen, pyöristetyt kulmat
-
-#### Kuvan hallinta
-- **Muokkaaminen**: "Muuta kuvaa" -linkki vie lataussivulle
-- **Poistaminen**: "Poista kuva" -linkki vie vahvistussivulle
-- **Vahvistus**: Erillinen vahvistussivu estää vahingolliset poistot
-
-### Turvallisuusominaisuudet
-#### Validaatio
-- Tiedostomuodon tarkistus (.jpg)
-- Tiedostokoon rajoitus (100KB)
-- Palvelinpuolen validaatio (ei voi ohittaa)
-
-#### Käyttöoikeudet
-- Vain kirjautuneet käyttäjät voivat ladata kuvia
-- Käyttäjät voivat muokata vain omia kuviaan
-- Kuvien näyttäminen kaikille käyttäjille
-
-#### Tietoturvallisuus
-- BLOB-tallennus (ei tiedostojärjestelmää)
-- Sisältötyyppi oikein asetettu
-- 404-virhe olemattomille kuville
-
-### Testaus
-#### Perustoiminnot
-1. **Kuvan lataaminen**:
-   - Lataa .jpg-kuva profiiliin
-   - Tarkista että kuva näkyy profiilisivulla
-   - Testaa väärä tiedostomuoto (.png) → virhe
-   - Testaa liian suuri kuva → virhe
-
-2. **Kuvan muokkaaminen**:
-   - Klikkaa "Muuta kuvaa" -linkkiä
-   - Lataa uusi kuva
-   - Tarkista että vanha kuva korvautuu
-
-3. **Kuvan poistaminen**:
-   - Klikkaa "Poista kuva" -linkkiä
-   - Vahvista poisto vahvistussivulla
-   - Tarkista että kuva poistuu profiilisivulta
-
-4. **Kuvan näyttäminen**:
-   - Mene toisen käyttäjän profiilisivulle
-   - Tarkista että kuva näkyy oikein
-   - Testaa suora URL `/image/<user_id>`
-
-#### Virhetilanteet
-- Väärä tiedostomuoto
-- Liian suuri tiedosto
-- Olemattoman käyttäjän kuva
-- Vahvistussivun toiminta
-
-### Käyttöliittymä
-#### Profiilisivu (oma)
-- **Ei kuvaa**: "Ei profiilikuvia | Lisää profiilikuva"
-- **On kuva**: Kuva + "Muuta kuvaa | Poista kuva"
-
-#### Profiilisivu (muut)
-- **Ei kuvaa**: Ei näytetä mitään
-- **On kuva**: Kuva näytetään
-
-#### Lataussivu
-- Tiedostovalitsin (.jpg)
-- Ohjeistus koolle ja muodolle
-- Lähetä-painike
-- Takaisin-profiiliin -linkki
-
-#### Vahvistussivu
-- Vahvistusteksti
-- Vahvista-painike
-- Peruuta-linkki
-- **Kuvan poisto**: `/confirm_delete_image` -sivu vahvistuslomakkeineen
-- **Ilmoituksen poisto**: `/remove_announcement/<id>` -sivu vahvistuslomakkeineen
-
-#### Käyttöliittymä
-- Lomakkeet lähetetään suoraan palvelimelle
-- Vahvistukset tehdään erillisillä sivuilla
-- Navigaatio toimii pelkästään linkeillä
-
-## Yhtenäinen CSS-tyylitysjärjestelmä
-
-### Tiedostorakenne
-#### 1. Layout-sivupohja (`templates/layout.html`)
-Yhteinen sivupohja kaikille sivuille, joka sisältää header-osion (otsikko), nav-osion (navigaatio) ja content-osion (sivun sisältö). CSS-tiedosto linkitetty head-osiossa.
-
-#### 2. CSS-tyylitiedosto (`static/main.css`)
-Yhtenäinen tyylitysjärjestelmä, joka määrittelee sivun asettelun (keskitys, maksimileveys), värit ja fontin (sans-serif).
-
-### Sivurakenne
-#### Kolme pääosiota
-1. **Otsikko** (`.header`)
-2. **Navigaatio** (`.nav`)
-3. **Sisältö** (`.content`)
-
-#### Navigaatio
-- Keskitytetty asettelu
-- Riviin asetellut elementit
-- Pystyviivat erottimina
-- Ehdollinen sisältö kirjautumisen mukaan
-
-### Tyylitetyt osat
-#### Ilmoitukset (`.announcement`)
-#### Viestiketjut (`.thread`)
-#### Viestit (`.message`)
-#### Profiilitiedot (`.profile-info`)
-### Lomakkeiden tyylitys
-#### Syöttökentät
-Responsiivinen leveys (max 30em), pyöristetyt kulmat, sopiva sisennys.
-#### Painikkeet
-Pyöristetyt kulmat, osoitin päällä -efekti.
-
-### Template-päivitykset
-#### Kaikki sivut käyttävät layout.html:ia
-- `{% extends "layout.html" %}`
-- `{% block title %}Sivun otsikko{% endblock %}`
-- `{% block content %}Sivun sisältö{% endblock %}`
-
-#### Poistettu vanha navigaatio
-- `_nav.html` poistettu
-- Navigaatio integroitu layout.html:iin
-
-### Responsiivisuus
-#### Keskitys ja leveys
-- `margin: auto` keskittää sisällön
-- `max-width: 50em` rajoittaa maksimileveyden
-- `font-family: sans-serif` moderni fontti
-
-#### Navigaatio
-- `text-align: center` keskittää navigaation
-- `display: inline-block` vierekkäiset linkit
-- Negatiivinen marginaali korjaa välit
-
-### Värit ja ulkoasu
-- **Tausta**: Vaaleanvihreä (`#f0f8f0`)
-- **Otsikko**: Tummanharmaa tausta (`#2c3e50`), vaaleanharmaa teksti (`#ecf0f1`)
-- **Navigaatio**: Vaaleansininen tausta (`#e6f7ff`), tummanharmaa reunus (`#2c3e50`)
-- **Sisältö**: Valkoinen tausta, harmaa reunus (`#bdc3c7`)
-- **Reunukset**: Harmaan sävyjä (`#95a5a6`, `#7f8c8d`)
-- **Painikkeet**: Vihreä (`#27ae60`)
-- **Korostukset**: Vihreä (`#27ae60`, `#2ecc71`)
+### Saavutettavuusstandardit
+Sovellus noudattaa WCAG 2.1 AA -tason suosituksia:
+- **Perceptible**: Sisältö on havaittavissa eri tavoilla
+- **Operable**: Käyttöliittymä on käytettävissä eri tavoilla
+- **Understandable**: Sisältö ja käyttöliittymä ovat ymmärrettäviä
+- **Robust**: Sisältö on yhteensopiva eri teknologioiden kanssa
 
 ### Testaus
 #### Visuaalinen tarkistus

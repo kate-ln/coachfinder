@@ -5,11 +5,17 @@
 {% block content %}
 <h2>Vahvista kuvan poisto</h2>
 
-<p>Haluatko varmasti poistaa profiilikuvasi?</p>
+<section aria-labelledby="confirmation-heading">
+  <h3 id="confirmation-heading">Vahvistus</h3>
+  <p>Haluatko varmasti poistaa profiilikuvasi?</p>
+</section>
 
-<form method="POST" action="/delete_image">
-  <input type="submit" value="Kyllä, poista kuva">
-</form>
-
-<p><a href="/profile">Peruuta</a></p>
+<section aria-labelledby="actions-heading">
+  <h3 id="actions-heading">Toiminnot</h3>
+  <form method="POST" action="/delete_image">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <input type="submit" value="Kyllä, poista kuva">
+  </form>
+  <p><a href="/profile">Peruuta</a></p>
+</section>
 {% endblock %}

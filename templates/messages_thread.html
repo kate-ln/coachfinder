@@ -4,24 +4,32 @@
 
 {% block content %}
 <h2>Viestit käyttäjän {% if other_user.display_name %}{{ other_user.display_name }} ({{ other_user.username }}){% else %}{{ other_user.username }}{% endif %} kanssa</h2>
-<p><a href="/messages">← Takaisin</a></p>
+<nav aria-label="Navigointi">
+  <p><a href="/messages">← Takaisin</a></p>
+</nav>
 
-<div>
+<section aria-labelledby="messages-heading">
+  <h3 id="messages-heading">Viestit</h3>
   {% for m in messages %}
-    <div class="message">
-      <span class="sender">{% if m.sender_display_name %}{{ m.sender_display_name }} ({{ m.sender }}){% else %}{{ m.sender }}{% endif %}</span>
-      <span class="timestamp">{{ m.created_at }}</span>
-      <div class="content">{{ m.body }}</div>
-    </div>
+    <article class="message">
+      <header>
+        <span class="sender">{% if m.sender_display_name %}{{ m.sender_display_name }} ({{ m.sender }}){% else %}{{ m.sender }}{% endif %}</span>
+        <span class="timestamp">{{ m.created_at }}</span>
+      </header>
+      <div class="content">{{ m.body | show_lines }}</div>
+    </article>
   {% endfor %}
-</div>
+</section>
 
-<hr>
-<form action="/messages/{{ thread_id }}" method="post">
-  <p>
-    Viesti:<br>
-    <textarea name="body" rows="4" cols="60"></textarea>
-  </p>
-  <input type="submit" value="Lähetä">
-</form>
+<section aria-labelledby="reply-form-heading">
+  <h3 id="reply-form-heading">Vastaa</h3>
+  <form action="/messages/{{ thread_id }}" method="post">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <p>
+      <label for="body">Viesti:</label><br>
+      <textarea id="body" name="body" rows="4" cols="60"></textarea>
+    </p>
+    <input type="submit" value="Lähetä">
+  </form>
+</section>
 {% endblock %}

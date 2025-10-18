@@ -6,9 +6,10 @@
 <h2>Oma profiili</h2>
 
 {% if session.username %}
-<div class="profile-info">
+<section class="profile-info" aria-labelledby="profile-image-heading">
+  <h3 id="profile-image-heading">Profiilikuva</h3>
   {% if user.has_image %}
-  <img src="/image/{{ user.id }}" class="profile-image" />
+  <img src="/image/{{ user.id }}" class="profile-image" alt="Oma profiilikuvasi" />
   <p>
     <a href="/add_image">Muuta kuvaa</a> |
     <a href="/confirm_delete_image">Poista kuva</a>
@@ -16,52 +17,57 @@
   {% else %}
   <p><em>Ei profiilikuvia</em> | <a href="/add_image">Lisää profiilikuva</a></p>
   {% endif %}
-</div>
+</section>
 
-<form method="POST">
-  <p>
-    <label for="display_name">Näyttönimi:</label><br>
-    <input type="text" id="display_name" name="display_name" value="{{ current_display_name or '' }}" placeholder="Syötä nimesi" maxlength="100">
-  </p>
-  <p>
-    <small>Tämä nimi näkyy ilmoituksissasi.</small>
-  </p>
-  <p>
-    <input type="submit" value="Tallenna">
-  </p>
-</form>
+<section aria-labelledby="display-name-heading">
+  <h3 id="display-name-heading">Näyttönimi</h3>
+  <form method="POST">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <p>
+      <label for="display_name">Näyttönimi:</label><br>
+      <input type="text" id="display_name" name="display_name" value="{{ current_display_name or '' }}" placeholder="Syötä nimesi" maxlength="50">
+    </p>
+    <p>
+      <small>Tämä nimi näkyy ilmoituksissasi.</small>
+    </p>
+    <p>
+      <input type="submit" value="Tallenna">
+    </p>
+  </form>
+</section>
 
-<div class="profile-info">
+<section class="profile-info" aria-labelledby="account-info-heading">
+  <h3 id="account-info-heading">Tilitiedot</h3>
   <p><strong>Käyttäjätunnus:</strong> {{ session.username }}</p>
   {% if current_display_name %}
   <p><strong>Nykyinen näyttönimi:</strong> {{ current_display_name }}</p>
   {% else %}
   <p><em>Ei näyttönimeä asetettu</em></p>
   {% endif %}
-</div>
+</section>
 
-<h3>Ilmoitukseni</h3>
-{% if announcements %}
-  {% set announcement_count = announcements|length %}
-  {% if announcement_count == 1 %}
-    <p>Sinulla on {{ announcement_count }} ilmoitus.</p>
+<section aria-labelledby="my-announcements-heading">
+  <h3 id="my-announcements-heading">Ilmoitukseni</h3>
+  {% if announcements %}
+    {% set announcement_count = announcements|length %}
+    {% if announcement_count == 1 %}
+      <p>Sinulla on {{ announcement_count }} ilmoitus.</p>
+    {% else %}
+      <p>Sinulla on {{ announcement_count }} ilmoitusta.</p>
+    {% endif %}
+    {% for announcement in announcements %}
+      <article class="announcement">
+        <h4><a href="/announcement/{{ announcement.id }}">{{ announcement.sport }}</a></h4>
+        <p><strong>Kaupunki:</strong> {{ announcement.city }}</p>
+        <p><strong>Ikäryhmä:</strong> {{ announcement.age_group }}</p>
+        <p><strong>Taitotaso:</strong> {{ announcement.skill_level }}</p>
+        <div class="description"><strong>Kuvaus:</strong> {{ announcement.description.strip() }}</div>
+      </article>
+    {% endfor %}
   {% else %}
-    <p>Sinulla on {{ announcement_count }} ilmoitusta.</p>
+    <p>Sinulla ei ole vielä ilmoituksia.</p>
   {% endif %}
-  {% for announcement in announcements %}
-    <div class="announcement">
-      <h3><a href="/announcement/{{ announcement.id }}">{{ announcement.sport }}</a></h3>
-      <p><strong>Kaupunki:</strong> {{ announcement.city }}</p>
-      <p><strong>Ikäryhmä:</strong> {{ announcement.age_group }}</p>
-      <p><strong>Taitotaso:</strong> {{ announcement.skill_level }}</p>
-      <div class="description">
-        <strong>Kuvaus:</strong> {{ announcement.description }}
-      </div>
-    </div>
-  {% endfor %}
-{% else %}
-  <p>Sinulla ei ole vielä ilmoituksia.</p>
-{% endif %}
+</section>
 
 {% else %}
 <p>Sinun täytyy kirjautua sisään nähdäksesi profiilin.</p>

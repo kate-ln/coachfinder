@@ -5,19 +5,22 @@
 {% block content %}
 <h2>Rekisteröinti</h2>
 
-<form action="/create" method="post">
-  <p>
-    Tunnus: <br />
-    <input type="text" name="username" />
-  </p>
-  <p>
-    Salasana: <br />
-    <input type="password" name="password1" />
-  </p>
-  <p>
-    Salasana uudestaan: <br />
-    <input type="password" name="password2" />
-  </p>
-  <input type="submit" value="Luo tunnus" />
-</form>
+<section aria-labelledby="registration-form-heading">
+  <h3 id="registration-form-heading">Rekisteröintilomake</h3>
+  <form action="/create" method="post">
+    <p>
+      <label for="username">Tunnus:</label><br />
+      <input type="text" id="username" name="username" value="{{ filled.username }}" maxlength="16" />
+    </p>
+    <p>
+      <label for="password1">Salasana:</label><br />
+      <input type="password" id="password1" name="password1" />
+    </p>
+    <p>
+      <label for="password2">Salasana uudestaan:</label><br />
+      <input type="password" id="password2" name="password2" />
+    </p>
+    <input type="submit" value="Luo tunnus" />
+  </form>
+</section>
 {% endblock %}

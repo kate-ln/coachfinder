@@ -4,37 +4,42 @@
 
 {% block content %}
 <h2>Uusi ilmoitus</h2>
-<form action="/create_announcement_student" method="post">
+<section aria-labelledby="announcement-form-heading">
+  <h3 id="announcement-form-heading">Ilmoituksen luonti</h3>
+  <form action="/create_announcement_student" method="post">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <p>
-    Laji, johon haen valmentajaa: <br />
-    <input type="text" name="sport" maxlength="50" required/>
+    <label for="sport">Laji, johon haen valmentajaa:</label><br />
+    <input type="text" id="sport" name="sport" value="{{ filled.sport }}" maxlength="50" />
   </p>
   <p>
-    Paikkakunta: <br />
-    <input type="text" name="city" maxlength="50" required/>
+    <label for="city">Paikkakunta:</label><br />
+    <input type="text" id="city" name="city" value="{{ filled.city }}" maxlength="50" />
   </p>
   <p>
-    Kuulun ikäryhmään: <br />
-    <select name="age_group" required>
+    <label for="age_group">Kuulun ikäryhmään:</label><br />
+    <select id="age_group" name="age_group">
       <option value="">(valitse)</option>
       {% for age_group in age_groups %}
-      <option value="{{ age_group.value }}">{{ age_group.label }}</option>
+      <option value="{{ age_group.value }}" {% if filled.age_group == age_group.value %}selected{% endif %}>{{ age_group.label }}</option>
       {% endfor %}
     </select>
   </p>
   <p>
-    Taitotasoni: <br />
-    <select name="skill_level" required>
+    <label for="skill_level">Taitotasoni:</label><br />
+    <select id="skill_level" name="skill_level">
       <option value="">(valitse)</option>
       {% for skill_level in skill_levels %}
-      <option value="{{ skill_level.value }}">{{ skill_level.label }}</option>
+      <option value="{{ skill_level.value }}" {% if filled.skill_level == skill_level.value %}selected{% endif %}>{{ skill_level.label }}</option>
       {% endfor %}
     </select>
   </p>
   <p>
-    Vapaa kuvaus itsestäni: <br />
-    <textarea name="description" rows="8" cols="60" maxlength="1000" required></textarea>
+    <label for="description">Vapaa kuvaus itsestäni:</label><br />
+    <textarea id="description" name="description" rows="8" wrap="soft" style="word-break: break-word !important; overflow-wrap: anywhere !important; white-space: pre-wrap !important; overflow-x: hidden !important; max-width: 100% !important; width: 100% !important;" maxlength="1000">{{ filled.description }}</textarea>
+    <br><small>Maksimipituus: 1000 merkkiä</small>
   </p>
   <input type="submit" value="Luo ilmoitus" />
-</form>
+  </form>
+</section>
 {% endblock %}

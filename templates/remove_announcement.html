@@ -4,10 +4,18 @@
 
 {% block content %}
 <h2>Ilmoituksen poisto</h2>
-<p>Ilmoitus: {{ announcement.sport }} </p>
-<p>Vahvista ilmoituksen poistaminen:</p>
-<form action="/remove_announcement/{{ announcement.id }}" method="post">
-  <input type="submit" name="remove" value="Poista ilmoitus"></input>
-  <input type="submit" name="back" value="Peruuta poistaminen"></input>
-</form>
+
+<section aria-labelledby="announcement-info-heading">
+  <h3 id="announcement-info-heading">Ilmoitus</h3>
+  <p>Ilmoitus: {{ announcement.sport }}</p>
+</section>
+
+<section aria-labelledby="confirmation-heading">
+  <h3 id="confirmation-heading">Vahvista ilmoituksen poistaminen</h3>
+  <form action="/remove_announcement/{{ announcement.id }}" method="post">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <input type="submit" id="remove" name="remove" value="Poista ilmoitus">
+    <input type="submit" id="back" name="back" value="Peruuta poistaminen">
+  </form>
+</section>
 {% endblock %}

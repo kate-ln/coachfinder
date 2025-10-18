@@ -64,7 +64,7 @@ def handle_password_mismatch_error():
     return render_error_with_link("VIRHE: salasanat eivät ole samat", "/create", "Palaa rekisteröitymiseen")
 
 def handle_display_name_too_long_error():
-    return render_error_with_link("VIRHE: näyttönimi on liian pitkä (max 100 merkkiä)", "/profile", "Palaa profiiliin")
+    return render_error_with_link("VIRHE: näyttönimi on liian pitkä (max 50 merkkiä)", "/profile", "Palaa profiiliin")
 
 def handle_message_error(message: str):
     return render_error_with_link(f"VIRHE: {message}", "/messages", "Takaisin viesteihin")

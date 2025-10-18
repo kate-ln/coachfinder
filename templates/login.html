@@ -10,16 +10,24 @@
   Olet kirjautunut tunnuksella {{ session.username }}
 </p>
 {% else %}
-<form action="/login" method="post">
-  <p>
-    Tunnus: <br />
-    <input type="text" name="username" />
-  </p>
-  <p>
-    Salasana: <br />
-    <input type="password" name="password" />
-  </p>
-  <input type="submit" value="Kirjaudu" />
-</form>
+<section aria-labelledby="login-form-heading">
+  <h3 id="login-form-heading">Kirjautumislomake</h3>
+  <form action="/login" method="post">
+    <p>
+      <label for="username">Tunnus:</label><br />
+      <input type="text" id="username" name="username" value="{{ filled.username }}" />
+    </p>
+    <p>
+      <label for="password">Salasana:</label><br />
+      <input type="password" id="password" name="password" />
+    </p>
+    {% if next_page %}
+    <input type="hidden" id="next_page" name="next_page" value="{{ next_page }}" />
+    {% else %}
+    <input type="hidden" id="next_page" name="next_page" value="/" />
+    {% endif %}
+    <input type="submit" value="Kirjaudu" />
+  </form>
+</section>
 {% endif %}
 {% endblock %}

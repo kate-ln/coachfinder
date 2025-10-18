@@ -80,12 +80,19 @@ def update_announcement(announcement_id, sport, city, age_group, skill_level, de
         update_announcement_class(announcement_id, 'Taitotaso', skill_level)
 
 def remove_announcement(announcement_id):
+    # First delete related records in announcement_classes table
+    sql_classes = "DELETE FROM announcement_classes WHERE announcement_id = ?"
+    db.execute(sql_classes, [announcement_id])
+    # Then delete the announcement itself
     sql = "DELETE FROM announcements_student WHERE id = ?"
     db.execute(sql, [announcement_id])
 
 def find_announcements(query):
     sql = """SELECT announcements_student.id,
                     announcements_student.sport,
+                    announcements_student.city,
+                    announcements_student.age_group,
+                    announcements_student.skill_level,
                     users.display_name,
                     users.username
              FROM announcements_student

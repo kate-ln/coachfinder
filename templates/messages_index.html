@@ -4,20 +4,25 @@
 
 {% block content %}
 <h2>Keskustelut</h2>
-<p><a href="/messages/new">Uusi viesti</a></p>
+<nav aria-label="Viestien toiminnot">
+  <p><a href="/messages/new">Uusi viesti</a></p>
+</nav>
 
-{% if threads|length == 0 %}
-  <p>Ei keskusteluja vielä.</p>
-{% else %}
-  {% for t in threads %}
-    <div class="thread">
-      <h3>
-        <a href="/messages/{{ t.thread_id }}">
-          {% if t.other_display_name %}{{ t.other_display_name }} ({{ t.other_username }}){% else %}{{ t.other_username }}{% endif %}
-        </a>
-      </h3>
-      <p class="meta">{{ t.last_body }} — {{ t.last_at }}</p>
-    </div>
-  {% endfor %}
-{% endif %}
+<section aria-labelledby="threads-heading">
+  <h3 id="threads-heading">Keskustelut</h3>
+  {% if threads|length == 0 %}
+    <p>Ei keskusteluja vielä.</p>
+  {% else %}
+    {% for t in threads %}
+      <article class="thread">
+        <h4>
+          <a href="/messages/{{ t.thread_id }}">
+            {% if t.other_display_name %}{{ t.other_display_name }} ({{ t.other_username }}){% else %}{{ t.other_username }}{% endif %}
+          </a>
+        </h4>
+        <p class="meta">{{ t.last_body | show_lines }} — {{ t.last_at }}</p>
+      </article>
+    {% endfor %}
+  {% endif %}
+</section>
 {% endblock %}

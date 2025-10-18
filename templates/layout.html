@@ -1,38 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="fi">
 
 <head>
   <title>{% block title %}Coachfinder{% endblock %}</title>
   <link rel="stylesheet" href="/static/main.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-  <div class="header">
+  <header class="header">
     <h1>Coachfinder</h1>
-  </div>
+  </header>
 
-  <div class="nav">
-    <nav>
-      <ul>
-        <li><a href="/">Etusivu</a></li>
-        {% if session.user_id %}
-        <li><a href="/find_announcement">Etsi ilmoitus</a></li>
-        <li><a href="/create_announcement_student">Uusi ilmoitus</a></li>
-        <li><a href="/messages">Viestit</a></li>
-        <li><a href="/messages/new">Uusi viesti</a></li>
-        <li><a href="/profile">Profiili</a></li>
-        <li><a href="/logout">Kirjaudu ulos</a></li>
-        {% else %}
-        <li><a href="/login">Kirjaudu sisään</a></li>
-        <li><a href="/register">Luo tunnus</a></li>
-        {% endif %}
-      </ul>
-    </nav>
-  </div>
+  <nav class="nav">
+    <ul>
+      <li><a href="/">Etusivu</a></li>
+      {% if session.user_id %}
+      <li><a href="/find_announcement">Etsi ilmoitus</a></li>
+      <li><a href="/create_announcement_student">Uusi ilmoitus</a></li>
+      <li><a href="/messages">Viestit</a></li>
+      <li><a href="/messages/new">Uusi viesti</a></li>
+      <li><a href="/profile">Profiili</a></li>
+      <li><a href="/logout">Kirjaudu ulos</a></li>
+      {% else %}
+      <li><a href="/login">Kirjaudu sisään</a></li>
+      <li><a href="/register">Luo tunnus</a></li>
+      {% endif %}
+    </ul>
+  </nav>
 
-  <div class="content">
+  <main class="content">
+    {% for message in get_flashed_messages() %}
+    {% if message.startswith('VIRHE:') %}
+    <div class="error">
+      {{ message }}
+    </div>
+    {% elif message.startswith('Ilmoitus luotu onnistuneesti') %}
+    <div class="success">
+      {{ message }}
+    </div>
+    {% else %}
+    <p>
+      <b>{{ message }}</b>
+    </p>
+    {% endif %}
+    {% endfor %}
     {% block content %}{% endblock %}
-  </div>
+  </main>
 </body>
 
 </html>

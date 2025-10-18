@@ -5,38 +5,39 @@
 {% block content %}
 <h2>{% if user.display_name %}{{ user.display_name }}{% else %}{{ user.username }}{% endif %}</h2>
 
-<div class="profile-info">
+<section class="profile-info" aria-labelledby="profile-heading">
+  <h3 id="profile-heading">Profiilitiedot</h3>
   {% if user.has_image %}
-  <img src="/image/{{ user.id }}" class="profile-image" />
+  <img src="/image/{{ user.id }}" class="profile-image" alt="Käyttäjän {{ user.username }} kuva" />
   {% endif %}
   <p><strong>Käyttäjätunnus:</strong> {{ user.username }}</p>
   {% if user.display_name %}
   <p><strong>Nimi:</strong> {{ user.display_name }}</p>
   {% endif %}
-</div>
+</section>
 
-<h3>Ilmoitukset</h3>
-{% if announcements %}
-  {% set announcement_count = announcements|length %}
-  {% if announcement_count == 1 %}
-    <p>Käyttäjällä on {{ announcement_count }} ilmoitus.</p>
+<section aria-labelledby="user-announcements-heading">
+  <h3 id="user-announcements-heading">Ilmoitukset</h3>
+  {% if announcements %}
+    {% set announcement_count = announcements|length %}
+    {% if announcement_count == 1 %}
+      <p>Käyttäjällä on {{ announcement_count }} ilmoitus.</p>
+    {% else %}
+      <p>Käyttäjällä on {{ announcement_count }} ilmoitusta.</p>
+    {% endif %}
+    {% for announcement in announcements %}
+      <article class="announcement">
+        <h4><a href="/announcement/{{ announcement.id }}">{{ announcement.sport }}</a></h4>
+        <p><strong>Kaupunki:</strong> {{ announcement.city }}</p>
+        <p><strong>Ikäryhmä:</strong> {{ announcement.age_group }}</p>
+        <p><strong>Taitotaso:</strong> {{ announcement.skill_level }}</p>
+        <div class="description"><strong>Kuvaus:</strong> {{ announcement.description.strip() }}</div>
+      </article>
+    {% endfor %}
   {% else %}
-    <p>Käyttäjällä on {{ announcement_count }} ilmoitusta.</p>
+    <p>Käyttäjällä ei ole vielä ilmoituksia.</p>
   {% endif %}
-  {% for announcement in announcements %}
-    <div class="announcement">
-      <h3><a href="/announcement/{{ announcement.id }}">{{ announcement.sport }}</a></h3>
-      <p><strong>Kaupunki:</strong> {{ announcement.city }}</p>
-      <p><strong>Ikäryhmä:</strong> {{ announcement.age_group }}</p>
-      <p><strong>Taitotaso:</strong> {{ announcement.skill_level }}</p>
-      <div class="description">
-        <strong>Kuvaus:</strong> {{ announcement.description }}
-      </div>
-    </div>
-  {% endfor %}
-{% else %}
-  <p>Käyttäjällä ei ole vielä ilmoituksia.</p>
-{% endif %}
+</section>
 
 <p><a href="/">Takaisin etusivulle</a></p>
 {% endblock %}

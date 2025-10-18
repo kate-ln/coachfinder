@@ -5,14 +5,26 @@
 {% block content %}
 <h2>{{ announcement.sport }}{% if session.user_id %}{% if session.user_id == announcement.user_id %}{% if announcement.display_name %} - <a href="/profile">{{ announcement.display_name }}</a>{% else %} - <a href="/profile">{{ announcement.username }}</a>{% endif %}{% else %}{% if announcement.display_name %} - <a href="/profile/{{ announcement.user_id }}">{{ announcement.display_name }}</a>{% else %} - <a href="/profile/{{ announcement.user_id }}">{{ announcement.username }}</a>{% endif %}{% endif %}{% else %}{% if announcement.display_name %} - {{ announcement.display_name }}{% else %} - {{ announcement.username }}{% endif %}{% endif %}</h2>
 
-{% if session.user_id == announcement.user_id %}
-<p>
-<a href="/edit_announcement/{{ announcement.id }}">Muokkaa</a> |
-<a href="/remove_announcement/{{ announcement.id }}">Poista</a>
-</p>
+{% if not session.user_id %}
+<section aria-labelledby="login-prompt-heading">
+  <h3 id="login-prompt-heading">Kirjautuminen vaaditaan</h3>
+  <p>
+    Kirjaudu sisään <a href="/login?next_page={{ request.url }}">tästä</a> nähdäksesi käyttäjän {% if announcement.display_name %}{{ announcement.display_name }}{% else %}{{ announcement.username }}{% endif %} tiedot.
+  </p>
+</section>
 {% endif %}
 
-<div class="announcement">
+{% if session.user_id == announcement.user_id %}
+<nav aria-label="Ilmoituksen toiminnot">
+  <p>
+    <a href="/edit_announcement/{{ announcement.id }}">Muokkaa</a> |
+    <a href="/remove_announcement/{{ announcement.id }}">Poista</a>
+  </p>
+</nav>
+{% endif %}
+
+<article class="announcement" aria-labelledby="announcement-details-heading">
+  <h3 id="announcement-details-heading">Ilmoituksen tiedot</h3>
   <p><strong>Laji:</strong> {{ announcement.sport }}</p>
   <p><strong>Paikkakunta:</strong> {{ announcement.city }}</p>
   {% if announcement.classes %}
@@ -20,9 +32,7 @@
   <p><strong>{{ class.title }}:</strong> {{ class.value }}</p>
   {% endfor %}
   {% endif %}
-  <div class="description">
-    <strong>Kuvaus:</strong> {{ announcement.description }}
-  </div>
-</div>
+  <div class="description"><strong>Kuvaus:</strong> {{ announcement.description.strip() }}</div>
+</article>
 {% endblock %}
  
