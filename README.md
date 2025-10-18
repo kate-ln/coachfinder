@@ -14,7 +14,7 @@
 
    Sovelluksen tämänhetkinen vaihe sisältää seuraavat toiminnot:
    ### Toteutetut ominaisuudet
-   - **Käyttäjähallinta**:
+**Käyttäjähallinta**:
    - Käyttäjärekisteröinti ja kirjautuminen
    - Salasanojen hashaus (Werkzeug)
    - Käyttäjäsessiot ja autentikointi
@@ -22,7 +22,7 @@
    - Käyttäjäprofiilit (oma ja muiden käyttäjien profiilit)
    - Uloskirjautuminen
 
-   - **Oppilasilmoitukset**:
+**Oppilasilmoitukset**:
    - Ilmoitusten luominen, muokkaaminen ja poistaminen
    - Ilmoitusten listaus etusivulla
    - Ilmoitusten haku vapaalla hakusanalla
@@ -30,21 +30,21 @@
    - Oikeuksien tarkastaminen (vain omien ilmoitusten muokkaus/poisto)
    - Valintalistojen hallinta (ikäryhmä, taitotaso, laji, paikkakunta)
 
-   - **Viestitys**:
+**Viestitys**:
    - Yksityisviestien lähettäminen käyttäjien välillä
    - Viestiketjujen hallinta ja luominen
    - Viestiketjujen listaus
    - Viestien lukeminen ja vastaaminen
    - Viestien pituuden validaatio (max 2000 merkkiä)
 
-   - **Profiilikuvien hallinta**:
+**Profiilikuvien hallinta**:
    - Kuvien lataaminen (.jpg-tiedostot, max 100KB)
    - Kuvien näyttäminen
    - Kuvien muokkaaminen (korvaaminen)
    - Kuvien poistaminen vahvistussivulla
    - BLOB-tallennus tietokantaan
 
-   - **Turvallisuusominaisuudet**:
+**Turvallisuusominaisuudet**:
    - CSRF-suojaus kaikille POST-pyynnöille
    - Palvelinpuolen validaatio valintalistojen arvoille
    - XSS-suojaus (MarkupSafe)
@@ -53,7 +53,7 @@
    - Sessioiden hallinta
    - Käyttöoikeuksien tarkastaminen
 
-   - **Käyttöliittymä**:
+**Käyttöliittymä**:
    - Yhtenäinen CSS-tyylitysjärjestelmä (layout.html + main.css)
    - Responsiivinen design
    - Keskitetty virheenkäsittely (ui.py)
@@ -61,7 +61,7 @@
    - Navigaatiojärjestelmä
    - Lomakkeiden validaatio ja virheenkäsittely
 
-   - **Valmentajailmoitukset**:
+**Valmentajailmoitukset**:
    - Valmentajailmoitusten luominen, muokkaaminen ja poistaminen
    - Valmentajailmoitusten listaus etusivulla
    - Valmentajailmoitusten haku vapaalla hakusanalla
@@ -70,7 +70,7 @@
    - Kokemustason valintalistojen hallinta
    - Ilmoitustyypin valinta (oppilas vs valmentaja)
 
-   - **Tilastot profiilisivulla**
+**Tilastot profiilisivulla**
    - Ilmoitusten määrä kategorioittain
    - Opplilaiden ikäryhmien jakauma ja maininta oman ikäryhmän osuudesta
      
