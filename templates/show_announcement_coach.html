@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}Valmentajailmoitus{% endblock %}
+
+{% block content %}
+<h2>Valmentajailmoitus</h2>
+
+<article class="announcement" aria-labelledby="announcement-details-heading">
+  <h3 id="announcement-details-heading">Ilmoituksen tiedot</h3>
+  <p><strong>Nimi:</strong> <a href="/profile/{{ announcement.user_id }}">{% if announcement.display_name %}{{ announcement.display_name }} ({{ announcement.username }}){% else %}{{ announcement.username }}{% endif %}</a></p>
+  <p><strong>Laji:</strong> {{ announcement.sport }}</p>
+  <p><strong>Paikkakunta:</strong> {{ announcement.city }}</p>
+  <p><strong>Kokemus:</strong> {{ announcement.experience_level }}</p>
+  <div class="description"><strong>Kuvaus:</strong> {{ announcement.description.strip() }}</div>
+</article>
+
+{% if session.user_id == announcement.user_id %}
+<nav aria-label="Ilmoituksen toiminnot">
+  <p>
+    <a href="/edit_announcement_coach/{{ announcement.id }}">Muokkaa</a> |
+    <a href="/remove_announcement_coach/{{ announcement.id }}">Poista</a>
+  </p>
+</nav>
+{% else %}
+<nav aria-label="Viesti valmentajalle">
+  <p><a href="/messages/new">Lähetä viesti valmentajalle</a></p>
+</nav>
+{% endif %}
+
+<p><a href="/">← Takaisin etusivulle</a></p>
+{% endblock %}

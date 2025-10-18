@@ -46,24 +46,61 @@
   {% endif %}
 </section>
 
+<section aria-labelledby="age-distribution-heading">
+  <h3 id="age-distribution-heading">Oppilaiden ikäryhmien jakauma</h3>
+  <div class="age-distribution-chart">
+    {% for group in age_distribution %}
+      <div class="age-group-bar">
+        <div class="age-group-label">{{ group.age_group }}</div>
+        <div class="age-group-bar-container">
+          <div class="age-group-bar-fill{% if group.age_group == user_age_group %} user-age-group{% endif %}" style="--bar-width: {{ group.percentage }}%; width: var(--bar-width);">
+            <span class="age-group-percentage">{{ group.percentage }}%</span>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% if user_age_group and user_percentage > 0 %}
+    <p class="age-distribution-caption">
+      Oppilaista {{ user_percentage }}% kuuluu ikäryhmääsi ({{ user_age_group }})
+    </p>
+  {% endif %}
+</section>
+
 <section aria-labelledby="my-announcements-heading">
   <h3 id="my-announcements-heading">Ilmoitukseni</h3>
-  {% if announcements %}
-    {% set announcement_count = announcements|length %}
-    {% if announcement_count == 1 %}
-      <p>Sinulla on {{ announcement_count }} ilmoitus.</p>
+  {% set total_announcements = (student_announcements|length) + (coach_announcements|length) %}
+  {% if total_announcements > 0 %}
+    {% if total_announcements == 1 %}
+      <p>Sinulla on {{ total_announcements }} ilmoitus.</p>
     {% else %}
-      <p>Sinulla on {{ announcement_count }} ilmoitusta.</p>
+      <p>Sinulla on {{ total_announcements }} ilmoitusta.</p>
     {% endif %}
-    {% for announcement in announcements %}
+    
+    {% if student_announcements %}
+    <h4>Oppilasilmoitukset (Etsin valmentajaa)</h4>
+    {% for announcement in student_announcements %}
       <article class="announcement">
-        <h4><a href="/announcement/{{ announcement.id }}">{{ announcement.sport }}</a></h4>
+        <h5><a href="/announcement/{{ announcement.id }}">{{ announcement.sport }}</a></h5>
         <p><strong>Kaupunki:</strong> {{ announcement.city }}</p>
         <p><strong>Ikäryhmä:</strong> {{ announcement.age_group }}</p>
         <p><strong>Taitotaso:</strong> {{ announcement.skill_level }}</p>
         <div class="description"><strong>Kuvaus:</strong> {{ announcement.description.strip() }}</div>
       </article>
     {% endfor %}
+    {% endif %}
+    
+    {% if coach_announcements %}
+    <h4>Valmentajailmoitukset (Etsin valmennettavaa)</h4>
+    {% for announcement in coach_announcements %}
+      <article class="announcement">
+        <h5><a href="/announcement_coach/{{ announcement.id }}">{{ announcement.sport }}</a></h5>
+        <p><strong>Kaupunki:</strong> {{ announcement.city }}</p>
+        <p><strong>Kokemus:</strong> {{ announcement.experience_level }}</p>
+        <div class="description"><strong>Kuvaus:</strong> {{ announcement.description.strip() }}</div>
+      </article>
+    {% endfor %}
+    {% endif %}
   {% else %}
     <p>Sinulla ei ole vielä ilmoituksia.</p>
   {% endif %}

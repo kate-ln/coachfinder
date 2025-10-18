@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}Poista valmentajailmoitus{% endblock %}
+
+{% block content %}
+<h2>Poista valmentajailmoitus</h2>
+
+<p>Haluatko varmasti poistaa valmentajailmoituksen?</p>
+
+<div class="announcement">
+    <h3>{{ announcement.sport }}</h3>
+    <p><strong>Paikkakunta:</strong> {{ announcement.city }}</p>
+    <p><strong>Kokemus:</strong> {{ announcement.experience_level }}</p>
+    <p><strong>Kuvaus:</strong> {{ announcement.description }}</p>
+</div>
+
+<form method="post">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    <button type="submit" name="remove" value="yes">Kyllä, poista ilmoitus</button>
+</form>
+
+<p><a href="/announcement_coach/{{ announcement.id }}">← Takaisin ilmoitukseen</a></p>
+{% endblock %}

@@ -37,9 +37,25 @@ CREATE TABLE classes (
   value TEXT
 );
 
+CREATE TABLE announcements_coach (
+    id INTEGER PRIMARY KEY,
+    sport TEXT,
+    city TEXT,
+    experience_level TEXT,
+    description TEXT,
+    user_id INTEGER REFERENCES users
+);
+
 CREATE TABLE  announcement_classes (
   id INTEGER PRIMARY KEY,
   announcement_id INTEGER REFERENCES announcements_student(id),
+  title TEXT,
+  value TEXT
+);
+
+CREATE TABLE announcement_classes_coach (
+  id INTEGER PRIMARY KEY,
+  announcement_id INTEGER REFERENCES announcements_coach(id),
   title TEXT,
   value TEXT
 );

@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block title %}Valitse ilmoituksen tyyppi{% endblock %}
+
+{% block content %}
+<h2>Valitse ilmoituksen tyyppi</h2>
+
+<p>Haluatko luoda ilmoituksen valmentajana vai oppilaana?</p>
+
+<div style="text-align: center; margin: 2em 0;">
+    <a href="/create_announcement_student" style="display: inline-block; margin: 1em; padding: 1em 2em; background-color: #27ae60; color: white; text-decoration: none; border-radius: 5px;">
+        Etsin valmentajaa
+    </a>
+    <a href="/create_announcement_coach" style="display: inline-block; margin: 1em; padding: 1em 2em; background-color: #27ae60; color: white; text-decoration: none; border-radius: 5px;">
+        Etsin valmennettavaa
+    </a>
+</div>
+
+<p><a href="/">← Takaisin etusivulle</a></p>
+{% endblock %}

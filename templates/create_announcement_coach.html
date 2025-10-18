@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}Luo valmentajailmoitus{% endblock %}
+
+{% block content %}
+<h2>Luo valmentajailmoitus</h2>
+<section aria-labelledby="announcement-form-heading">
+  <h3 id="announcement-form-heading">Valmentajailmoituksen luonti</h3>
+  <form action="/create_announcement_coach" method="post">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+  <p>
+    <label for="sport">Laji, jota valmennan:</label><br />
+    <input type="text" id="sport" name="sport" value="{{ filled.sport or '' }}" maxlength="50" />
+  </p>
+  <p>
+    <label for="city">Paikkakunta:</label><br />
+    <input type="text" id="city" name="city" value="{{ filled.city or '' }}" maxlength="50" />
+  </p>
+  <p>
+    <label for="experience_level">Kokemustaso:</label><br />
+    <select id="experience_level" name="experience_level">
+      <option value="">(valitse)</option>
+      {% for level in experience_levels %}
+      <option value="{{ level.value }}" {% if filled.experience_level == level.value %}selected{% endif %}>{{ level.label }}</option>
+      {% endfor %}
+    </select>
+  </p>
+  <p>
+    <label for="description">Vapaa kuvaus itsestäni:</label><br />
+    <textarea id="description" name="description" rows="8" wrap="soft" style="word-break: break-word !important; overflow-wrap: anywhere !important; white-space: pre-wrap !important; overflow-x: hidden !important; max-width: 100% !important; width: 100% !important;" maxlength="1000">{{ filled.description or '' }}</textarea>
+    <br><small>Maksimipituus: 1000 merkkiä</small>
+  </p>
+  <input type="submit" value="Luo ilmoitus" />
+  </form>
+</section>
+{% endblock %}

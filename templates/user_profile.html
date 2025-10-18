@@ -18,22 +18,38 @@
 
 <section aria-labelledby="user-announcements-heading">
   <h3 id="user-announcements-heading">Ilmoitukset</h3>
-  {% if announcements %}
-    {% set announcement_count = announcements|length %}
-    {% if announcement_count == 1 %}
-      <p>Käyttäjällä on {{ announcement_count }} ilmoitus.</p>
+  {% set total_announcements = (student_announcements|length) + (coach_announcements|length) %}
+  {% if total_announcements > 0 %}
+    {% if total_announcements == 1 %}
+      <p>Käyttäjällä on {{ total_announcements }} ilmoitus.</p>
     {% else %}
-      <p>Käyttäjällä on {{ announcement_count }} ilmoitusta.</p>
+      <p>Käyttäjällä on {{ total_announcements }} ilmoitusta.</p>
     {% endif %}
-    {% for announcement in announcements %}
+    
+    {% if student_announcements %}
+    <h4>Oppilasilmoitukset (Etsin valmentajaa)</h4>
+    {% for announcement in student_announcements %}
       <article class="announcement">
-        <h4><a href="/announcement/{{ announcement.id }}">{{ announcement.sport }}</a></h4>
+        <h5><a href="/announcement/{{ announcement.id }}">{{ announcement.sport }}</a></h5>
         <p><strong>Kaupunki:</strong> {{ announcement.city }}</p>
         <p><strong>Ikäryhmä:</strong> {{ announcement.age_group }}</p>
         <p><strong>Taitotaso:</strong> {{ announcement.skill_level }}</p>
         <div class="description"><strong>Kuvaus:</strong> {{ announcement.description.strip() }}</div>
       </article>
     {% endfor %}
+    {% endif %}
+    
+    {% if coach_announcements %}
+    <h4>Valmentajailmoitukset (Etsin valmennettavaa)</h4>
+    {% for announcement in coach_announcements %}
+      <article class="announcement">
+        <h5><a href="/announcement_coach/{{ announcement.id }}">{{ announcement.sport }}</a></h5>
+        <p><strong>Kaupunki:</strong> {{ announcement.city }}</p>
+        <p><strong>Kokemus:</strong> {{ announcement.experience_level }}</p>
+        <div class="description"><strong>Kuvaus:</strong> {{ announcement.description.strip() }}</div>
+      </article>
+    {% endfor %}
+    {% endif %}
   {% else %}
     <p>Käyttäjällä ei ole vielä ilmoituksia.</p>
   {% endif %}

@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}Vahvista ikäryhmän muutos - Coachfinder{% endblock %}
+
+{% block content %}
+<h2>Ikäryhmän muutos</h2>
+
+<section aria-labelledby="confirmation-heading">
+  <h3 id="confirmation-heading">Haluatko varmasti muuttaa ikäryhmäsi?</h3>
+  
+  {% if pending_update %}
+  <p>Olet muokkaamassa ilmoitusta ikäryhmällä <strong>{{ pending_update.age_group }}</strong>, 
+     mutta sinulla on jo muita ilmoituksia eri ikäryhmällä.</p>
+  
+  <p>Jos valitset "Kyllä", kaikki ilmoituksesi päivitetään uudella ikäryhmällä.</p>
+  
+  <div class="confirmation-buttons">
+    <form method="POST" action="/confirm_age_group_change_update" style="display: inline;">
+      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+      <input type="hidden" name="confirm" value="yes" />
+      <input type="submit" value="Kyllä" class="btn btn-primary" />
+    </form>
+    
+    <form method="POST" action="/confirm_age_group_change_update" style="display: inline;">
+      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+      <input type="hidden" name="confirm" value="no" />
+      <input type="submit" value="Ei" class="btn btn-secondary" />
+    </form>
+  </div>
+  {% else %}
+  <p>Virhe: Ei odottavaa päivitystä löytynyt.</p>
+  <p><a href="/">Takaisin etusivulle</a></p>
+  {% endif %}
+</section>
+{% endblock %}

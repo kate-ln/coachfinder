@@ -13,10 +13,10 @@
 </section>
 {% endif %}
 
-<section aria-labelledby="announcements-heading">
-  <h3 id="announcements-heading">Ilmoitukset</h3>
-  {% if announcements %}
-  {% for announcement in announcements %}
+<section aria-labelledby="student-announcements-heading">
+  <h3 id="student-announcements-heading">Oppilasilmoitukset (Etsin valmentajaa)</h3>
+  {% if student_announcements %}
+  {% for announcement in student_announcements %}
   <article class="announcement">
     <h4>
       <a href="/announcement/{{ announcement.id }}">
@@ -30,7 +30,28 @@
   </article>
   {% endfor %}
   {% else %}
-  <p>Ei ilmoituksia vielä.</p>
+  <p>Ei oppilasilmoituksia vielä.</p>
+  {% endif %}
+</section>
+
+<section aria-labelledby="coach-announcements-heading">
+  <h3 id="coach-announcements-heading">Valmentajailmoitukset (Etsin valmennettavaa)</h3>
+  {% if coach_announcements %}
+  {% for announcement in coach_announcements %}
+  <article class="announcement">
+    <h4>
+      <a href="/announcement_coach/{{ announcement.id }}">
+        {{ announcement.sport }}{% if announcement.display_name %} - {{ announcement.display_name }} ({{ announcement.username }}){% else %} - {{ announcement.username }}{% endif %}
+      </a>
+    </h4>
+    <p class="meta">
+      {{ announcement.city }} (kokemus: {{ announcement.experience_level }})
+    </p>
+    <div class="description">{{ announcement.description.strip() }}</div>
+  </article>
+  {% endfor %}
+  {% else %}
+  <p>Ei valmentajailmoituksia vielä.</p>
   {% endif %}
 </section>
 {% endblock %}
