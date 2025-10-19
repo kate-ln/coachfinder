@@ -235,9 +235,9 @@
    - **Tietokanta**: SQLite3 (tiedostopohjainen)
    - **Templating**: Jinja2 (Flask:n mukana)
    - **Turvallisuus**:
-   - Werkzeug salasanojen hashaukseen
-   - MarkupSafe XSS-suojaukseen
-   - CSRF-tokenit Cross-Site Request Forgery -hyökkäyksiä vastaan
+      - Werkzeug salasanojen hashaukseen
+      - MarkupSafe XSS-suojaukseen
+      - CSRF-tokenit Cross-Site Request Forgery -hyökkäyksiä vastaan
    - **Sessiot**: Flask-sessiot (cookies)
    - **Staattiset tiedostot**: CSS-tyylitiedostot
    - **Tiedostojen käsittely**: BLOB-tallennus tietokantaan
