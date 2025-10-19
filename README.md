@@ -288,7 +288,7 @@
       - Syötä `<script>alert('XSS')</script>` kenttiin
       - Syötä `'; DROP TABLE users; --` kenttiin
       - Tarkista, että kaikki syötteet koodataan oikein kontekstissaan ja että SQL:ssa käytetään parametrisoituja kyselyjä.
-      - 
+        
    #### Parannettu hakutoiminto
    9. **Hakutyypin valinta**:
       - Testaa "Etsin valmennettavia" -valintaa
