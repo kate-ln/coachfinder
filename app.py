@@ -299,7 +299,7 @@ def create_announcement_student():
     # No age group change, create announcement normally
     announcements_student.add_announcement(
         sport, city, age_group, skill_level, description, user_id)
-    flash("Ilmoitus luotu onnistuneesti")
+    flash("Oppilasilmoitus luotu onnistuneesti")
     return redirect("/")
 
 @app.route("/edit_announcement/<int:announcement_id>")
@@ -492,7 +492,7 @@ def update_announcement_student():
                              skill_levels=skill_levels)
     announcements_student.update_announcement(
         announcement_id, sport, city, age_group, skill_level, description)
-    flash("Ilmoitus päivitetty onnistuneesti")
+    flash("Oppilasilmoitus päivitetty onnistuneesti")
     return redirect("/announcement/" + str(announcement_id))
 
 @app.route("/remove_announcement/<int:announcement_id>", methods=["GET", "POST"])
@@ -637,7 +637,7 @@ def create_announcement_coach():
     user_id = session["user_id"]
     announcements_coach.add_announcement(
         sport, city, experience_level, description, user_id)
-    flash("Ilmoitus luotu onnistuneesti")
+    flash("Valmentajailmoitus luotu onnistuneesti")
     return redirect("/")
 
 @app.route("/announcement_coach/<int:announcement_id>")
@@ -791,7 +791,7 @@ def update_announcement_coach():
                              experience_levels=experience_levels)
     announcements_coach.update_announcement(
         announcement_id, sport, city, experience_level, description)
-    flash("Ilmoitus päivitetty onnistuneesti")
+    flash("Valmentajailmoitus päivitetty onnistuneesti")
     return redirect("/announcement_coach/" + str(announcement_id))
 
 @app.route("/remove_announcement_coach/<int:announcement_id>", methods=["GET", "POST"])
@@ -905,7 +905,10 @@ def message_new():
         return login_check
     if request.method == "GET":
         ensure_csrf_token()
-        return render_template("message_new.html", filled={})
+        # Check for recipient query parameter to pre-fill the form
+        recipient = request.args.get("recipient", "")
+        filled = {"recipient": recipient, "body": ""}
+        return render_template("message_new.html", filled=filled)
     check_csrf()
     me = session["user_id"]
     recipient_username = request.form.get("recipient", "").strip()
