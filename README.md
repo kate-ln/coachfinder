@@ -29,12 +29,9 @@
    - Ilmoitusten yksityiskohtainen katselu
    - Oikeuksien tarkastaminen (vain omien ilmoitusten muokkaus/poisto)
    - Valintalistojen hallinta (ikäryhmä, taitotaso, laji, paikkakunta)
-<<<<<<< Updated upstream
    - Ilmoitusten tilan hallinta (aktiivinen/löydetty)
    - Parannettu haku (ilmoitustyypin valinta, aktiivisten suodatus)
-=======
    - **"Valmentaja löydetty" -toiminto**: Ilmoituksen omistaja voi merkitä ilmoituksen löydetyksi, jolloin se näkyy "Valmentaja löydetty" -merkillä kaikissa listoissa ja hauissa
->>>>>>> Stashed changes
 
    - **Viestitys**:
    - Yksityisviestien lähettäminen käyttäjien välillä
@@ -68,7 +65,6 @@
    - Lomakkeiden validaatio ja virheenkäsittely
    - Visuaaliset ilmoitustilan indikaattorit (löydetty/aktiivinen)
 
-<<<<<<< Updated upstream
 **Valmentajailmoitukset**:
    - Valmentajailmoitusten luominen, muokkaaminen ja poistaminen
    - Valmentajailmoitusten listaus etusivulla
@@ -83,14 +79,6 @@
    - Ilmoitusten määrä kategorioittain (oppilasilmoitukset ja valmentajailmoituket)
    - Opplilaiden ikäryhmien jakauma ja maininta oman ikäryhmän osuudesta, mikäli käyttäjällä on oppilasilmoituksia
      
-=======
-   ### Keskeneräiset/puuttuvat ominaisuudet
-   - **Valmentajailmoitukset**: Vain oppilasilmoitukset toteutettu
-   - **Hakusuodattimet**: Paikkakunta ja laji -suodattimet
-   - **Laaja käyttäjäprofiili**: Kuvaukset, yhteystiedot, kokemus
-   - **Tilastoja**
-
->>>>>>> Stashed changes
    ## Yhteenveto
    Sovellus sisältää:
    - **Käyttäjähallinnan** rekisteröinnistä profiilien hallintaan
@@ -119,11 +107,7 @@
       - `skill_level` (taitotaso)
       - `description` (kuvaus)
       - `user_id` (viittaus users-tauluun)
-<<<<<<< Updated upstream
       - `found` (löydetty-status, 0=aktiivinen, 1=löydetty)
-=======
-      - `found` (INTEGER, 0=ei löydetty, 1=löydetty)
->>>>>>> Stashed changes
 
    3. **threads**
       - `id` (PRIMARY KEY)
@@ -143,7 +127,6 @@
       - `title` (esim. "Ikäryhmä", "Taitotaso", "Laji", "Paikkakunta")
       - `value` (esim. "10-15 vuotta", "Aloittelija", "Tennis", "Helsinki")
 
-<<<<<<< Updated upstream
    6. **announcements_coach**
       - `id` (PRIMARY KEY)
       - `sport` (laji)
@@ -154,14 +137,17 @@
       - `found` (löydetty-status, 0=aktiivinen, 1=löydetty)
 
    7. **announcement_classes**
-=======
-   6. **announcement_classes**
->>>>>>> Stashed changes
       - `id` (PRIMARY KEY)
       - `announcement_id` (viittaus announcements_student-tauluun)
       - `title` (esim. "Ikäryhmä")
       - `value` (esim. "10-15 vuotta")
 
+   8. **announcement_classes_coach**
+      - `id` (PRIMARY KEY)
+      - `announcement_id` (viittaus announcements_coach-tauluun)
+      - `title` (esim. "Kokemus")
+      - `value` (esim. "Ammattilainen")
+        
    ## Asennus ja käynnistys
    ### 1. Ympäristön valmistelu
 
@@ -220,13 +206,18 @@
    - **Ilmoituksen muokkaus**: `/edit_announcement/<id>` (GET)
    - **Ilmoituksen päivitys**: `/update_announcement_student` (POST)
    - **Ilmoituksen poisto**: `/remove_announcement/<id>` (GET/POST)
-   - **Haku**: `/find_announcement` (GET) - tukee query parametria
+   - **Haku**: `/find_announcement` (GET) - tukee query, search_type ja active_only parametreja
 
    ### Viestijärjestelmä
    - **Viestiketjut**: `/messages` (GET) - listaa käyttäjän viestiketjut
    - **Uusi viesti**: `/messages/new` (GET/POST) - uuden viestiketjun luominen
    - **Keskustelu**: `/messages/<thread_id>` (GET/POST) - viestiketjun lukeminen ja vastaaminen
-
+   - 
+   ### Parannettu hakutoiminto
+   - **Hakutyyppi**: Valitse haku oppilasilmoituksista tai valmentajailmoituksista
+   - **Aktiivisten suodatus**: Näytä vain aktiiviset ilmoitukset (ei löydettyjä)
+   - **Visuaaliset indikaattorit**: Löydetyt ilmoitukset merkitty vihreällä "Löydetty" -merkillä
+     
    ### Koodin Rakenne
    - **`app.py`**: Flask-reitit ja sovelluslogiikka, CSRF-suojaus, autentikointi
    - **`db.py`**: Tietokantayhteydet ja peruskyselyoperaatiot
@@ -251,6 +242,7 @@
    - **Sessiot**: Flask-sessiot (cookies)
    - **Staattiset tiedostot**: CSS-tyylitiedostot
    - **Tiedostojen käsittely**: BLOB-tallennus tietokantaan
+     
    ### Testaus
    #### Perustoiminnot
    1. **Käyttäjähallinta**:
@@ -260,8 +252,10 @@
       - Testaa uloskirjautuminen
 
    2. **Ilmoitukset**:
-      - Luo muutama erilainen oppilasilmoitus
-      - Hae ilmoituksia hakusanalla
+      - Luo muutama erilainen oppilasilmoitus ja valmentajailmoitus
+      - Hae ilmoituksia hakusanalla (testaa sekä oppilas- että valmentajailmoituksia)
+      - Testaa hakutyypin valintaa (oppilas vs valmentaja)
+      - Testaa aktiivisten suodatusta (näytä vain aktiiviset)
       - Muokkaa ja poista omia ilmoituksia
       - Testaa toisen käyttäjän ilmoitusten muokkausyritysta (403 virhe)
 
@@ -295,7 +289,33 @@
       - Syötä `<script>alert('XSS')</script>` kenttiin
       - Syötä `'; DROP TABLE users; --` kenttiin
       - Tarkista, että kaikki syötteet koodataan oikein kontekstissaan ja että SQL:ssa käytetään parametrisoituja kyselyjä.
+      - 
+   #### Parannettu hakutoiminto
+   9. **Hakutyypin valinta**:
 
+      - Testaa "Etsin valmennettavia" -valintaa
+
+      - Testaa "Etsin valmentajaa" -valintaa
+
+      - Varmista että hakutulokset vastaavat valittua tyyppiä
+
+
+
+   10. **Aktiivisten suodatus**:
+
+       - Merkitse jokin ilmoitus löydetyksi
+
+       - Testaa "Näytä vain aktiiviset" -valintaa
+
+       - Varmista että löydetyt ilmoitukset eivät näy suodatetussa haussa
+
+
+
+   11. **Visuaaliset indikaattorit**:
+
+        - Tarkista että löydetyt ilmoitukset näkyvät vihreällä "Löydetty" -merkillä
+
+        - Testaa että aktiiviset ilmoitukset eivät näytä merkintää
    ## Turvallisuusominaisuudet
    ### CSRF-suojaus
    - **CSRF-tokenit**: Kaikki POST-pyynnöt vaativat voimassa olevan CSRF-tokenin
