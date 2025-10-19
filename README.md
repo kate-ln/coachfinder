@@ -14,7 +14,7 @@
 
    Sovelluksen tämänhetkinen vaihe sisältää seuraavat toiminnot:
    ### Toteutetut ominaisuudet
-   - **Käyttäjähallinta**:
+   **Käyttäjähallinta**:
    - Käyttäjärekisteröinti ja kirjautuminen
    - Salasanojen hashaus (Werkzeug)
    - Käyttäjäsessiot ja autentikointi
@@ -22,7 +22,7 @@
    - Käyttäjäprofiilit (oma ja muiden käyttäjien profiilit)
    - Uloskirjautuminen
 
-   - **Oppilasilmoitukset**:
+   **Oppilasilmoitukset**:
    - Ilmoitusten luominen, muokkaaminen ja poistaminen
    - Ilmoitusten listaus etusivulla
    - Ilmoitusten haku vapaalla hakusanalla
@@ -33,21 +33,21 @@
    - Parannettu haku (ilmoitustyypin valinta, aktiivisten suodatus)
    - **"Valmentaja löydetty" -toiminto**: Ilmoituksen omistaja voi merkitä ilmoituksen löydetyksi, jolloin se näkyy "Valmentaja löydetty" -merkillä kaikissa listoissa ja hauissa
 
-   - **Viestitys**:
+   **Viestitys**:
    - Yksityisviestien lähettäminen käyttäjien välillä
    - Viestiketjujen hallinta ja luominen
    - Viestiketjujen listaus
    - Viestien lukeminen ja vastaaminen
    - Viestien pituuden validaatio (max 2000 merkkiä)
 
-   - **Profiilikuvien hallinta**:
+   **Profiilikuvien hallinta**:
    - Kuvien lataaminen (.jpg-tiedostot, max 100KB)
    - Kuvien näyttäminen
    - Kuvien muokkaaminen (korvaaminen)
    - Kuvien poistaminen vahvistussivulla
    - BLOB-tallennus tietokantaan
 
-   - **Turvallisuusominaisuudet**:
+   **Turvallisuusominaisuudet**:
    - CSRF-suojaus kaikille POST-pyynnöille
    - Palvelinpuolen validaatio valintalistojen arvoille
    - XSS-suojaus (MarkupSafe)
@@ -56,7 +56,7 @@
    - Sessioiden hallinta
    - Käyttöoikeuksien tarkastaminen
 
-   - **Käyttöliittymä**:
+   **Käyttöliittymä**:
    - Yhtenäinen CSS-tyylitysjärjestelmä (layout.html + main.css)
    - Responsiivinen design
    - Keskitetty virheenkäsittely (ui.py)
@@ -65,7 +65,7 @@
    - Lomakkeiden validaatio ja virheenkäsittely
    - Visuaaliset ilmoitustilan indikaattorit (löydetty/aktiivinen)
 
-**Valmentajailmoitukset**:
+   **Valmentajailmoitukset**:
    - Valmentajailmoitusten luominen, muokkaaminen ja poistaminen
    - Valmentajailmoitusten listaus etusivulla
    - Valmentajailmoitusten haku vapaalla hakusanalla
@@ -75,9 +75,9 @@
    - Ilmoitustyypin valinta (oppilas vs valmentaja)
    - Ilmoitusten tilan hallinta (aktiivinen/löydetty)
 
-**Tilastot profiilisivulla**
+   **Tilastot profiilisivulla**
    - Ilmoitusten määrä kategorioittain (oppilasilmoitukset ja valmentajailmoituket)
-   - Opplilaiden ikäryhmien jakauma ja maininta oman ikäryhmän osuudesta, mikäli käyttäjällä on oppilasilmoituksia
+   - Opplilaiden ikäryhmien jakauma ja maininta oman ikäryhmän osuudesta, mikäli käyttäjällä on       oppilasilmoituksia
      
    ## Yhteenveto
    Sovellus sisältää:
@@ -184,7 +184,6 @@
    # Käynnistä Flask-sovellus
    flask run
    ```
-
    Sovellus käynnistyy osoitteessa: `http://localhost:5000`
 
    ## Käytettävissä olevat ominaisuudet
