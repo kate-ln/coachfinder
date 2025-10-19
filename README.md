@@ -292,30 +292,19 @@
       - 
    #### Parannettu hakutoiminto
    9. **Hakutyypin valinta**:
-
       - Testaa "Etsin valmennettavia" -valintaa
-
       - Testaa "Etsin valmentajaa" -valintaa
-
       - Varmista että hakutulokset vastaavat valittua tyyppiä
 
-
-
    10. **Aktiivisten suodatus**:
-
        - Merkitse jokin ilmoitus löydetyksi
-
        - Testaa "Näytä vain aktiiviset" -valintaa
-
        - Varmista että löydetyt ilmoitukset eivät näy suodatetussa haussa
 
-
-
    11. **Visuaaliset indikaattorit**:
-
         - Tarkista että löydetyt ilmoitukset näkyvät vihreällä "Löydetty" -merkillä
-
         - Testaa että aktiiviset ilmoitukset eivät näytä merkintää
+          
    ## Turvallisuusominaisuudet
    ### CSRF-suojaus
    - **CSRF-tokenit**: Kaikki POST-pyynnöt vaativat voimassa olevan CSRF-tokenin
@@ -562,7 +551,6 @@ flask run
 # Testaa Lynx:lla toisessa terminaalissa
 lynx http://localhost:5000
 ```
-
 #### Lynx-yhteensopivat ominaisuudet
 - **Navigaatio**: Kaikki linkit toimivat Lynx:lla
 - **Lomakkeet**: Kaikki lomakkeet toimivat tekstipohjaisesti
@@ -629,3 +617,104 @@ Sovellus noudattaa WCAG 2.1 AA -tason suosituksia:
 - Virheviestit (`.error`, `.success`)
 - Profiilikuvat (`.profile-image`)
 - Metatiedot (`.meta`)
+
+## Valmentajailmoitusten toteutus
+### Yleiskuvaus
+Sovellus tukee nyt valmentajailmoitusten luomista, muokkaamista, poistamista ja katselua. Valmentajat voivat ilmoittaa etsivänsä valmennettavia omaan lajiinsa.
+
+### Tietokantamuutokset
+#### Uudet taulut
+1. **announcements_coach**: Valmentajailmoitusten päätaulu
+2. **announcement_classes_coach**: Valmentajailmoitusten luokittelutiedot
+
+### Backend-toteutus
+#### 1. Tietokantafunktiot (`announcements_coach.py`)
+- `get_all_classes()`: Hakee kaikki luokittelutiedot
+- `add_announcement()`: Luo uuden valmentajailmoituksen
+- `get_announcements()`: Hakee kaikki valmentajailmoitukset
+- `get_announcement()`: Hakee yksittäisen valmentajailmoituksen
+- `update_announcement()`: Päivittää valmentajailmoituksen
+- `remove_announcement()`: Poistaa valmentajailmoituksen
+- `find_announcements()`: Hakee valmentajailmoituksia hakusanalla
+- `get_announcements_by_user()`: Hakee käyttäjän valmentajailmoitukset
+
+#### 2. Flask-reitit (`app.py`)
+- `/choose_announcement_type` (GET): Ilmoitustyypin valinta
+- `/create_announcement_coach` (GET/POST): Valmentajailmoituksen luominen
+- `/announcement_coach/<id>` (GET): Valmentajailmoituksen katselu
+- `/edit_announcement_coach/<id>` (GET): Valmentajailmoituksen muokkaus
+- `/update_announcement_coach` (POST): Valmentajailmoituksen päivitys
+- `/remove_announcement_coach/<id>` (GET/POST): Valmentajailmoituksen poisto
+
+### Frontend-toteutus
+#### 1. Ilmoitustyypin valinta (`templates/choose_announcement_type.html`)
+Käyttäjä voi valita luodaanko oppilas- vai valmentajailmoitus. Sivulla on kaksi painiketta:
+- "Etsin valmentajaa" → `/create_announcement_student`
+- "Etsin valmennettavaa" → `/create_announcement_coach`
+  
+#### 2. Valmentajailmoituksen luomislomake (`templates/create_announcement_coach.html`)
+Lomake sisältää kentät:
+- Laji (vapaateksti)
+- Paikkakunta (vapaateksti)
+- Kokemustaso (valintalista)
+- Kuvaus (vapaateksti)
+
+#### 3. Valmentajailmoituksen näyttämissivu (`templates/show_announcement_coach.html`)
+Näyttää valmentajailmoituksen tiedot ja mahdollisuuden muokata/poistaa (jos omistaja).
+
+#### 4. Valmentajailmoituksen muokkaussivu (`templates/edit_announcement_coach.html`)
+Sama lomake kuin luomisessa, mutta täytettynä olemassa olevilla tiedoilla.
+
+#### 5. Valmentajailmoituksen poistamissivu (`templates/remove_announcement_coach.html`)
+Vahvistussivu valmentajailmoituksen poistamiseen.
+
+### Ominaisuudet
+#### Valmentajailmoituksen luominen
+- **Laji**: Vapaateksti (esim. "Tennis", "Uinti")
+- **Paikkakunta**: Vapaateksti (esim. "Helsinki", "Tampere")
+- **Kokemustaso**: Valintalista (esim. "Aloittelija", "Ammattilainen")
+- **Kuvaus**: Vapaateksti, max 2000 merkkiä
+
+#### Valmentajailmoituksen hallinta
+- **Muokkaaminen**: Vain omistaja voi muokata
+- **Poistaminen**: Vain omistaja voi poistaa
+- **Katselu**: Kaikki käyttäjät voivat katsoa
+- **Haku**: Vapaalla hakusanalla lajin, paikkakunnan, kokemustason tai kuvauksen perusteella
+
+#### Turvallisuusominaisuudet
+- **CSRF-suojaus**: Kaikki lomakkeet suojattu
+- **Käyttöoikeudet**: Vain omistaja voi muokata/poistaa
+- **Validaatio**: Kokemustaso tarkistetaan valintalistasta
+- **XSS-suojaus**: Kaikki syötteet escapataan
+
+### Testaus
+#### Perustoiminnot
+
+1. **Valmentajailmoituksen luominen**:
+   - Mene `/choose_announcement_type`
+   - Valitse "Etsin valmennettavaa"
+   - Täytä lomake ja lähetä
+   - Tarkista että ilmoitus näkyy etusivulla
+
+2. **Valmentajailmoituksen muokkaaminen**:
+   - Mene oman valmentajailmoituksen sivulle
+   - Klikkaa "Muokkaa ilmoitusta"
+   - Muokkaa tietoja ja tallenna
+   - Tarkista että muutokset näkyvät
+
+3. **Valmentajailmoituksen poistaminen**:
+   - Mene oman valmentajailmoituksen sivulle
+   - Klikkaa "Poista ilmoitus"
+   - Vahvista poisto
+   - Tarkista että ilmoitus poistuu etusivulta
+
+4. **Hakutoiminto**:
+   - Käytä hakutoimintoa etusivulla
+   - Testaa eri hakusanoilla
+   - Tarkista että valmentajailmoitukset löytyvät
+
+#### Virhetilanteet
+- Väärä kokemustaso valintalistasta
+- Tyhjä laji tai paikkakunta
+- Toisen käyttäjän ilmoituksen muokkausyritys
+- CSRF-tokenin puuttuminen
