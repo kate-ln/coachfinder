@@ -8,8 +8,19 @@
   <h3 id="search-form-heading">Haku</h3>
   <form action="/find_announcement" method="get">
     <p>
+      <label>Etsin:</label><br />
+      <input type="radio" id="search_students" name="search_type" value="students" {% if search_type == 'students' or not search_type %}checked{% endif %}>
+      <label for="search_students">Etsin valmennettavia</label><br />
+      <input type="radio" id="search_coaches" name="search_type" value="coaches" {% if search_type == 'coaches' %}checked{% endif %}>
+      <label for="search_coaches">Etsin valmentajaa</label>
+    </p>
+    <p>
       <label for="query">Hakusana:</label><br />
       <input type="text" id="query" name="query" value="{{ query }}">
+    </p>
+    <p>
+      <input type="checkbox" id="active_only" name="active_only" value="1" {% if active_only %}checked{% endif %}>
+      <label for="active_only">Näytä vain aktiiviset ilmoitukset</label>
     </p>
     <input type="submit" value="Lähetä">
   </form>
@@ -21,9 +32,19 @@
   {% for announcement in results %}
   <article class="announcement">
     <h4>
-      <a href="/announcement/{{ announcement.id }}">{{ announcement.sport }}{% if announcement.display_name %} - {{ announcement.display_name }} ({{ announcement.username }}){% else %} - {{ announcement.username }}{% endif %}</a>
+      {% if announcement.age_group and announcement.skill_level %}
+      <a href="/announcement/{{ announcement.id }}">{{ announcement.sport }}{% if announcement.display_name %} - {{ announcement.display_name }} ({{ announcement.username }}){% else %} - {{ announcement.username }}{% endif %}</a>{% if announcement.found %} <span style="background-color: #28a745; color: white; padding: 2px 6px; border-radius: 3px; font-size: 0.8em; margin-left: 8px;">Valmentaja löydetty</span>{% endif %}
+      {% else %}
+      <a href="/announcement_coach/{{ announcement.id }}">{{ announcement.sport }}{% if announcement.display_name %} - {{ announcement.display_name }} ({{ announcement.username }}){% else %} - {{ announcement.username }}{% endif %}</a>{% if announcement.found %} <span style="background-color: #28a745; color: white; padding: 2px 6px; border-radius: 3px; font-size: 0.8em; margin-left: 8px;">Valmennettavat löydetty</span>{% endif %}
+      {% endif %}
     </h4>
+    {% if announcement.age_group and announcement.skill_level %}
     <p class="meta">{{ announcement.city }} (ikäryhmä: {{ announcement.age_group }}, taso: {{ announcement.skill_level }})</p>
+    {% elif announcement.experience_level %}
+    <p class="meta">{{ announcement.city }} (kokemustaso: {{ announcement.experience_level }})</p>
+    {% else %}
+    <p class="meta">{{ announcement.city }}</p>
+    {% endif %}
   </article>
   {% endfor %}
   {% else %}

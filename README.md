@@ -1,20 +1,20 @@
    # Sovellus valmentajan ja valmennettavien hakuun
 
-   Sovelluksessa voidaan hakea valmentajia tai valmennettavia. Sovelluksen kohderyhmät ovat siten  
+   Sovelluksessa voidaan hakea valmentajia tai valmennettavia. Sovelluksen kohderyhmät ovat siten
    1) nuoret ja aikuiset oppilaat, jotka haluavat löytää henkilökohtaisen valmentajan tiettyyn yksilö- tai pariurheiluun, esimerkiksi tennikseen tai pikajuoksuun, sekä
    2) valmentajat, jotka etsivät uusia valmennettavia omaan lajiinsa.
    Oppilaan ilmoituksessa selviää henkilön ikäryhmä, paikkakunta, laji ja taitotaso, jonka harjoitteluun haetaan valmentajaa, ja valmentajan ilmoituksessa tämän paikkakunta, laji sekä kokemustaso.
 
    Sovelluksen ominaisuuksia ovat:
-   1. Käyttäjät, sekä oppilaat että valmentajat, voivat luoda uuden tunnuksen ja kirjautua sillä sisään ja ulos. 
+   1. Käyttäjät, sekä oppilaat että valmentajat, voivat luoda uuden tunnuksen ja kirjautua sillä sisään ja ulos.
    2. Oppilaskäyttäjä näkee aiemmin luodut valmentajailmoitukset listana ja voi hakea niitä paikkakunnittain ja lajeittain; vastaavasti valmentajakäyttäjä näkee aiemmat oppilasilmoitukset listana ja voi hakea niitä lajin ja muiden ominaisuuksien mukaan.
    3. Molemmat käyttäjät voivat lisätä uuden ilmoituksen ja muokata tai poistaa aiemmin luodun ilmoituksen.
-   4. Kun sopiva valmentaja tai valmennettava löytyy, nämä sopivat yksityiskohdista viestitse. Mikäli uutta valmentajaa tai valmennettavaa ei enää tarvita, molemmat käyttäjät voivat siirtää ilmoituksen joko "toistaiseksi löydetty" -ryhmään tai poistaa ilmoituksensa. 
+   4. Kun sopiva valmentaja tai valmennettava löytyy, nämä sopivat yksityiskohdista viestitse. Mikäli uutta valmentajaa tai valmennettavaa ei enää tarvita, molemmat käyttäjät voivat siirtää ilmoituksen joko "toistaiseksi löydetty" -ryhmään tai poistaa ilmoituksensa.
    Tässä pääasiallinen tietokohde on ilmoitus ja toissijainen tietokohde on viestihistoria.
 
    Sovelluksen tämänhetkinen vaihe sisältää seuraavat toiminnot:
    ### Toteutetut ominaisuudet
-**Käyttäjähallinta**:
+   - **Käyttäjähallinta**:
    - Käyttäjärekisteröinti ja kirjautuminen
    - Salasanojen hashaus (Werkzeug)
    - Käyttäjäsessiot ja autentikointi
@@ -22,31 +22,35 @@
    - Käyttäjäprofiilit (oma ja muiden käyttäjien profiilit)
    - Uloskirjautuminen
 
-**Oppilasilmoitukset**:
+   - **Oppilasilmoitukset**:
    - Ilmoitusten luominen, muokkaaminen ja poistaminen
    - Ilmoitusten listaus etusivulla
    - Ilmoitusten haku vapaalla hakusanalla
    - Ilmoitusten yksityiskohtainen katselu
    - Oikeuksien tarkastaminen (vain omien ilmoitusten muokkaus/poisto)
    - Valintalistojen hallinta (ikäryhmä, taitotaso, laji, paikkakunta)
+<<<<<<< Updated upstream
    - Ilmoitusten tilan hallinta (aktiivinen/löydetty)
    - Parannettu haku (ilmoitustyypin valinta, aktiivisten suodatus)
+=======
+   - **"Valmentaja löydetty" -toiminto**: Ilmoituksen omistaja voi merkitä ilmoituksen löydetyksi, jolloin se näkyy "Valmentaja löydetty" -merkillä kaikissa listoissa ja hauissa
+>>>>>>> Stashed changes
 
-**Viestitys**:
+   - **Viestitys**:
    - Yksityisviestien lähettäminen käyttäjien välillä
    - Viestiketjujen hallinta ja luominen
    - Viestiketjujen listaus
    - Viestien lukeminen ja vastaaminen
    - Viestien pituuden validaatio (max 2000 merkkiä)
 
-**Profiilikuvien hallinta**:
+   - **Profiilikuvien hallinta**:
    - Kuvien lataaminen (.jpg-tiedostot, max 100KB)
    - Kuvien näyttäminen
    - Kuvien muokkaaminen (korvaaminen)
    - Kuvien poistaminen vahvistussivulla
    - BLOB-tallennus tietokantaan
 
-**Turvallisuusominaisuudet**:
+   - **Turvallisuusominaisuudet**:
    - CSRF-suojaus kaikille POST-pyynnöille
    - Palvelinpuolen validaatio valintalistojen arvoille
    - XSS-suojaus (MarkupSafe)
@@ -55,7 +59,7 @@
    - Sessioiden hallinta
    - Käyttöoikeuksien tarkastaminen
 
-**Käyttöliittymä**:
+   - **Käyttöliittymä**:
    - Yhtenäinen CSS-tyylitysjärjestelmä (layout.html + main.css)
    - Responsiivinen design
    - Keskitetty virheenkäsittely (ui.py)
@@ -64,6 +68,7 @@
    - Lomakkeiden validaatio ja virheenkäsittely
    - Visuaaliset ilmoitustilan indikaattorit (löydetty/aktiivinen)
 
+<<<<<<< Updated upstream
 **Valmentajailmoitukset**:
    - Valmentajailmoitusten luominen, muokkaaminen ja poistaminen
    - Valmentajailmoitusten listaus etusivulla
@@ -78,11 +83,19 @@
    - Ilmoitusten määrä kategorioittain (oppilasilmoitukset ja valmentajailmoituket)
    - Opplilaiden ikäryhmien jakauma ja maininta oman ikäryhmän osuudesta, mikäli käyttäjällä on oppilasilmoituksia
      
+=======
+   ### Keskeneräiset/puuttuvat ominaisuudet
+   - **Valmentajailmoitukset**: Vain oppilasilmoitukset toteutettu
+   - **Hakusuodattimet**: Paikkakunta ja laji -suodattimet
+   - **Laaja käyttäjäprofiili**: Kuvaukset, yhteystiedot, kokemus
+   - **Tilastoja**
+
+>>>>>>> Stashed changes
    ## Yhteenveto
    Sovellus sisältää:
    - **Käyttäjähallinnan** rekisteröinnistä profiilien hallintaan
    - **Viestijärjestelmän** käyttäjien väliseen turvalliseen kommunikointiin
-   - **Ilmoitusjärjestelmän** sekä oppilaiden valmentajahakuun että valmentajien valmennettavahakuun
+   - **Ilmoitusjärjestelmän** oppilaiden valmentajahakuun
    - **Profiilikuvien hallinnan** käyttäjäkokemuksen parantamiseksi
    - **Turvallisuusmallin** CSRF-, XSS- ja SQL-injektion suojauksella
    - **Yhtenäisen käyttöliittymän** responsiivisella suunnittelulla
@@ -106,7 +119,11 @@
       - `skill_level` (taitotaso)
       - `description` (kuvaus)
       - `user_id` (viittaus users-tauluun)
+<<<<<<< Updated upstream
       - `found` (löydetty-status, 0=aktiivinen, 1=löydetty)
+=======
+      - `found` (INTEGER, 0=ei löydetty, 1=löydetty)
+>>>>>>> Stashed changes
 
    3. **threads**
       - `id` (PRIMARY KEY)
@@ -126,6 +143,7 @@
       - `title` (esim. "Ikäryhmä", "Taitotaso", "Laji", "Paikkakunta")
       - `value` (esim. "10-15 vuotta", "Aloittelija", "Tennis", "Helsinki")
 
+<<<<<<< Updated upstream
    6. **announcements_coach**
       - `id` (PRIMARY KEY)
       - `sport` (laji)
@@ -136,16 +154,13 @@
       - `found` (löydetty-status, 0=aktiivinen, 1=löydetty)
 
    7. **announcement_classes**
+=======
+   6. **announcement_classes**
+>>>>>>> Stashed changes
       - `id` (PRIMARY KEY)
       - `announcement_id` (viittaus announcements_student-tauluun)
       - `title` (esim. "Ikäryhmä")
       - `value` (esim. "10-15 vuotta")
-
-   8. **announcement_classes_coach**
-      - `id` (PRIMARY KEY)
-      - `announcement_id` (viittaus announcements_coach-tauluun)
-      - `title` (esim. "Kokemus")
-      - `value` (esim. "Ammattilainen")
 
    ## Asennus ja käynnistys
    ### 1. Ympäristön valmistelu
@@ -166,6 +181,12 @@
    ```bash
    # Luo tietokanta schema.sql-tiedoston perusteella
    sqlite3 database.db < schema.sql
+   ```
+
+   ### 2.1. Tietokannan migraatio (jos päivität vanhasta versiosta)
+   ```bash
+   # Suorita migraatio lisätäksesi "Valmentaja löydetty" -toiminto
+   python3 run_migration.py
    ```
 
    ### 3. Sovelluksen käynnistys
@@ -193,21 +214,13 @@
    - **Uloskirjautuminen**: `/logout` (GET)
 
    ### Ilmoitukset (Oppilaat)
-   - **Etusivu**: `/` (GET) - Näyttää kaikki oppilasilmoitukset ja valmentajailmoitukset
-   - **Ilmoitustyypin valinta**: `/choose_announcement_type` (GET) - valitsee oppilas vs valmentaja
-   - **Uusi oppilasilmoitus**: `/create_announcement_student` (GET/POST)
-   - **Oppilasilmoituksen katselu**: `/announcement/<id>` (GET)
-   - **Oppilasilmoituksen muokkaus**: `/edit_announcement/<id>` (GET)
-   - **Oppilasilmoituksen päivitys**: `/update_announcement_student` (POST)
-   - **Oppilasilmoituksen poisto**: `/remove_announcement/<id>` (GET/POST)
+   - **Etusivu**: `/` (GET) - Näyttää kaikki oppilasilmoitukset
+   - **Uusi ilmoitus**: `/create_announcement_student` (GET/POST)
+   - **Ilmoituksen katselu**: `/announcement/<id>` (GET)
+   - **Ilmoituksen muokkaus**: `/edit_announcement/<id>` (GET)
+   - **Ilmoituksen päivitys**: `/update_announcement_student` (POST)
+   - **Ilmoituksen poisto**: `/remove_announcement/<id>` (GET/POST)
    - **Haku**: `/find_announcement` (GET) - tukee query parametria
-
-   ### Ilmoitukset (Valmentajat)
-   - **Uusi valmentajailmoitus**: `/create_announcement_coach` (GET/POST)
-   - **Valmentajailmoituksen katselu**: `/announcement_coach/<id>` (GET)
-   - **Valmentajailmoituksen muokkaus**: `/edit_announcement_coach/<id>` (GET)
-   - **Valmentajailmoituksen päivitys**: `/update_announcement_coach` (POST)
-   - **Valmentajailmoituksen poisto**: `/remove_announcement_coach/<id>` (GET/POST)
 
    ### Viestijärjestelmä
    - **Viestiketjut**: `/messages` (GET) - listaa käyttäjän viestiketjut
@@ -218,17 +231,11 @@
    - **`app.py`**: Flask-reitit ja sovelluslogiikka, CSRF-suojaus, autentikointi
    - **`db.py`**: Tietokantayhteydet ja peruskyselyoperaatiot
    - **`announcements_student.py`**: Oppilasilmoitusten CRUD-operaatiot
-   - **`announcements_coach.py`**: Valmentajailmoitusten CRUD-operaatiot
    - **`users.py`**: Käyttäjien tietokantaoperaatiot (profiilit, autentikointi, kuvat)
    - **`messages.py`**: Viestien ja viestiketjujen tietokantaoperaatiot
    - **`ui.py`**: UI-apufunktiot, virheenkäsittely ja sivujen renderöinti
    - **`config.py`**: Sovelluksen konfiguraatio (secret key)
    - **`templates/layout.html`**: Yhteinen sivupohja kaikille sivuille
-   - **`templates/choose_announcement_type.html`**: Ilmoitustyypin valintasivu
-   - **`templates/create_announcement_coach.html`**: Valmentajailmoituksen luomislomake
-   - **`templates/show_announcement_coach.html`**: Valmentajailmoituksen näyttämissivu
-   - **`templates/edit_announcement_coach.html`**: Valmentajailmoituksen muokkaussivu
-   - **`templates/remove_announcement_coach.html`**: Valmentajailmoituksen poistamissivu
    - **`static/main.css`**: Yhtenäinen CSS-tyylitysjärjestelmä
    - **`schema.sql`**: Tietokannan rakenne
    - **`init.sql`**: Tietokannan alustusdata
@@ -237,14 +244,13 @@
    - **Backend**: Flask (Python web framework)
    - **Tietokanta**: SQLite3 (tiedostopohjainen)
    - **Templating**: Jinja2 (Flask:n mukana)
-   - **Turvallisuus**: 
+   - **Turvallisuus**:
    - Werkzeug salasanojen hashaukseen
    - MarkupSafe XSS-suojaukseen
    - CSRF-tokenit Cross-Site Request Forgery -hyökkäyksiä vastaan
    - **Sessiot**: Flask-sessiot (cookies)
    - **Staattiset tiedostot**: CSS-tyylitiedostot
-   - **Tiedostojen käsittely**: BLOB-tallennus tietokantaan 
-   
+   - **Tiedostojen käsittely**: BLOB-tallennus tietokantaan
    ### Testaus
    #### Perustoiminnot
    1. **Käyttäjähallinta**:
@@ -301,7 +307,7 @@
    - **Valintalistojen validaatio**: `age_group` ja `skill_level` arvot tarkistetaan tietokannasta
    - **Tiedostomuodon validaatio**: Profiilikuvat vain .jpg-tiedostoja
    - **Tiedostokoon validaatio**: Kuvat max 100KB
-   - **Tekstikenttien validaatio**: 
+   - **Tekstikenttien validaatio**:
    - Käyttäjätunnus max 16 merkkiä
    - Näyttönimi max 50 merkkiä
    - Viestit max 2000 merkkiä
@@ -309,7 +315,7 @@
    ### Autentikointi ja autorisointi
    - **Salasanojen hashaus**: Werkzeug-kirjaston `generate_password_hash()` ja `check_password_hash()`
    - **Sessioiden hallinta**: Flask-sessiot käyttäjätunnistukseen
-   - **Käyttöoikeuksien tarkastaminen**: 
+   - **Käyttöoikeuksien tarkastaminen**:
    - Vain omien ilmoitusten muokkaus/poisto
    - Vain viestiketjun osallistujien pääsy keskusteluihin
    - Vain kirjautuneiden käyttäjien pääsy suojattuihin sivuihin
@@ -603,103 +609,3 @@ Sovellus noudattaa WCAG 2.1 AA -tason suosituksia:
 - Virheviestit (`.error`, `.success`)
 - Profiilikuvat (`.profile-image`)
 - Metatiedot (`.meta`)
-
-## Valmentajailmoitusten toteutus
-### Yleiskuvaus
-Sovellus tukee nyt valmentajailmoitusten luomista, muokkaamista, poistamista ja katselua. Valmentajat voivat ilmoittaa etsivänsä valmennettavia omaan lajiinsa.
-
-### Tietokantamuutokset
-#### Uudet taulut
-1. **announcements_coach**: Valmentajailmoitusten päätaulu
-2. **announcement_classes_coach**: Valmentajailmoitusten luokittelutiedot
-
-### Backend-toteutus
-#### 1. Tietokantafunktiot (`announcements_coach.py`)
-- `get_all_classes()`: Hakee kaikki luokittelutiedot
-- `add_announcement()`: Luo uuden valmentajailmoituksen
-- `get_announcements()`: Hakee kaikki valmentajailmoitukset
-- `get_announcement()`: Hakee yksittäisen valmentajailmoituksen
-- `update_announcement()`: Päivittää valmentajailmoituksen
-- `remove_announcement()`: Poistaa valmentajailmoituksen
-- `find_announcements()`: Hakee valmentajailmoituksia hakusanalla
-- `get_announcements_by_user()`: Hakee käyttäjän valmentajailmoitukset
-
-#### 2. Flask-reitit (`app.py`)
-- `/choose_announcement_type` (GET): Ilmoitustyypin valinta
-- `/create_announcement_coach` (GET/POST): Valmentajailmoituksen luominen
-- `/announcement_coach/<id>` (GET): Valmentajailmoituksen katselu
-- `/edit_announcement_coach/<id>` (GET): Valmentajailmoituksen muokkaus
-- `/update_announcement_coach` (POST): Valmentajailmoituksen päivitys
-- `/remove_announcement_coach/<id>` (GET/POST): Valmentajailmoituksen poisto
-
-### Frontend-toteutus
-#### 1. Ilmoitustyypin valinta (`templates/choose_announcement_type.html`)
-Käyttäjä voi valita luodaanko oppilas- vai valmentajailmoitus. Sivulla on kaksi painiketta:
-- "Etsin valmentajaa" → `/create_announcement_student`
-- "Etsin valmennettavaa" → `/create_announcement_coach`
-
-#### 2. Valmentajailmoituksen luomislomake (`templates/create_announcement_coach.html`)
-Lomake sisältää kentät:
-- Laji (vapaateksti)
-- Paikkakunta (vapaateksti)
-- Kokemustaso (valintalista)
-- Kuvaus (vapaateksti)
-
-#### 3. Valmentajailmoituksen näyttämissivu (`templates/show_announcement_coach.html`)
-Näyttää valmentajailmoituksen tiedot ja mahdollisuuden muokata/poistaa (jos omistaja).
-
-#### 4. Valmentajailmoituksen muokkaussivu (`templates/edit_announcement_coach.html`)
-Sama lomake kuin luomisessa, mutta täytettynä olemassa olevilla tiedoilla.
-
-#### 5. Valmentajailmoituksen poistamissivu (`templates/remove_announcement_coach.html`)
-Vahvistussivu valmentajailmoituksen poistamiseen.
-
-### Ominaisuudet
-#### Valmentajailmoituksen luominen
-- **Laji**: Vapaateksti (esim. "Tennis", "Uinti")
-- **Paikkakunta**: Vapaateksti (esim. "Helsinki", "Tampere")
-- **Kokemustaso**: Valintalista (esim. "Aloittelija", "Ammattilainen")
-- **Kuvaus**: Vapaateksti, max 2000 merkkiä
-
-#### Valmentajailmoituksen hallinta
-- **Muokkaaminen**: Vain omistaja voi muokata
-- **Poistaminen**: Vain omistaja voi poistaa
-- **Katselu**: Kaikki käyttäjät voivat katsoa
-- **Haku**: Vapaalla hakusanalla lajin, paikkakunnan, kokemustason tai kuvauksen perusteella
-
-#### Turvallisuusominaisuudet
-- **CSRF-suojaus**: Kaikki lomakkeet suojattu
-- **Käyttöoikeudet**: Vain omistaja voi muokata/poistaa
-- **Validaatio**: Kokemustaso tarkistetaan valintalistasta
-- **XSS-suojaus**: Kaikki syötteet escapataan
-
-### Testaus
-#### Perustoiminnot
-1. **Valmentajailmoituksen luominen**:
-   - Mene `/choose_announcement_type`
-   - Valitse "Etsin valmennettavaa"
-   - Täytä lomake ja lähetä
-   - Tarkista että ilmoitus näkyy etusivulla
-
-2. **Valmentajailmoituksen muokkaaminen**:
-   - Mene oman valmentajailmoituksen sivulle
-   - Klikkaa "Muokkaa ilmoitusta"
-   - Muokkaa tietoja ja tallenna
-   - Tarkista että muutokset näkyvät
-
-3. **Valmentajailmoituksen poistaminen**:
-   - Mene oman valmentajailmoituksen sivulle
-   - Klikkaa "Poista ilmoitus"
-   - Vahvista poisto
-   - Tarkista että ilmoitus poistuu etusivulta
-
-4. **Hakutoiminto**:
-   - Käytä hakutoimintoa etusivulla
-   - Testaa eri hakusanoilla
-   - Tarkista että valmentajailmoitukset löytyvät
-
-#### Virhetilanteet
-- Väärä kokemustaso valintalistasta
-- Tyhjä laji tai paikkakunta
-- Toisen käyttäjän ilmoituksen muokkausyritys
-- CSRF-tokenin puuttuminen

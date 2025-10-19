@@ -5,6 +5,35 @@
 {% block content %}
 <h2>Valmentajailmoitus</h2>
 
+{% if not session.user_id %}
+<section aria-labelledby="login-prompt-heading">
+  <h3 id="login-prompt-heading">Kirjautuminen vaaditaan</h3>
+  <p>
+    Kirjaudu sisään <a href="/login?next_page={{ request.url }}">tästä</a> nähdäksesi käyttäjän {% if announcement.display_name %}{{ announcement.display_name }}{% else %}{{ announcement.username }}{% endif %} tiedot.
+  </p>
+</section>
+{% endif %}
+
+{% if session.user_id == announcement.user_id %}
+<nav aria-label="Ilmoituksen toiminnot">
+  <p>
+    <a href="/edit_announcement_coach/{{ announcement.id }}">Muokkaa</a> |
+    <a href="/remove_announcement_coach/{{ announcement.id }}">Poista</a>
+    {% if announcement.found %}
+    | <form method="post" action="/mark_announcement_coach_not_found/{{ announcement.id }}" style="display: inline; margin: 0; padding: 0;">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        <button type="submit" style="background: none; border: none; color: #0066cc; text-decoration: underline; cursor: pointer; padding: 0; font-size: inherit; margin: 0;">Poista "Löydetty" -merkintä</button>
+      </form>
+    {% else %}
+    | <form method="post" action="/mark_announcement_coach_found/{{ announcement.id }}" style="display: inline; margin: 0; padding: 0;">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        <button type="submit" style="background: none; border: none; color: #0066cc; text-decoration: underline; cursor: pointer; padding: 0; font-size: inherit; margin: 0;">Valmennettavat löydetty</button>
+      </form>
+    {% endif %}
+  </p>
+</nav>
+{% endif %}
+
 <article class="announcement" aria-labelledby="announcement-details-heading">
   <h3 id="announcement-details-heading">Ilmoituksen tiedot</h3>
   <p><strong>Nimi:</strong> <a href="/profile/{{ announcement.user_id }}">{% if announcement.display_name %}{{ announcement.display_name }} ({{ announcement.username }}){% else %}{{ announcement.username }}{% endif %}</a></p>
@@ -14,16 +43,9 @@
   <div class="description"><strong>Kuvaus:</strong> {{ announcement.description.strip() }}</div>
 </article>
 
-{% if session.user_id == announcement.user_id %}
-<nav aria-label="Ilmoituksen toiminnot">
-  <p>
-    <a href="/edit_announcement_coach/{{ announcement.id }}">Muokkaa</a> |
-    <a href="/remove_announcement_coach/{{ announcement.id }}">Poista</a>
-  </p>
-</nav>
-{% else %}
+{% if session.user_id != announcement.user_id %}
 <nav aria-label="Viesti valmentajalle">
-  <p><a href="/messages/new">Lähetä viesti valmentajalle</a></p>
+  <p><a href="/messages/new?recipient={{ announcement.username }}">Lähetä viesti valmentajalle</a></p>
 </nav>
 {% endif %}
 

@@ -36,7 +36,7 @@
     <div class="error">
       {{ message }}
     </div>
-    {% elif message.startswith('Ilmoitus luotu onnistuneesti') %}
+    {% elif message.startswith('Oppilasilmoitus luotu onnistuneesti') or message.startswith('Valmentajailmoitus luotu onnistuneesti') or message.startswith('Ikäryhmä päivitetty ja oppilasilmoitus') %}
     <div class="success">
       {{ message }}
     </div>

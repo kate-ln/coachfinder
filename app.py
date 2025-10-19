@@ -172,8 +172,17 @@ def choose_announcement_type():
 @app.route("/find_announcement")
 def find_announcement():
     query = (request.args.get("query") or "").strip()
-    results = announcements_student.find_announcements(query) if query else []
-    return render_template("find_announcement.html", query=query, results=results)
+    search_type = request.args.get("search_type", "students")
+    active_only = request.args.get("active_only") == "1"
+    results = []
+    
+    if query:
+        if search_type == "students":
+            results = announcements_student.find_announcements(query, active_only=active_only)
+        elif search_type == "coaches":
+            results = announcements_coach.find_announcements(query, active_only=active_only)
+    
+    return render_template("find_announcement.html", query=query, search_type=search_type, active_only=active_only, results=results)
 
 @app.route("/announcement/<int:announcement_id>")
 def show_announcement(announcement_id):
@@ -226,7 +235,7 @@ def create_announcement_student():
     
     announcements_student.add_announcement(sport, city, age_group, skill_level,
                                            description, user_id)
-    flash("Ilmoitus luotu onnistuneesti")
+    flash("Oppilasilmoitus luotu onnistuneesti")
     return redirect("/")
 
 @app.route("/confirm_age_group_change", methods=["GET", "POST"])
@@ -267,7 +276,7 @@ def confirm_age_group_change():
         )
         
         session.pop('pending_announcement', None)
-        flash("Ikäryhmä päivitetty ja ilmoitus luotu onnistuneesti")
+        flash("Ikäryhmä päivitetty ja oppilasilmoitus luotu onnistuneesti")
         return redirect("/")
     else:
         session.pop('pending_announcement', None)
@@ -316,7 +325,7 @@ def confirm_age_group_change_update():
         )
         
         session.pop('pending_update', None)
-        flash("Ikäryhmä päivitetty ja ilmoitus muokattu onnistuneesti")
+        flash("Ikäryhmä päivitetty ja oppilasilmoitus muokattu onnistuneesti")
         return redirect(f"/announcement/{pending_update['announcement_id']}")
     else:
         session.pop('pending_update', None)
@@ -417,6 +426,66 @@ def remove_announcement(announcement_id):
             flash("Ilmoitus poistettu onnistuneesti")
             return redirect("/")
         return redirect(f"/announcement/{announcement_id}")
+
+@app.route("/mark_announcement_found/<int:announcement_id>", methods=["POST"])
+def mark_announcement_found(announcement_id):
+    login_check = require_login()
+    if login_check:
+        return login_check
+    a = announcements_student.get_announcement(announcement_id)
+    if not a:
+        return ui.handle_announcement_not_found()
+    if a["user_id"] != session["user_id"]:
+        return ui.handle_announcement_forbidden("merkitä löydetyksi")
+    check_csrf()
+    announcements_student.mark_announcement_found(announcement_id)
+    flash("Ilmoitus merkitty löydetyksi")
+    return redirect(f"/announcement/{announcement_id}")
+
+@app.route("/mark_announcement_not_found/<int:announcement_id>", methods=["POST"])
+def mark_announcement_not_found(announcement_id):
+    login_check = require_login()
+    if login_check:
+        return login_check
+    a = announcements_student.get_announcement(announcement_id)
+    if not a:
+        return ui.handle_announcement_not_found()
+    if a["user_id"] != session["user_id"]:
+        return ui.handle_announcement_forbidden("merkitä löydetyksi")
+    check_csrf()
+    announcements_student.mark_announcement_not_found(announcement_id)
+    flash("Ilmoituksen löydetty-status poistettu")
+    return redirect(f"/announcement/{announcement_id}")
+
+@app.route("/mark_announcement_coach_found/<int:announcement_id>", methods=["POST"])
+def mark_announcement_coach_found(announcement_id):
+    login_check = require_login()
+    if login_check:
+        return login_check
+    a = announcements_coach.get_announcement(announcement_id)
+    if not a:
+        return ui.handle_announcement_not_found()
+    if a["user_id"] != session["user_id"]:
+        return ui.handle_announcement_forbidden("merkitä löydetyksi")
+    check_csrf()
+    announcements_coach.mark_announcement_found(announcement_id)
+    flash("Ilmoitus merkitty löydetyksi")
+    return redirect(f"/announcement_coach/{announcement_id}")
+
+@app.route("/mark_announcement_coach_not_found/<int:announcement_id>", methods=["POST"])
+def mark_announcement_coach_not_found(announcement_id):
+    login_check = require_login()
+    if login_check:
+        return login_check
+    a = announcements_coach.get_announcement(announcement_id)
+    if not a:
+        return ui.handle_announcement_not_found()
+    if a["user_id"] != session["user_id"]:
+        return ui.handle_announcement_forbidden("merkitä löydetyksi")
+    check_csrf()
+    announcements_coach.mark_announcement_not_found(announcement_id)
+    flash("Ilmoituksen löydetty-status poistettu")
+    return redirect(f"/announcement_coach/{announcement_id}")
 
 # Coach announcement routes
 @app.route("/create_announcement_coach", methods=["GET", "POST"])
@@ -584,7 +653,9 @@ def message_new():
         return login_check
     if request.method == "GET":
         ensure_csrf_token()
-        return render_template("message_new.html", filled={})
+        # Get recipient from URL parameter if provided
+        recipient = request.args.get("recipient", "")
+        return render_template("message_new.html", filled={"recipient": recipient})
     check_csrf()
     me = session["user_id"]
     recipient_username = request.form.get("recipient", "").strip()

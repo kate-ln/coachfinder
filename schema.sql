@@ -12,7 +12,8 @@ CREATE TABLE announcements_student (
     age_group TEXT,
     skill_level TEXT,
     description TEXT,
-    user_id INTEGER REFERENCES users
+    user_id INTEGER REFERENCES users,
+    found INTEGER DEFAULT 0
 );
 
 CREATE TABLE threads (
@@ -43,7 +44,8 @@ CREATE TABLE announcements_coach (
     city TEXT,
     experience_level TEXT,
     description TEXT,
-    user_id INTEGER REFERENCES users
+    user_id INTEGER REFERENCES users,
+    found INTEGER DEFAULT 0
 );
 
 CREATE TABLE  announcement_classes (

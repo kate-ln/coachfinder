@@ -27,6 +27,7 @@ def get_announcements():
                     announcements_coach.city,
                     announcements_coach.experience_level,
                     announcements_coach.description,
+                    announcements_coach.found,
                     users.display_name,
                     users.username
              FROM announcements_coach
@@ -40,6 +41,7 @@ def get_announcement(announcement_id):
                     announcements_coach.city,
                     announcements_coach.experience_level,
                     announcements_coach.description,
+                    announcements_coach.found,
                     users.id user_id,
                     users.username,
                     users.display_name
@@ -78,17 +80,23 @@ def remove_announcement(announcement_id):
     sql = "DELETE FROM announcements_coach WHERE id = ?"
     db.execute(sql, [announcement_id])
 
-def find_announcements(query):
+def find_announcements(query, active_only=False):
     sql = """SELECT announcements_coach.id,
                     announcements_coach.sport,
                     announcements_coach.city,
                     announcements_coach.experience_level,
+                    announcements_coach.found,
                     users.display_name,
                     users.username
              FROM announcements_coach
              JOIN users ON announcements_coach.user_id = users.id
-             WHERE sport LIKE ? OR city LIKE ? OR experience_level LIKE ? OR description LIKE ?
-             ORDER BY announcements_coach.id DESC"""
+             WHERE (sport LIKE ? OR city LIKE ? OR experience_level LIKE ? OR description LIKE ?)"""
+    
+    if active_only:
+        sql += " AND announcements_coach.found = 0"
+    
+    sql += " ORDER BY announcements_coach.id DESC"
+    
     l = "%" + query + "%"
     return db.query(sql, [l, l, l, l])
 
@@ -98,6 +106,7 @@ def get_announcements_by_user(user_id):
                     announcements_coach.city,
                     announcements_coach.experience_level,
                     announcements_coach.description,
+                    announcements_coach.found,
                     users.username,
                     users.display_name
              FROM announcements_coach
@@ -105,6 +114,31 @@ def get_announcements_by_user(user_id):
              WHERE announcements_coach.user_id = ?
              ORDER BY announcements_coach.id DESC"""
     return db.query(sql, [user_id])
+
+def mark_announcement_found(announcement_id):
+    """Mark an announcement as found (Valmennettavat löydetty)"""
+    sql = "UPDATE announcements_coach SET found = 1 WHERE id = ?"
+    db.execute(sql, [announcement_id])
+
+def mark_announcement_not_found(announcement_id):
+    """Mark an announcement as not found (remove Valmennettavat löydetty status)"""
+    sql = "UPDATE announcements_coach SET found = 0 WHERE id = ?"
+    db.execute(sql, [announcement_id])
+
+def get_found_announcements():
+    """Get all found coach announcements"""
+    sql = """SELECT announcements_coach.id,
+                    announcements_coach.sport,
+                    announcements_coach.city,
+                    announcements_coach.experience_level,
+                    announcements_coach.found,
+                    users.display_name,
+                    users.username
+             FROM announcements_coach
+             JOIN users ON announcements_coach.user_id = users.id
+             WHERE announcements_coach.found = 1
+             ORDER BY announcements_coach.id DESC"""
+    return db.query(sql)
 
 def update_announcement_class(announcement_id, title, value):
     sql_check = "SELECT id FROM announcement_classes_coach WHERE announcement_id = ? AND title = ?"
