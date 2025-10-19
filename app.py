@@ -1,6 +1,8 @@
 import sqlite3
 import secrets
-from flask import Flask
+import math
+import time
+from flask import Flask, g
 from flask import redirect, render_template, request, session, make_response, abort, flash
 from werkzeug.security import check_password_hash, generate_password_hash
 import markupsafe
@@ -14,6 +16,17 @@ import messages
 app = Flask(__name__)
 app.secret_key = config.secret_key
 app.debug = True
+
+# Performance timing
+@app.before_request
+def before_request():
+    g.start_time = time.time()
+
+@app.after_request
+def after_request(response):
+    elapsed_time = round(time.time() - g.start_time, 2)
+    print("elapsed time:", elapsed_time, "s")
+    return response
 
 @app.template_filter()
 def show_lines(content):
@@ -148,18 +161,43 @@ def render_edit_coach_announcement_form_with_error(error_message, announcement_i
                          experience_levels=experience_levels)
 
 @app.route("/")
-def index():
-    student_announcements = announcements_student.get_announcements()
-    coach_announcements = announcements_coach.get_announcements()
+@app.route("/<int:page>")
+def index(page=1):
+    page_size = 10
+    
+    # Get total counts
+    student_count = announcements_student.get_announcements_count()
+    coach_count = announcements_coach.get_announcements_count()
+    
+    # Calculate page counts
+    student_page_count = math.ceil(student_count / page_size) if student_count > 0 else 1
+    coach_page_count = math.ceil(coach_count / page_size) if coach_count > 0 else 1
+    
+    # Ensure page is within bounds
+    if page < 1:
+        return redirect("/1")
+    if page > max(student_page_count, coach_page_count):
+        max_page = max(student_page_count, coach_page_count)
+        return redirect(f"/{max_page}")
+    
+    # Get paginated announcements
+    student_announcements = announcements_student.get_announcements_paginated(page, page_size)
+    coach_announcements = announcements_coach.get_announcements_paginated(page, page_size)
+    
     profile = None
     if "user_id" in session:
         user_data = users.get_user_profile(session["user_id"])
         if user_data:
             profile = user_data[0]
+    
     return render_template("index.html", 
                          student_announcements=student_announcements,
                          coach_announcements=coach_announcements,
-                         profile=profile)
+                         profile=profile,
+                         page=page,
+                         student_page_count=student_page_count,
+                         coach_page_count=coach_page_count,
+                         page_size=page_size)
 
 @app.route("/choose_announcement_type")
 def choose_announcement_type():

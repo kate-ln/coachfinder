@@ -35,6 +35,29 @@ def get_announcements():
              ORDER BY announcements_coach.id DESC"""
     return db.query(sql)
 
+def get_announcements_paginated(page, page_size):
+    """Get paginated coach announcements"""
+    offset = page_size * (page - 1)
+    sql = """SELECT announcements_coach.id,
+                    announcements_coach.sport,
+                    announcements_coach.city,
+                    announcements_coach.experience_level,
+                    announcements_coach.description,
+                    announcements_coach.found,
+                    users.display_name,
+                    users.username
+             FROM announcements_coach
+             JOIN users ON announcements_coach.user_id = users.id
+             ORDER BY announcements_coach.id DESC
+             LIMIT ? OFFSET ?"""
+    return db.query(sql, [page_size, offset])
+
+def get_announcements_count():
+    """Get total count of coach announcements"""
+    sql = "SELECT COUNT(*) as count FROM announcements_coach"
+    result = db.query(sql)
+    return result[0]['count'] if result else 0
+
 def get_announcement(announcement_id):
     sql = """SELECT announcements_coach.id,
                     announcements_coach.sport,
