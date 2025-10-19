@@ -32,6 +32,7 @@
    - Ilmoitusten tilan hallinta (aktiivinen/löydetty)
    - Parannettu haku (ilmoitustyypin valinta, aktiivisten suodatus)
    - **"Valmentaja löydetty" -toiminto**: Ilmoituksen omistaja voi merkitä ilmoituksen löydetyksi, jolloin se näkyy "Valmentaja löydetty" -merkillä kaikissa listoissa ja hauissa
+   - **Ikäryhmän muutosvahvistus**: Jos käyttäjä luo uuden ilmoituksen eri ikäryhmällä kuin aiemmat ilmoituksensa, järjestelmä pyytää vahvistusta kaikkien ilmoitusten päivittämiseksi uudella ikäryhmällä
 
    **Viestitys**:
    - Yksityisviestien lähettäminen käyttäjien välillä
@@ -267,6 +268,19 @@
    - **Ilmoituksen päivitys**: `/update_announcement_student` (POST)
    - **Ilmoituksen poisto**: `/remove_announcement/<id>` (GET/POST)
    - **Haku**: `/find_announcement` (GET) - tukee query, search_type ja active_only parametreja
+   - **Ikäryhmän muutosvahvistus**: `/confirm_age_group_change` (GET/POST) - vahvistaa ikäryhmän muutoksen kaikissa ilmoituksissa
+   - **Ilmoituksen merkitseminen löydetyksi**: `/mark_announcement_found/<id>` (POST)
+   - **Ilmoituksen merkitseminen ei-löydetyksi**: `/mark_announcement_not_found/<id>` (POST)
+
+   ### Ilmoitukset (Valmentajat)
+   - **Ilmoitustyypin valinta**: `/choose_announcement_type` (GET) - valitse oppilas- vai valmentajailmoitus
+   - **Uusi valmentajailmoitus**: `/create_announcement_coach` (GET/POST)
+   - **Valmentajailmoituksen katselu**: `/announcement_coach/<id>` (GET)
+   - **Valmentajailmoituksen muokkaus**: `/edit_announcement_coach/<id>` (GET)
+   - **Valmentajailmoituksen päivitys**: `/update_announcement_coach` (POST)
+   - **Valmentajailmoituksen poisto**: `/remove_announcement_coach/<id>` (GET/POST)
+   - **Valmentajailmoituksen merkitseminen löydetyksi**: `/mark_announcement_coach_found/<id>` (POST)
+   - **Valmentajailmoituksen merkitseminen ei-löydetyksi**: `/mark_announcement_coach_not_found/<id>` (POST)
 
    ### Viestijärjestelmä
    - **Viestiketjut**: `/messages` (GET) - listaa käyttäjän viestiketjut

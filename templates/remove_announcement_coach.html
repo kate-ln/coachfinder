@@ -1,23 +1,21 @@
 {% extends "layout.html" %}
 
-{% block title %}Poista valmentajailmoitus{% endblock %}
+{% block title %}Valmentajailmoituksen poisto{% endblock %}
 
 {% block content %}
-<h2>Poista valmentajailmoitus</h2>
+<h2>Valmentajailmoituksen poisto</h2>
 
-<p>Haluatko varmasti poistaa valmentajailmoituksen?</p>
+<section aria-labelledby="announcement-info-heading">
+  <h3 id="announcement-info-heading">Ilmoitus</h3>
+  <p>Ilmoitus: {{ announcement.sport }}</p>
+</section>
 
-<div class="announcement">
-    <h3>{{ announcement.sport }}</h3>
-    <p><strong>Paikkakunta:</strong> {{ announcement.city }}</p>
-    <p><strong>Kokemus:</strong> {{ announcement.experience_level }}</p>
-    <p><strong>Kuvaus:</strong> {{ announcement.description }}</p>
-</div>
-
-<form method="post">
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-    <button type="submit" name="remove" value="yes">Kyllä, poista ilmoitus</button>
-</form>
-
-<p><a href="/announcement_coach/{{ announcement.id }}">← Takaisin ilmoitukseen</a></p>
+<section aria-labelledby="confirmation-heading">
+  <h3 id="confirmation-heading">Vahvista ilmoituksen poistaminen</h3>
+  <form action="/remove_announcement_coach/{{ announcement.id }}" method="post">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <input type="submit" id="remove" name="remove" value="Poista ilmoitus">
+    <input type="submit" id="back" name="back" value="Peruuta poistaminen">
+  </form>
+</section>
 {% endblock %}
