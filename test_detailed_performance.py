@@ -3,14 +3,14 @@
 Detailed performance testing script that tests specific database operations.
 """
 
-import requests
 import time
 import statistics
+import requests
 
 def test_detailed_performance(base_url="http://localhost:5000"):
     """Test detailed performance of specific operations"""
     print("Testing detailed performance...")
-    
+
     # Test main page performance
     print("\n=== Main Page Performance ===")
     main_page_times = []
@@ -21,10 +21,10 @@ def test_detailed_performance(base_url="http://localhost:5000"):
         elapsed = end_time - start_time
         main_page_times.append(elapsed)
         print(f"  Request {i+1}: {elapsed:.3f}s")
-    
+
     avg_main = statistics.mean(main_page_times)
     print(f"  Average main page time: {avg_main:.3f}s")
-    
+
     # Test pagination performance
     print("\n=== Pagination Performance ===")
     page_times = []
@@ -35,10 +35,10 @@ def test_detailed_performance(base_url="http://localhost:5000"):
         elapsed = end_time - start_time
         page_times.append(elapsed)
         print(f"  Page {page}: {elapsed:.3f}s")
-    
+
     avg_pages = statistics.mean(page_times)
     print(f"  Average page time: {avg_pages:.3f}s")
-    
+
     # Test search performance
     print("\n=== Search Performance ===")
     search_times = []
@@ -50,17 +50,17 @@ def test_detailed_performance(base_url="http://localhost:5000"):
         elapsed = end_time - start_time
         search_times.append(elapsed)
         print(f"  Search '{term}': {elapsed:.3f}s")
-    
+
     avg_search = statistics.mean(search_times)
     print(f"  Average search time: {avg_search:.3f}s")
-    
+
     # Summary
-    print(f"\n=== Performance Summary ===")
+    print("\n=== Performance Summary ===")
     print(f"Main page average: {avg_main:.3f}s")
-    print(f"Pagination average: {avg_pages:.3f}s") 
+    print(f"Pagination average: {avg_pages:.3f}s")
     print(f"Search average: {avg_search:.3f}s")
     print(f"Overall average: {statistics.mean([avg_main, avg_pages, avg_search]):.3f}s")
-    
+
     return {
         'main_page': avg_main,
         'pagination': avg_pages,

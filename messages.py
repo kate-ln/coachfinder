@@ -1,13 +1,12 @@
+import db
 import datetime
 import pytz
-import db
 
 def _format_finland_time(utc_timestamp_str):
     """Convert UTC timestamp string to Finland timezone (EET/EEST)"""
     if not utc_timestamp_str:
         return ""
-    utc_dt = datetime.datetime.fromisoformat(
-        utc_timestamp_str.replace(' ', 'T'))
+    utc_dt = datetime.datetime.fromisoformat(utc_timestamp_str.replace(' ', 'T'))
     utc_dt = pytz.UTC.localize(utc_dt)
     finland_tz = pytz.timezone('Europe/Helsinki')
     finland_dt = utc_dt.astimezone(finland_tz)
@@ -52,12 +51,10 @@ def get_user_threads(user_id):
     return result
 
 def get_thread_participants(thread_id):
-    return db.query("SELECT user_a_id, user_b_id FROM threads WHERE id = ?",
-                   [thread_id])
+    return db.query("SELECT user_a_id, user_b_id FROM threads WHERE id = ?", [thread_id])
 
 def add_message(thread_id, sender_id, body):
-    db.execute("INSERT INTO messages (thread_id, sender_id, body) VALUES (?, ?, ?)",
-               [thread_id, sender_id, body])
+    db.execute("INSERT INTO messages (thread_id, sender_id, body) VALUES (?, ?, ?)", [thread_id, sender_id, body])
 
 def get_thread_messages(thread_id):
     rows = db.query("""

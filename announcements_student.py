@@ -30,37 +30,12 @@ def get_announcements():
                     announcements_student.age_group,
                     announcements_student.skill_level,
                     announcements_student.description,
-                    announcements_student.found,
                     users.display_name,
                     users.username
              FROM announcements_student
              JOIN users ON announcements_student.user_id = users.id
              ORDER BY announcements_student.id DESC"""
     return db.query(sql)
-
-def get_announcements_paginated(page, page_size):
-    """Get paginated student announcements"""
-    offset = page_size * (page - 1)
-    sql = """SELECT announcements_student.id,
-                    announcements_student.sport,
-                    announcements_student.city,
-                    announcements_student.age_group,
-                    announcements_student.skill_level,
-                    announcements_student.description,
-                    announcements_student.found,
-                    users.display_name,
-                    users.username
-             FROM announcements_student
-             JOIN users ON announcements_student.user_id = users.id
-             ORDER BY announcements_student.id DESC
-             LIMIT ? OFFSET ?"""
-    return db.query(sql, [page_size, offset])
-
-def get_announcements_count():
-    """Get total count of student announcements"""
-    sql = "SELECT COUNT(*) as count FROM announcements_student"
-    result = db.query(sql)
-    return result[0]['count'] if result else 0
 
 def get_announcement(announcement_id):
     sql = """SELECT announcements_student.id,
@@ -69,7 +44,6 @@ def get_announcement(announcement_id):
                     announcements_student.age_group,
                     announcements_student.skill_level,
                     announcements_student.description,
-                    announcements_student.found,
                     users.id user_id,
                     users.username,
                     users.display_name
@@ -113,24 +87,18 @@ def remove_announcement(announcement_id):
     sql = "DELETE FROM announcements_student WHERE id = ?"
     db.execute(sql, [announcement_id])
 
-def find_announcements(query, active_only=False):
+def find_announcements(query):
     sql = """SELECT announcements_student.id,
                     announcements_student.sport,
                     announcements_student.city,
                     announcements_student.age_group,
                     announcements_student.skill_level,
-                    announcements_student.found,
                     users.display_name,
                     users.username
              FROM announcements_student
              JOIN users ON announcements_student.user_id = users.id
-             WHERE (sport LIKE ? OR city LIKE ? OR age_group LIKE ? OR skill_level LIKE ? OR description LIKE ?)"""
-    
-    if active_only:
-        sql += " AND announcements_student.found = 0"
-    
-    sql += " ORDER BY announcements_student.id DESC"
-    
+             WHERE sport LIKE ? OR city LIKE ? OR age_group LIKE ? OR skill_level LIKE ? OR description LIKE ?
+             ORDER BY announcements_student.id DESC"""
     l = "%" + query + "%"
     return db.query(sql, [l, l, l, l, l])
 
@@ -141,7 +109,6 @@ def get_announcements_by_user(user_id):
                     announcements_student.age_group,
                     announcements_student.skill_level,
                     announcements_student.description,
-                    announcements_student.found,
                     users.username,
                     users.display_name
              FROM announcements_student
@@ -150,108 +117,15 @@ def get_announcements_by_user(user_id):
              ORDER BY announcements_student.id DESC"""
     return db.query(sql, [user_id])
 
-def get_age_distribution():
-    """Get age distribution statistics for all users"""
-    # Define the fixed order of age groups
-    age_groups_order = [
-        'lapset (7-12)',
-        'nuoret (13-17)', 
-        'aikuiset (18-)'
-    ]
-    
-    # Get actual counts from database
-    sql = """
-        SELECT age_group, COUNT(*) as count
-        FROM announcements_student 
-        WHERE age_group IS NOT NULL AND age_group != ''
-        GROUP BY age_group
-    """
-    db_results = db.query(sql)
-    
-    # Create a dictionary of actual counts
-    actual_counts = {row['age_group']: row['count'] for row in db_results}
-    
-    # Create results in fixed order, with 0 count for missing groups
-    results = []
-    for age_group in age_groups_order:
-        count = actual_counts.get(age_group, 0)
-        results.append({'age_group': age_group, 'count': count})
-    
-    return results
-
-def get_user_age_group(user_id):
-    """Get the most common age group for a specific user"""
-    sql = """
-        SELECT age_group, COUNT(*) as count
-        FROM announcements_student 
-        WHERE user_id = ? AND age_group IS NOT NULL AND age_group != ''
-        GROUP BY age_group
-        ORDER BY count DESC
-        LIMIT 1
-    """
-    result = db.query(sql, [user_id])
-    return result[0]['age_group'] if result else None
-
 def update_announcement_class(announcement_id, title, value):
     sql_check = "SELECT id FROM announcement_classes WHERE announcement_id = ? AND title = ?"
     existing = db.query(sql_check, [announcement_id, title])
     if existing:
-        sql_update = ("UPDATE announcement_classes SET value = ? "
-                      "WHERE announcement_id = ? AND title = ?")
+        sql_update = """UPDATE announcement_classes 
+                         SET value = ? 
+                         WHERE announcement_id = ? AND title = ?"""
         db.execute(sql_update, [value, announcement_id, title])
     else:
-        sql_insert = ("INSERT INTO announcement_classes (announcement_id, title, value) "
-                      "VALUES (?, ?, ?)")
+        sql_insert = """INSERT INTO announcement_classes 
+                        (announcement_id, title, value) VALUES (?, ?, ?)"""
         db.execute(sql_insert, [announcement_id, title, value])
-
-def check_age_group_conflict(user_id, new_age_group):
-    sql = """
-        SELECT DISTINCT age_group 
-        FROM announcements_student 
-        WHERE user_id = ? AND age_group IS NOT NULL AND age_group != '' AND age_group != ?
-    """
-    result = db.query(sql, [user_id, new_age_group])
-    return len(result) > 0
-
-def check_age_group_conflict_excluding(user_id, new_age_group, exclude_announcement_id):
-    sql = """
-        SELECT DISTINCT age_group 
-        FROM announcements_student 
-        WHERE user_id = ? AND age_group IS NOT NULL AND age_group != '' AND age_group != ? AND id != ?
-    """
-    result = db.query(sql, [user_id, new_age_group, exclude_announcement_id])
-    return len(result) > 0
-
-def update_all_user_age_groups(user_id, new_age_group):
-    sql = "UPDATE announcements_student SET age_group = ? WHERE user_id = ?"
-    db.execute(sql, [new_age_group, user_id])
-    
-    sql_classes = "UPDATE announcement_classes SET value = ? WHERE announcement_id IN (SELECT id FROM announcements_student WHERE user_id = ?) AND title = 'Ikäryhmä'"
-    db.execute(sql_classes, [new_age_group, user_id])
-
-def mark_announcement_found(announcement_id):
-    """Mark an announcement as found (Valmentaja löydetty)"""
-    sql = "UPDATE announcements_student SET found = 1 WHERE id = ?"
-    db.execute(sql, [announcement_id])
-
-def mark_announcement_not_found(announcement_id):
-    """Mark an announcement as not found (remove Valmentaja löydetty status)"""
-    sql = "UPDATE announcements_student SET found = 0 WHERE id = ?"
-    db.execute(sql, [announcement_id])
-
-def get_found_announcements():
-    """Get all found announcements"""
-    sql = """SELECT announcements_student.id,
-                    announcements_student.sport,
-                    announcements_student.city,
-                    announcements_student.age_group,
-                    announcements_student.skill_level,
-                    announcements_student.description,
-                    announcements_student.found,
-                    users.display_name,
-                    users.username
-             FROM announcements_student
-             JOIN users ON announcements_student.user_id = users.id
-             WHERE announcements_student.found = 1
-             ORDER BY announcements_student.id DESC"""
-    return db.query(sql)

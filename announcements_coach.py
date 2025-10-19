@@ -114,12 +114,12 @@ def find_announcements(query, active_only=False):
              FROM announcements_coach
              JOIN users ON announcements_coach.user_id = users.id
              WHERE (sport LIKE ? OR city LIKE ? OR experience_level LIKE ? OR description LIKE ?)"""
-    
+
     if active_only:
         sql += " AND announcements_coach.found = 0"
-    
+
     sql += " ORDER BY announcements_coach.id DESC"
-    
+
     l = "%" + query + "%"
     return db.query(sql, [l, l, l, l])
 

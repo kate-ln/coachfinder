@@ -5,32 +5,31 @@ Creates a small, realistic dataset for development and testing.
 """
 
 import sqlite3
-import random
 
 def seed_database():
     """Seed the database with initial development data"""
     print("Seeding database with initial development data...")
-    
+
     db = sqlite3.connect("database.db")
     db.execute("PRAGMA foreign_keys = ON")
-    
+
     # Clear existing data
     print("Clearing existing data...")
     db.execute("DELETE FROM messages")
-    db.execute("DELETE FROM threads") 
+    db.execute("DELETE FROM threads")
     db.execute("DELETE FROM announcement_classes")
     db.execute("DELETE FROM announcement_classes_coach")
     db.execute("DELETE FROM announcements_student")
     db.execute("DELETE FROM announcements_coach")
     db.execute("DELETE FROM users")
     db.execute("DELETE FROM classes")
-    
+
     # Reset auto-increment counters
     try:
         db.execute("DELETE FROM sqlite_sequence")
     except sqlite3.OperationalError:
         pass
-    
+
     # Create classes data
     print("Creating classes...")
     classes_data = [
@@ -54,10 +53,10 @@ def seed_database():
         ("Paikkakunta", "Oulu"),
         ("Paikkakunta", "Jyväskylä")
     ]
-    
+
     for title, value in classes_data:
         db.execute("INSERT INTO classes (title, value) VALUES (?, ?)", [title, value])
-    
+
     # Create sample users
     print("Creating sample users...")
     users_data = [
@@ -72,11 +71,11 @@ def seed_database():
         ("coach3", "hashed_password", "Coach Pekka"),
         ("coach4", "hashed_password", "Coach Sanna")
     ]
-    
+
     for username, password_hash, display_name in users_data:
         db.execute("INSERT INTO users (username, password_hash, display_name) VALUES (?, ?, ?)",
                    [username, password_hash, display_name])
-    
+
     # Create sample student announcements
     print("Creating sample student announcements...")
     student_announcements = [
@@ -86,13 +85,13 @@ def seed_database():
         ("Jalkapallo", "Oulu", "nuoret (13-17)", "Keskitaso", "Nuori jalkapalloilija etsii valmentajaa. Haluaisi kehittää peliä ja liikkeitä.", 4, 0),
         ("Koripallo", "Jyväskylä", "nuoret (13-17)", "Aloittelija", "Aloittelija etsii koripallon valmentajaa. Haluaisi oppia perusasiat.", 5, 0)
     ]
-    
+
     for sport, city, age_group, skill_level, description, user_id, found in student_announcements:
-        db.execute("""INSERT INTO announcements_student 
+        db.execute("""INSERT INTO announcements_student
                       (sport, city, age_group, skill_level, description, user_id, found)
                       VALUES (?, ?, ?, ?, ?, ?, ?)""",
                    [sport, city, age_group, skill_level, description, user_id, found])
-    
+
     # Create sample coach announcements
     print("Creating sample coach announcements...")
     coach_announcements = [
@@ -102,13 +101,13 @@ def seed_database():
         ("Jalkapallo", "Oulu", "Keskitaso", "Jalkapallon valmentaja etsii nuoria pelaajia. Fokus tekniikan ja taktiikan kehittämisessä.", 9, 0),
         ("Koripallo", "Jyväskylä", "Aloittelija", "Koripallon valmentaja aloittelijoille. Autan oppimaan perusasiat ja rakentamaan vahvan pohjan.", 10, 0)
     ]
-    
+
     for sport, city, experience_level, description, user_id, found in coach_announcements:
-        db.execute("""INSERT INTO announcements_coach 
+        db.execute("""INSERT INTO announcements_coach
                       (sport, city, experience_level, description, user_id, found)
                       VALUES (?, ?, ?, ?, ?, ?)""",
                    [sport, city, experience_level, description, user_id, found])
-    
+
     # Create some message threads and messages
     print("Creating sample message threads...")
     threads_data = [
@@ -119,10 +118,10 @@ def seed_database():
         (1, 2),  # Alex <-> Maria (students)
         (6, 7)   # Coach Matti <-> Coach Liisa
     ]
-    
+
     for user_a_id, user_b_id in threads_data:
         db.execute("INSERT INTO threads (user_a_id, user_b_id) VALUES (?, ?)", [user_a_id, user_b_id])
-    
+
     # Create sample messages
     print("Creating sample messages...")
     messages_data = [
@@ -137,15 +136,15 @@ def seed_database():
         (4, 9, "Tervetuloa! Harjoittelemme tekniikkaa ja taktiikkaa. Milloin sopii?"),
         (5, 5, "Hei Mika! Koripalloharjoitukset alkavat ensi viikolla.")
     ]
-    
+
     for thread_id, sender_id, body in messages_data:
         db.execute("""INSERT INTO messages (thread_id, sender_id, body, created_at)
                       VALUES (?, ?, ?, datetime('now'))""",
                    [thread_id, sender_id, body])
-    
+
     db.commit()
     db.close()
-    
+
     print("\nDatabase seeded successfully!")
     print("Created:")
     print("- 10 users (5 students, 5 coaches)")
