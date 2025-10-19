@@ -78,7 +78,7 @@
    - **Ilmoitusten tilan hallinta**: "Löydetty" -ryhmä ilmoituksille
 
    ## Yhteenveto
-   Sovellus tarjoaa:
+   Sovellus sisältää:
    - **Käyttäjähallinnan** rekisteröinnistä profiilien hallintaan
    - **Viestijärjestelmän** käyttäjien väliseen turvalliseen kommunikointiin
    - **Ilmoitusjärjestelmän** sekä oppilaiden valmentajahakuun että valmentajien valmennettavahakuun
