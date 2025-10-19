@@ -71,13 +71,11 @@
    - Ilmoitustyypin valinta (oppilas vs valmentaja)
 
 **Tilastot profiilisivulla**
-   - Ilmoitusten määrä kategorioittain
-   - Opplilaiden ikäryhmien jakauma ja maininta oman ikäryhmän osuudesta
+   - Ilmoitusten määrä kategorioittain (oppilasilmoitukset ja valmentajailmoituket)
+   - Opplilaiden ikäryhmien jakauma ja maininta oman ikäryhmän osuudesta, mikäli käyttäjällä on oppilasilmoituksia
      
    ### Keskeneräiset/puuttuvat ominaisuudet
-   - **Hakusuodattimet**: Paikkakunta ja laji -suodattimet
    - **Ilmoitusten tilan hallinta**: "Löydetty" -ryhmä ilmoituksille
-   - **Laaja käyttäjäprofiili**: Kuvaukset, yhteystiedot, kokemus
 
    ## Yhteenveto
    Sovellus tarjoaa:
