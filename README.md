@@ -181,7 +181,7 @@
    ```bash
    # Luo tietokanta schema.sql-tiedoston perusteella
    sqlite3 database.db < schema.sql
-   # Täytä classes-taulun tiedot (Tärkeää)
+   # Täytä classes-taulun tiedot
    sqlite3 database.db < init.sql
    ```
    
@@ -197,6 +197,39 @@
    flask run
    ```
    Sovellus käynnistyy osoitteessa: `http://localhost:5000`
+
+   ## Tietokannan hallinta ja testaus
+
+   ### Kehitystietojen luominen
+   ```bash
+   # Luo realistinen kehitysdata (suositeltu)
+   python3 seed.py
+   ```
+   
+   Tämä luo:
+   - 10 käyttäjää (5 oppilasta, 5 valmentajaa)
+   - 5 oppilasilmoitusta
+   - 5 valmentajailmoitusta
+   - 6 viestiketjua ja 10 viestiä
+   - 19 luokittelutietoa (ikäryhmät, taitotasot, jne.)
+
+   ### Suorituskykytestaus
+   ```bash
+   # Luo suuri testidata (1M viestiä, 100K ketjua)
+   python3 generate_large_test_data.py
+   
+   # Lisää suorituskykyindeksit
+   python3 add_indexes.py
+   
+   # Testaa suorituskykyä
+   python3 test_detailed_performance.py
+   ```
+
+   ### Tietokannan tyhjentäminen
+   ```bash
+   # Tyhjennä kaikki data (säilyttää rakenteen)
+   python3 clear_database.py
+   ```
 
    ## Vianmääritys
    
@@ -633,7 +666,7 @@ Sovellus noudattaa WCAG 2.1 AA -tason suosituksia:
 - **Robust**: Sisältö on yhteensopiva eri teknologioiden kanssa
 
 ### Testaus
-#### Visuaalinen tarkistus
+#### Visuaalinen tarkistus 
 
 1. **Yhtenäisyys**: Kaikki sivut noudattavat samaa tyyliä
 2. **Navigaatio**: Toimii kaikilla sivuilla
@@ -707,21 +740,34 @@ CREATE INDEX idx_announcements_coach_found ON announcements_coach (found);
 - Tehokkaat SQL-kyselyt ovat kriittisiä suorituskyvylle
 
 ### Testausskriptit
+**Kehitystietojen luominen:**
+```bash
+python3 seed.py
+```
+
 **Testidatan luominen:**
 ```bash
 python3 generate_large_test_data.py
 ```
+
 **Indeksien lisääminen:**
 ```bash
 python3 add_indexes.py
 ```
+
 **Indeksien poistaminen:**
 ```bash
 python3 remove_indexes.py
 ```
+
 **Suorituskykytestaus:**
 ```bash
 python3 test_detailed_performance.py
+```
+
+**Tietokannan tyhjentäminen:**
+```bash
+python3 clear_database.py
 ```
 ### Yhteenveto
 Sovellus toimii erinomaisesti suurella tietomäärällä. Sivutuksen toteutus on kriittinen ominaisuus, joka estää käyttöliittymän jumiutumisen. Tietokannan indeksit parantavat suorituskykyä, vaikka vaikutus oli tässä testissä minimaalinen. Sovellus on valmis tuotantokäyttöön suurella käyttäjäkunnalla.
