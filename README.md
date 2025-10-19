@@ -29,6 +29,8 @@
    - Ilmoitusten yksityiskohtainen katselu
    - Oikeuksien tarkastaminen (vain omien ilmoitusten muokkaus/poisto)
    - Valintalistojen hallinta (ikäryhmä, taitotaso, laji, paikkakunta)
+   - Ilmoitusten tilan hallinta (aktiivinen/löydetty)
+   - Parannettu haku (ilmoitustyypin valinta, aktiivisten suodatus)
 
 **Viestitys**:
    - Yksityisviestien lähettäminen käyttäjien välillä
@@ -60,6 +62,7 @@
    - Flash-viestit käyttäjälle
    - Navigaatiojärjestelmä
    - Lomakkeiden validaatio ja virheenkäsittely
+   - Visuaaliset ilmoitustilan indikaattorit (löydetty/aktiivinen)
 
 **Valmentajailmoitukset**:
    - Valmentajailmoitusten luominen, muokkaaminen ja poistaminen
@@ -69,14 +72,12 @@
    - Oikeuksien tarkastaminen (vain omien ilmoitusten muokkaus/poisto)
    - Kokemustason valintalistojen hallinta
    - Ilmoitustyypin valinta (oppilas vs valmentaja)
+   - Ilmoitusten tilan hallinta (aktiivinen/löydetty)
 
 **Tilastot profiilisivulla**
    - Ilmoitusten määrä kategorioittain (oppilasilmoitukset ja valmentajailmoituket)
    - Opplilaiden ikäryhmien jakauma ja maininta oman ikäryhmän osuudesta, mikäli käyttäjällä on oppilasilmoituksia
      
-   ### Keskeneräiset/puuttuvat ominaisuudet
-   - **Ilmoitusten tilan hallinta**: "Löydetty" -ryhmä ilmoituksille
-
    ## Yhteenveto
    Sovellus sisältää:
    - **Käyttäjähallinnan** rekisteröinnistä profiilien hallintaan
@@ -85,6 +86,8 @@
    - **Profiilikuvien hallinnan** käyttäjäkokemuksen parantamiseksi
    - **Turvallisuusmallin** CSRF-, XSS- ja SQL-injektion suojauksella
    - **Yhtenäisen käyttöliittymän** responsiivisella suunnittelulla
+   - **Ilmoitustilan hallinnan** aktiivisten ja löydettyjen ilmoitusten seurantaan
+   - **Parannetun hakutoiminnon** ilmoitustyypin valinnalla ja aktiivisten suodatuksella
 
    ## Tietokannan rakenne
    ### Taulut
@@ -103,6 +106,7 @@
       - `skill_level` (taitotaso)
       - `description` (kuvaus)
       - `user_id` (viittaus users-tauluun)
+      - `found` (löydetty-status, 0=aktiivinen, 1=löydetty)
 
    3. **threads**
       - `id` (PRIMARY KEY)
@@ -129,6 +133,7 @@
       - `experience_level` (kokemustaso)
       - `description` (kuvaus)
       - `user_id` (viittaus users-tauluun)
+      - `found` (löydetty-status, 0=aktiivinen, 1=löydetty)
 
    7. **announcement_classes**
       - `id` (PRIMARY KEY)
