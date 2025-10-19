@@ -616,7 +616,7 @@ Sovellus noudattaa WCAG 2.1 AA -tason suosituksia:
 - Virheviestit (`.error`, `.success`)
 - Profiilikuvat (`.profile-image`)
 - Metatiedot (`.meta`)
-- 
+  
 ## Suorituskykytestaus suurella tietomäärällä
 ### Testausasetus
 Sovelluksen suorituskykyä testattiin suurella tietomäärällä seuraavalla konfiguraatiolla:
