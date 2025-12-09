@@ -2,7 +2,8 @@ CREATE TABLE users (
     id INTEGER PRIMARY KEY,
     username TEXT UNIQUE,
     password_hash TEXT,
-    display_name TEXT
+    display_name TEXT,
+    image BLOB
 );
 
 CREATE TABLE announcements_student (
